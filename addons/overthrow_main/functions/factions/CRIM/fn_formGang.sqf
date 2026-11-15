@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_town", ["_spawn", true]];
 
 //get a camp position
@@ -77,7 +79,7 @@ if (_possible isNotEqualTo []) then {
         [_group, _townpos] call OT_fnc_initCriminalGroup;
 
         {
-            _x addCuratorEditableObjects [[_civ]];
+            _x addCuratorEditableObjects [[_civ], true];
         } forEach (allCurators);
     };
     OT_civilians setVariable [format ["gangs%1", _town], _gangs, true];

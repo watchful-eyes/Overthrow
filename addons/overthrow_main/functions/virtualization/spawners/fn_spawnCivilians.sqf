@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_town", "_spawnid"];
 sleep random 0.2;
 
@@ -88,11 +90,9 @@ private _gangs = OT_civilians getVariable [format ["gangs%1", _town], []];
     _gang params ["_members"];
 
     if (!isNil "_members" && { _members isEqualType [] }) then {
-        private _group = createGroup [opfor, true];
-        _group setVariable ["VCM_TOUGHSQUAD", true, true];
-        _group setVariable ["VCM_NORESCUE", true, true];
+        private _group = [_gangid, false] call OT_fnc_ensureGangGroup;
+        if (isNull _group) then { continue };
         _groups pushBack _group;
-        spawner setVariable [format ["gangspawn%1", _gangid], _group, true];
         if (count _gang > 4) then {
             //Filter out old gangs
             private _home = _gang select 4; //camp position
@@ -138,33 +138,10 @@ private _gangs = OT_civilians getVariable [format ["gangs%1", _town], []];
             _groups pushBack _leaderGroup;
 
             {
-                _x addCuratorEditableObjects [[_civ]];
+                _x addCuratorEditableObjects [[_civ], true];
             } forEach (allCurators);
 
-            {
-                private _civid = _x;
-                private _ident = (OT_civilians getVariable [format ["%1", _civid], []]);
-                _ident params ["_identity"];
-
-                private _pos = _pos getPos [10, random 360];
-                private _civ = _group createUnit [OT_CRIM_Unit, _pos, [], 0, "NONE"];
-                [_civ] joinSilent nil;
-                [_civ] joinSilent _group;
-
-                [_civ, _town, _identity, _gangid] call OT_fnc_initCriminal;
-
-                _civ setVariable ["OT_gangid", _gangid, true];
-                _civ setVariable ["OT_civid", _civid, true];
-                _civ setBehaviour "SAFE";
-                _civ setVariable ["hometown", _town, true];
-
-                {
-                    _x addCuratorEditableObjects [[_civ]];
-                } forEach (allCurators);
-
-                sleep 0.3;
-            } forEach (_members);
-            [_group, _posTown] call OT_fnc_initCriminalGroup;
+            if !(_group getVariable ["OT_gangRaiding", false]) then { [_group, _posTown] call OT_fnc_initCriminalGroup };
         };
     };
 } forEach (_gangs);

@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 if (!isServer) exitWith {};
 OT_NATO_Group_Recon = ["", 0]; // 2nd param used to keep track of group size, see below
 OT_NATO_Group_Engineers = "";
@@ -410,21 +412,21 @@ diag_log "Overthrow: NATO Init Done";
                 _done = _done + 100;
                 private _wpn = selectRandom OT_allBLULaunchers;
                 _wpns pushBack [_wpn, 1 + (round (random (2 - _diff)))];
-                _mags pushBack [(getArray (configFile >> "CfgWeapons" >> _wpn >> "magazines")) select 0, 5];
+                _mags pushBack [(([_wpn] call OT_fnc_weaponMagazines)) select 0, 5];
             };
             if (_this > 85) exitWith {
                 //Add a random rifle (4% chance)
                 _done = _done + 50;
                 private _wpn = selectRandom OT_allBLURifles;
                 _wpns pushBack [_wpn, 1 + (round (random (2 - _diff)))];
-                _mags pushBack [(getArray (configFile >> "CfgWeapons" >> _wpn >> "magazines")) select 0, 5];
+                _mags pushBack [(([_wpn] call OT_fnc_weaponMagazines)) select 0, 5];
             };
             if (_this > 75) exitWith {
                 //Add a random pistol (10% chance)
                 _done = _done + 25;
                 private _wpn = selectRandom OT_allBLUPistols;
                 _wpns pushBack [_wpn, 1 + (round (random (3 - _diff)))];
-                _mags pushBack [(getArray (configFile >> "CfgWeapons" >> _wpn >> "magazines")) select 0, 5];
+                _mags pushBack [(([_wpn] call OT_fnc_weaponMagazines)) select 0, 5];
             };
             if (_this > 50) exitWith {
                 //Add random ammunition (25% chance)

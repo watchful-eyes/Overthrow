@@ -1,27 +1,15 @@
-closeDialog 0;
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _idx = lbCurSel 1500;
 inputData = lbData [1500, _idx];
+if (inputData isEqualTo "") exitWith {};
+closeDialog 0;
 OT_inputHandler = {
     private _input = ctrlText 1400;
-    if (_input isEqualType "" && count _input > 64) exitWith { hint "You can't send that much!" };
-    private _val = parseNumber _input;
-    private _cash = server getVariable ["money", 0];
-    if (_val > _cash) then { _val = _cash };
-    if (_val > 0) then {
-        [-_val] call OT_fnc_resistanceFunds;
-        private _player = objNull;
-        private _uid = inputData;
-        {
-            if (getPlayerUID _x isEqualTo _uid) exitWith { _player = _x };
-        } forEach (allPlayers);
-        if !(isNull _player) then {
-            [_val] remoteExec ["OT_fnc_money", _player, false];
-        } else {
-            private _money = [_uid, "money"] call OT_fnc_getOfflinePlayerAttribute;
-            [_uid, "money", _money + _val] call OT_fnc_setOfflinePlayerAttribute;
-        };
-        format ["Transferred $%1 resistance funds to %2", [_val, 1, 0, true] call CBA_fnc_formatNumber, players_NS getVariable [format ["name%1", _uid], "player"]] call OT_fnc_notifyMinor;
+    if (count _input > 64) exitWith { hint "You can't send that much!" };
+    private _amount = parseNumber _input;
+    if (_amount > 0) then {
+        [player, "transfer", _amount, inputData] remoteExecCall ["OT_fnc_processFunds", 2];
     };
 };
-
 ["How much to send to this player?", 1000] call OT_fnc_inputDialog;

@@ -1,0 +1,7 @@
+# Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+# Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+# Arma 3 parses native config import syntax at mission load. HEMTT 1.23.1
+# cannot rapify it yet; retain these four mission descriptions as source.
+# The addon config and all other configs/SQF remain checked by HEMTT.
+[rapify]
+exclude = ["**/campaign/missions/OverthrowMp*/description.ext"]

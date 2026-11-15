@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 createDialog 'OT_dialog_resistance';
 
 ctrlEnable [1600, false];
@@ -25,7 +27,8 @@ lbClear 1500;
         if (getPlayerUID _x isEqualTo _uid) exitWith { _col = [1, 1, 1, 1] };
     } forEach (allPlayers);
 
-    lbSetColor [1500, _idx, _col] lbSetPicture [1500, _idx, _pic];
+    lbSetColor [1500, _idx, _col];
+    lbSetPicture [1500, _idx, _pic];
     lbSetData [1500, _idx, _uid];
 } forEach (players_NS getVariable ["OT_allplayers", []]);
 

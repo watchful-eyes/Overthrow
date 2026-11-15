@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _b = player call OT_fnc_nearestRealEstate;
 if !(_b isEqualType []) exitWith {};
 private _building = (_b select 0);
@@ -28,8 +30,9 @@ if (typeOf _building isEqualTo OT_barracks) then {
 };
 {
     _x params ["_cls"];
-    private _name = _cls call OT_fnc_vehicleGetName;
+    if (!isClass (configFile >> "CfgVehicles" >> _cls)) then { continue };
+    private _name = [_cls] call OT_fnc_soldierPresetName;
 
     private _idx = lbAdd [1500, _name];
     lbSetData [1500, _idx, _cls];
-} forEach (OT_Recruitables);
+} forEach ([] call OT_fnc_recruitPresets);

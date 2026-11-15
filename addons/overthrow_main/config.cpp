@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 #include "script_component.hpp"
 #include "headers\config_macros.hpp"
 
@@ -56,6 +58,13 @@ class CfgPatches {
             "OT_ammo50cal"
         };
     };
+};
+
+// Define importable containers even when no optional mod declares modern RPCs.
+// Do not set global modes or add permissions: the mission owns its whitelist.
+class CfgRemoteExec {
+    class Functions {};
+    class Commands {};
 };
 
 class CfgMainMenuSpotlight {
@@ -267,6 +276,7 @@ class ACE_Tags {
 #include "missions\CfgOverthrowMissions.hpp"
 
 #include "ui\dialogs\defines.hpp"
+#include "ui\dialogs\theme.hpp"
 #include "ui\dialogs\stats.hpp"
 #include "ui\dialogs\shop.hpp"
 #include "ui\dialogs\sleep.hpp"
@@ -277,3 +287,9 @@ class ACE_Tags {
 #include "ui\dialogs\resistance.hpp"
 #include "ui\dialogs\factory.hpp"
 #include "ui\overrides.hpp"
+#include "ui\dialogs\startup.hpp"
+#include "ui\dialogs\dashboard.hpp"
+#include "ui\dialogs\settings.hpp"
+#include "ui\dialogs\townGarrison.hpp"
+#include "ui\dialogs\commanders.hpp"
+#include "ui\dialogs\garrisonPresets.hpp"

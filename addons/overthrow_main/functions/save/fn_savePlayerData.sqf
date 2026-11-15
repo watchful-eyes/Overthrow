@@ -1,7 +1,11 @@
-params ["_player"];
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+params ["_player", ["_uid", ""]];
 if !(_player getVariable ["OT_loaded", false]) exitWith {};
 
-private _uid = getPlayerUID _player;
+if (_uid isEqualTo "") then { _uid = getPlayerUID _player };
+if (_uid isEqualTo "") then { _uid = _player getVariable ["owner", ""] };
+if (_uid isEqualTo "") exitWith {};
 private _data = [];
 
 {
@@ -18,7 +22,7 @@ private _data = [];
                 private _pos = buildingpositions getVariable [_buildid, []];
                 if (_pos isEqualTo []) then {
                     //fallback to current pos
-                    _v = getPos player;
+                    _v = getPos _player;
                 } else {
                     _v = _pos;
                 };

@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_pos", "_strength", "_success", "_fail", "_params", "_garrison"];
 private _numPlayers = count (allPlayers - (entities "HeadlessClient_F"));
 private _popControl = call OT_fnc_getControlledPopulation;
@@ -237,10 +239,6 @@ while {
 
 if (_progress > 0) then {
     //Nato has won
-    _params call _success;
-
-    //Recover resources
-    server setVariable ["NATOresources", round (_strength * 0.5), true];
     {
         if (side _x isEqualTo blufor) then {
             if ((units _x) isNotEqualTo []) then {
@@ -272,14 +270,6 @@ if (_progress > 0) then {
             };
         };
     } forEach (vehicles);
-    //Nato gets pushed back
-    server setVariable ["NATOresourceGain", 0, true];
-    server setVariable ["NATOresources", -_strength, true];
-} else {
-    _params call _fail;
 };
-server setVariable ["NATOlastattack", time, true]; //Ensures NATO takes some time after a QRF to recover (even if they win)
-server setVariable ["QRFpos", nil, true];
-["OT_QRFend", []] call CBA_fnc_globalEvent;
-server setVariable ["QRFprogress", nil, true];
-server setVariable ["NATOattacking", "", true];
+// Count/transfer control after surviving NATO soldiers have been retagged.
+[_progress > 0, _strength, _success, _fail, _params] call OT_fnc_NATOfinishQRF;

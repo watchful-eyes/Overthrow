@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_obj"];
 
 if (damage _obj isEqualTo 1) then {
@@ -14,7 +16,7 @@ if (damage _obj isEqualTo 1) then {
         if (_ty isEqualTo OT_policeStation) then {
             private _town = _obj call OT_fnc_nearestTown;
             private _abandoned = server getVariable ["NATOabandoned", []];
-            server setVariable [format ["police%1", _town], 0, true];
+            [_town, "", 0, true] call OT_fnc_changeGarrisonRoster;
             if (_town in _abandoned) then {
                 [_town, -20] call OT_fnc_stability;
                 format ["Police station destroyed in %1", _town] remoteExec ["OT_fnc_notifyMinor", 0, false];

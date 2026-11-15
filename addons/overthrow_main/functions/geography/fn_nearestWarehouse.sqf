@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 /*
 	Author: ThomasAngel
 	Steam: https://steamcommunity.com/id/Thomasangel/
@@ -15,7 +17,8 @@
 */
 
 params [
-    ["_searchPos", [0, 0, 0], [objNull, []], [2, 3]]
+    ["_searchPos", [0, 0, 0], [objNull, []], [2, 3]],
+    ["_resolveShared", true, [true]]
 ];
 
 private _warehouse = objNull;
@@ -34,10 +37,7 @@ if (_searchPos in OT_warehouseLocationCache) then {
         private _closestWarehouse = ([_owned, [], { _x distance2D _searchPos }, "ASCEND"] call BIS_fnc_sortBy) # 0;
         if ((_closestWarehouse distance2D _searchPos) < 2000) then { _warehouse = _closestWarehouse };
 
-        // If this warehouse has paid the sum, then return the shared warehouse container object
-        if (_closestWarehouse getVariable ["is_shared", false]) then { _warehouse = warehouse_shared };
-
-        // Update cache
+        // Cache the physical warehouse, not its mutable shared-inventory destination.
         OT_warehouseLocationCache set [_searchPos, _warehouse];
     } else {
         // Last resort
@@ -56,6 +56,10 @@ if (_searchPos in OT_warehouseLocationCache) then {
 
 if (_warehouse isEqualTo objNull) then {
     diag_log "Overthrow: Couldn't find warehouse, defaulted to objNull";
+};
+
+if (_resolveShared && { !isNull _warehouse } && { _warehouse getVariable ["is_shared", false] }) then {
+    _warehouse = warehouse_shared;
 };
 
 _warehouse;

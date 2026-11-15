@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_name {
     idd = -1;
     movingenable = 0;
@@ -10,7 +12,7 @@ class OT_dialog_name {
             y = "0.368 * safeZoneH + safeZoneY";
             w = "0.252656 * safeZoneW";
             h = "0.176 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -63,7 +65,7 @@ class OT_dialog_input {
             y = "0.368 * safeZoneH + safeZoneY";
             w = "0.252656 * safeZoneW";
             h = "0.176 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -119,7 +121,7 @@ class OT_dialog_place {
             y = "0.786 * safeZoneH + safeZoneY";
             w = "1.00031 * safeZoneW";
             h = "0.11 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };

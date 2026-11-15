@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class CfgFunctions {
     class OT {
         class Base {
@@ -42,6 +44,12 @@ class CfgFunctions {
             class getOfflinePlayerAttribute {};
             class loadPlayerData {};
             class savePlayerData {};
+            class serializeSquads {};
+            class mergePlayerArmy {};
+            class mergeRecruitables {};
+            class updatePlayerArmy {};
+            class validateNewGameOptions {};
+            class resolveStartTown {};
             class autoSaveToggle {};
             class autoloadToggle {};
         };
@@ -51,9 +59,37 @@ class CfgFunctions {
             class startSleeping {};
         };
 
+        class TownGarrison {
+            file = "\overthrow_main\functions\garrison";
+            class validateTownGarrisonPlan {};
+            class townGarrisonLayout {};
+            class recruitPresets {};
+            class initRHSPresets {};
+            class soldierPresetName {};
+            class townGarrisonRoster {};
+            class changeGarrisonRoster {};
+            class presetRecruitSite {};
+            class processGarrisonPreset {};
+            class saveSoldierPreset {};
+            class validateSoldierPreset {};
+            class applyTownGarrisonRoute {};
+            class assignTownGarrison {};
+            class saveTownGarrisonPlan {};
+            class hireTownGarrison {};
+            class commanderRank {};
+            class commanderRecords {};
+            class commanderDetails {};
+            class spawnCommander {};
+            class commanderKilled {};
+            class snapshotCommanders {};
+            class syncCommanders {};
+            class processCommander {};
+        };
+
         class admin {
             file = "\overthrow_main\functions\admin";
             class toggleZeus {};
+            class setZeus {};
         };
 
         class Loop {
@@ -87,6 +123,7 @@ class CfgFunctions {
             class influenceSilent {};
             class rewardMoney {};
             class money {};
+            class moneyFeedback {};
             class getPlayerHome {};
             class generalIsOnline {};
             class doConversation {};
@@ -104,6 +141,8 @@ class CfgFunctions {
             file = "\overthrow_main\functions\interaction";
             class mountAttached {};
             class initAttached {};
+            class initAttachedWeaponLocal {};
+            class addCaptureAction {};
             class updateAttached {};
             class initObjectLocal {};
             class initStaticMGLocal {};
@@ -118,6 +157,7 @@ class CfgFunctions {
             class playerConnectHandler {};
             class playerDisconnectHandler {};
             class refuelHandler {};
+            class stopRefuel {};
             class respawnHandler {};
             class keyHandler {};
             class taggedHandler {};
@@ -154,10 +194,15 @@ class CfgFunctions {
             class mainMenu {};
             class buyDialog {};
             class sellDialog {};
+            class saleCompleted {};
+            class showStartDialog {};
             class buyDialogVehicle {};
             class sellDialogVehicle {};
             class workshopDialog {};
             class policeDialog {};
+            class townGarrisonUI {};
+            class commanderUI {};
+            class garrisonPresetUI {};
             class warehouseDialog {};
             class inputDialog {};
             class importDialog {};
@@ -186,6 +231,9 @@ class CfgFunctions {
 
         class Display {
             file = "\overthrow_main\functions\UI\display";
+            class drawTownGarrison {};
+            class drawStartSelection {};
+            class drawCommandMap {};
             class displayShopPic {};
             class displayWarehousePic {};
             class showMemberInfo {};
@@ -388,6 +436,10 @@ class CfgFunctions {
             class getTaxIncome {};
             class resistanceFunds {};
             class incomeSystem {};
+            class changeMoney {};
+            class processSale {};
+            class processFunds {};
+            class processRefuel {};
             class propagandaSystem {};
             class stability {};
             class getControlledPopulation {};
@@ -410,6 +462,8 @@ class CfgFunctions {
             class dumpUnitLoadout {};
             class dumpWeapon {};
             class dumpItem {};
+            class removeStock {};
+            class removeWeaponStock {};
             class canDumpUnitLoadout {};
             class canDumpContainer {};
         };
@@ -518,6 +572,9 @@ class CfgFunctions {
          */
         class NATO {
             file = "\overthrow_main\functions\factions\NATO";
+            class initNATOGarrisonPool {};
+            class selectNATOGarrisonUnit {};
+            class createNATOGarrisonCrew {};
             class initNATO {};
 
             class NATOQRF {};
@@ -538,6 +595,8 @@ class CfgFunctions {
             class NATOResponseTown {};
             class NATOCounterTown {};
             class NATOCounterObjective {};
+            class NATOrestoreControl {};
+            class NATOfinishQRF {};
 
             class NATOSupportSniper {};
             class NATOSupportRecon {};
@@ -567,6 +626,7 @@ class CfgFunctions {
             class NATOcheckTowns {};
             class NATOcounterObjectives {};
             class NATOcounterTowns {};
+            class NATOstartCounterattack {};
             class NATOdeployFOB {};
             class NATOreinforceGendarmerie {};
             class NATOscheduleConvoy {};
@@ -585,6 +645,11 @@ class CfgFunctions {
             class formGang {};
             class addToGang {};
             class gangJoinResistance {};
+            class ensureGangGroup {};
+            class gangRaidTargets {};
+            class startGangRaid {};
+            class finishGangRaid {};
+            class gangRaidLoop {};
         };
 
         class GUER {
@@ -612,6 +677,10 @@ class CfgFunctions {
         class Util {
             file = "\overthrow_main\functions\util";
             class getOwner {};
+            class isServerController {};
+            class soldierRole {};
+            class weaponMagazines {};
+            class resolveEnemyFaction {};
             class getOwnerUnit {};
             class hasOwner {};
             class setOwner {};

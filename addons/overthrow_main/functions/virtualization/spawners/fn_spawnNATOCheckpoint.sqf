@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_start", "_name", "_spawnid"];
 sleep random 0.2;
 
@@ -41,7 +43,7 @@ private _groupcount = 1;
 
 _start = _start getPos [7, _dir - 90];
 
-private _civ = _group createUnit [OT_NATO_Unit_TeamLeader, _start, [], 0, "NONE"];
+private _civ = _group createUnit [[OT_NATO_Unit_TeamLeader] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
 _civ setVariable ["garrison", _name, false];
 _civ setRank "MAJOR";
 _soldiers pushBack _civ;
@@ -52,7 +54,7 @@ sleep 0.5;
 {
     if (_x isKindOf "StaticWeapon") then {
         _group addVehicle _x;
-        createVehicleCrew _x;
+        [_x] call OT_fnc_createNATOGarrisonCrew;
         ((units _x) select 0) setVariable ["NOAI", true, false];
         (units _x) joinSilent _group;
         sleep 0.5;
@@ -64,7 +66,7 @@ _count = _count + 1;
 sleep 0.3;
 while { _count < _numNATO } do {
     _start = _start getPos [2, _dir - 180];
-    _civ = _group createUnit [selectRandom OT_NATO_Units_LevelTwo, _start, [], 0, "NONE"];
+    _civ = _group createUnit [[selectRandom OT_NATO_Units_LevelTwo] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
     _civ setVariable ["garrison", _name, false];
     _soldiers pushBack _civ;
     _civ setRank "CAPTAIN";
@@ -79,7 +81,7 @@ while { _count < _numNATO } do {
 };
 _group spawn OT_fnc_initNATOCheckpoint;
 {
-    _x addCuratorEditableObjects [units _group];
+    _x addCuratorEditableObjects [units _group, true];
 } forEach (allCurators);
 
 spawner setVariable [_spawnid, _groups, false];

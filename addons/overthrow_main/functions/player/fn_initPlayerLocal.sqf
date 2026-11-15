@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 if (!hasInterface) exitWith {};
 
 if !(isClass (configFile >> "CfgPatches" >> "OT_Overthrow_Main")) exitWith {
@@ -26,10 +28,6 @@ if (isServer) then {
     missionNamespace setVariable ["OT_HOST", player, true];
 };
 
-if (isNil { server getVariable "generals" }) then {
-    server setVariable ["generals", [getPlayerUID player]];
-};
-
 OT_centerPos = getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition");
 
 if (!isServer) then {
@@ -41,7 +39,8 @@ if (!isServer) then {
     addMissionEventHandler ["EntityKilled", OT_fnc_deathHandler];
     //ACE3 events
     ["ace_cargoLoaded", OT_fnc_cargoLoadedHandler] call CBA_fnc_addEventHandler;
-    ["ace_common_setFuel", OT_fnc_refuelHandler] call CBA_fnc_addEventHandler;
+    ["ace_refuel_started", { ["started", _this] call OT_fnc_refuelHandler }] call CBA_fnc_addEventHandler;
+    ["ace_refuel_tick", { ["tick", _this] call OT_fnc_refuelHandler }] call CBA_fnc_addEventHandler;
     ["ace_explosives_place", OT_fnc_explosivesPlacedHandler] call CBA_fnc_addEventHandler;
     ["ace_repair_setWheelHitPointDamage", OT_fnc_wheelStateHandler] call CBA_fnc_addEventHandler;
     ["ace_treatmentSucceded", OT_fnc_healedHandler] call CBA_fnc_addEventHandler;
@@ -67,20 +66,20 @@ _introcam camCommit 0;
 waitUntil { camCommitted _introcam };
 showCinemaBorder false;
 
-if ((isServer || count ([] call CBA_fnc_players) == 1) && (server getVariable ["StartupType", ""] isEqualTo "")) then {
+waitUntil {
+    sleep 0.1;
+    (server getVariable ["StartupType", ""]) isNotEqualTo ""
+        || { server getVariable ["OT_startupInProgress", false] }
+        || { server getVariable ["OT_startupAutoLoad", false] }
+        || { player isEqualTo (server getVariable ["OT_startupOwner", objNull]) };
+};
+if ((server getVariable ["StartupType", ""]) isEqualTo ""
+    && { !(server getVariable ["OT_startupInProgress", false]) }
+    && { !(server getVariable ["OT_startupAutoLoad", false]) }
+    && { player isEqualTo (server getVariable ["OT_startupOwner", objNull]) }
+) then {
     waitUntil { !(isNull (findDisplay 46)) && OT_varInitDone };
-
-    if (isServer || count ([] call CBA_fnc_players) == 1) then {
-        sleep 1;
-        if ((["ot_start_autoload", 0] call BIS_fnc_getParamValue) == 1) then {
-            server setVariable ["OT_difficulty", ["ot_start_difficulty", 1] call BIS_fnc_getParamValue, true];
-            server setVariable ["OT_fastTravelType", ["ot_start_fasttravel", 1] call BIS_fnc_getParamValue, true];
-            server setVariable ["OT_fastTravelRules", ["ot_start_fasttravelrules", 1] call BIS_fnc_getParamValue, true];
-            [] remoteExec ['OT_fnc_loadGame', 2, false];
-        } else {
-            createDialog "OT_dialog_start";
-        };
-    };
+    createDialog "OT_dialog_start";
 } else {
     "Loading" call OT_fnc_notifyStart;
 };
@@ -157,6 +156,7 @@ if (!_newplayer) then {
 private _recruits = server getVariable ["recruits", []];
 private _newrecruits = [];
 {
+    if ((_x param [0, ""]) isNotEqualTo (getPlayerUID player)) then { continue };
     if !(_x params [
         ["_owner", ""],
         ["_name", ""],
@@ -172,8 +172,14 @@ private _newrecruits = [];
 
     if (_owner isEqualTo (getPlayerUID player)) then {
         if (_civ isEqualType []) then {
+            private _savedRecruit = +_x;
             _pos = _civ findEmptyPosition [1, 20, _type];
+            if (_pos isEqualTo []) then { _pos = _civ };
             _civ = group player createUnit [_type, _pos, [], 0, "NONE"];
+            if (isNull _civ) then {
+                _newrecruits pushBack _savedRecruit;
+                continue;
+            };
             [_civ, getPlayerUID player] call OT_fnc_setOwner;
             _civ setVariable ["OT_xp", _xp, true];
             _civ setVariable ["NOAI", true, true];
@@ -201,9 +207,8 @@ private _newrecruits = [];
             };
         };
     };
-    _newrecruits pushBack [_owner, _name, _civ, _rank, _loadout, _type];
+    _newrecruits pushBack [_owner, _name, _civ, _rank, _loadout, _type, _xp];
 } forEach (_recruits);
-server setVariable ["recruits", _newrecruits, true];
 
 private _squads = server getVariable ["squads", []];
 private _newsquads = [];
@@ -211,9 +216,11 @@ private _cc = 1;
 // Remove all the HC groups
 hcRemoveAllGroups player;
 {
+    if ((_x param [0, ""]) isNotEqualTo (getPlayerUID player)) then { continue };
     _x params ["_owner", "_cls", "_group", "_units"];
     if (_owner isEqualTo (getPlayerUID player)) then {
         if !(_group isEqualType grpNull) then {
+            private _savedSquad = +_x;
             private _name = _cls;
             if (count _x > 4) then {
                 _name = _x select 4;
@@ -229,20 +236,29 @@ hcRemoveAllGroups player;
             {
                 _x params ["_type", "_pos", "_loadout"];
                 private _civ = _group createUnit [_type, _pos, [], 0, "NONE"];
+                if (isNull _civ) then { continue };
                 _civ setSkill 0.5 + (random 0.4);
                 _civ setUnitLoadout _loadout;
                 [_civ, (selectRandom OT_faces_local)] remoteExecCall ["setFace", 0, _civ];
                 [_civ, (selectRandom OT_voices_local)] remoteExecCall ["setSpeaker", 0, _civ];
                 _civ setVariable ["OT_spawntrack", true, true];
             } forEach (_units);
+            if (count units _group != count _units) then {
+                { deleteVehicle _x } forEach units _group;
+                deleteGroup _group;
+                _newsquads pushBack _savedSquad;
+                continue;
+            };
         };
         player hcSetGroup [_group, groupId _group, "teamgreen"];
         _cc = _cc + 1;
     };
-    _newsquads pushBack [_owner, _cls, _group, []];
+    _newsquads pushBack [_owner, _cls, _group, [], groupId _group];
 } forEach (_squads);
 player setVariable ["OT_squadcount", _cc, true];
-server setVariable ["squads", _newsquads, true];
+player setVariable ["OT_armyLoaded", false];
+[player, _newrecruits, _newsquads] remoteExecCall ["OT_fnc_updatePlayerArmy", 2];
+waitUntil { sleep 0.1; player getVariable ["OT_armyLoaded", false] };
 
 if (_newplayer) then {
     private _clothes = (selectRandom OT_clothes_guerilla);

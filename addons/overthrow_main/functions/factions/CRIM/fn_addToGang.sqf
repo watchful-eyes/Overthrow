@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_gangid", ["_amt", 1], ["_spawn", true]];
 
 private _count = 0;
@@ -19,25 +21,8 @@ while { _count < _amt } do {
     OT_civilians setVariable [format ["%1", _civid], _civ];
 
     if (_spawn && [_townpos] call OT_fnc_inSpawnDistance) then {
-        private _pos = (_gang select 4);
-        private _group = spawner getVariable [format ["gangspawn%1", _gangid], grpNull];
-        //Spawn new gang member at camp
-
-        _pos = _pos getPos [10, random 360];
-        private _civ = _group createUnit [OT_CRIM_Unit, _pos, [], 0, "NONE"];
-        [_civ] joinSilent nil;
-        [_civ] joinSilent _group;
-
-        [_civ, _town, _identity, _gangid] call OT_fnc_initCriminal;
-
-        _civ setVariable ["OT_gangid", _gangid, true];
-        _civ setVariable ["OT_civid", _civid, true];
-        _civ setBehaviour "SAFE";
-        _civ setVariable ["hometown", _town, true];
-
-        {
-            _x addCuratorEditableObjects [[_civ]];
-        } forEach (allCurators);
+        OT_civilians setVariable [format ["gang%1", _gangid], _gang, true];
+        [_gangid] call OT_fnc_ensureGangGroup;
     };
     _count = _count + 1;
 };

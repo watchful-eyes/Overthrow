@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_buildbase {
     idd = -1;
     movingenable = 0;
@@ -322,7 +324,7 @@ class OT_dialog_police {
             y = "0.214 * safeZoneH + safeZoneY";
             w = "0.422812 * safeZoneW";
             h = "0.572 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -394,6 +396,27 @@ class OT_dialog_police {
             w = "0.170156 * safeZoneW";
             h = "0.033 * safeZoneH";
             action = "[] call OT_fnc_editPoliceLoadout";
+        };
+        class SoldierPresets: RscOverthrowButton {
+            idc = 1614; text = "Soldier / RHS presets";
+            x = "0.29375 * safeZoneW + safeZoneX"; y = "0.312 * safeZoneH + safeZoneY";
+            w = "0.4125 * safeZoneW"; h = "0.035 * safeZoneH";
+            action = "['open', ['TOWN', player call OT_fnc_nearestTown]] call OT_fnc_garrisonPresetUI";
+        };
+        class GarrisonRoutes: RscOverthrowButton {
+            idc = 1612;
+            text = "Companies and patrol routes";
+            x = "0.29375 * safeZoneW + safeZoneX";
+            y = "0.355 * safeZoneH + safeZoneY";
+            w = "0.4125 * safeZoneW";
+            h = "0.055 * safeZoneH";
+            action = "['open'] call OT_fnc_townGarrisonUI";
+        };
+        class Commanders: RscOverthrowButton {
+            idc = 1613; text = "Commanders and regional generals";
+            x = "0.29375 * safeZoneW + safeZoneX"; y = "0.415 * safeZoneH + safeZoneY";
+            w = "0.4125 * safeZoneW"; h = "0.04 * safeZoneH";
+            action = "['open'] call OT_fnc_commanderUI";
         };
         /*
         class RscButton_1601: RscOverthrowButton {

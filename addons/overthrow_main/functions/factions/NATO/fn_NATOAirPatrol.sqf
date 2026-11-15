@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 //Scramble a helicopter to take out a target
 params ["_frombase", "_waypoints", ["_delay", 0]];
 
@@ -20,7 +22,7 @@ if !(_frombase in _abandoned) then {
     _veh setVariable ["garrison", "HQ", false];
 
     {
-        _x addCuratorEditableObjects [[_veh]];
+        _x addCuratorEditableObjects [[_veh], true];
     } forEach (allCurators);
 
     clearWeaponCargoGlobal _veh;

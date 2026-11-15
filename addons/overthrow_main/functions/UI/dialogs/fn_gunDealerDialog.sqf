@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _town = player call OT_fnc_nearestTown;
 
 private _stock = server getVariable format ["gunstock%1", _town];
@@ -32,9 +34,9 @@ if (isNil "_stock") then {
             _stock pushBack [_type, 0];
 
             private _base = [_type] call BIS_fnc_baseWeapon;
-            private _magazines = getArray (configFile >> "CfgWeapons" >> _base >> "magazines");
+            private _magazines = ([_base] call OT_fnc_weaponMagazines);
 
-            _stock pushBack [selectRandom _magazines, 0];
+            if (_magazines isNotEqualTo []) then { _stock pushBack [selectRandom _magazines, 0] };
         };
     };
 

@@ -1,7 +1,9 @@
-params ["_town", "_cls", ["_standing", 0]];
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+params ["_town", "_cls", ["_standing", 0], ["_customer", player]];
 private _price = 0;
 
-private _trade = player getVariable ["OT_trade", 1];
+private _trade = _customer getVariable ["OT_trade", 1];
 private _discount = 0;
 if (_trade > 1) then {
     _discount = 0.02 * (_trade - 1);

@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 /*
 	Author: ThomasAngel
 	Steam: https://steamcommunity.com/id/Thomasangel/
@@ -20,13 +22,20 @@ params [
     ["_caller", objNull, [objNull]]
 ];
 
-private _callerMoney = _caller getVariable ["money", 0];
-if (_callerMoney < 10000) exitWith {
-    hint "You don't have enough money!";
+if (!isServer) exitWith {
+    [_position, _caller] remoteExecCall ["OT_fnc_makeWarehouseGlobal", 2];
     false;
 };
+if (isNull _caller || { !isPlayer _caller }) exitWith { false };
+if (isRemoteExecuted && { remoteExecutedOwner != 2 } && { remoteExecutedOwner != owner _caller }) exitWith { false };
+private _warehouse = [_position, false] call OT_fnc_nearestWarehouse;
+if (isNull _warehouse || { _caller distance _warehouse > 50 } || { _warehouse getVariable ["is_shared", false] }) exitWith { false };
 
-private _warehouse = [_position] call OT_fnc_nearestWarehouse;
+private _callerMoney = _caller getVariable ["money", 0];
+if (_callerMoney < 10000) exitWith {
+    "You don't have enough money!" remoteExecCall ["OT_fnc_notifyMinor", _caller];
+    false;
+};
 
 // We convert to hashmap for easier handling of data.
 private _warehouseItems = createHashMapFromArray ((allVariables _warehouse) select { (toLower _x select [0, 5]) isEqualTo "item_" } apply { _warehouse getVariable [_x, ["", 0]] });
@@ -66,7 +75,6 @@ private _result = createHashMap;
     _warehouse setVariable [format ["item_%1", _key], nil, true];
 } forEach _warehouseItems;
 
-playSound "3DEN_notificationDefault";
-_caller setVariable ["money", _callerMoney - 10000, true];
+[_caller, -10000, "Shared warehouse"] call OT_fnc_changeMoney;
 _warehouse setVariable ["is_shared", true, true];
 true;

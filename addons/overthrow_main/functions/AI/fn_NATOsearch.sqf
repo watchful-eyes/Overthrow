@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _target = objNull;
 private _cop = objNull;
 
@@ -41,7 +43,7 @@ private _wp = _group addWaypoint [ASLToAGL (getPosASL _target), 0];
 _wp setWaypointBehaviour "AWARE";
 _group setBehaviour "AWARE";
 if (isPlayer _target) then {
-    [_cop, (["Stop right there!", "Halt, citizen!", "HALT!", "Stay right there, citizen"] call BIS_fnc_selectRandom)] remoteExec ["globalChat", _target, false];
+    [_cop, (selectRandom ["Stop right there!", "Halt, citizen!", "HALT!", "Stay right there, citizen"])] remoteExec ["globalChat", _target, false];
     _wp setWaypointSpeed "FULL";
     _hdl = _target addEventHandler [
         "InventoryOpened",

@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_resistance {
     idd = 8000;
     movingenable = 0;
@@ -9,7 +11,7 @@ class OT_dialog_resistance {
             y = "0.17 * safeZoneH + safeZoneY";
             w = "0.525937 * safeZoneW";
             h = "0.7 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -165,7 +167,7 @@ class OT_dialog_garrison {
             y = "0.214 * safeZoneH + safeZoneY";
             w = "0.422812 * safeZoneW";
             h = "0.572 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -182,6 +184,12 @@ class OT_dialog_garrison {
             w = "0.402187 * safeZoneW";
             h = "0.033 * safeZoneH";
             colorBackground[] = {0, 0, 0, 0};
+        };
+        class SoldierPresets: RscOverthrowButton {
+            idc = 1614; text = "Soldier / RHS presets";
+            x = "0.314375 * safeZoneW + safeZoneX"; y = "0.465 * safeZoneH + safeZoneY";
+            w = "0.37125 * safeZoneW"; h = "0.04 * safeZoneH";
+            action = "['open', ['BASE', '']] call OT_fnc_garrisonPresetUI";
         };
         class RscButton_1600: RscOverthrowButton {
             idc = 1600;
@@ -258,9 +266,9 @@ class OT_dialog_garrison {
         class RscStructuredText_1101: RscOverthrowStructuredText {
             idc = 1101;
             x = "0.314375 * safeZoneW + safeZoneX";
-            y = "0.489 * safeZoneH + safeZoneY";
+            y = "0.515 * safeZoneH + safeZoneY";
             w = "0.37125 * safeZoneW";
-            h = "0.264 * safeZoneH";
+            h = "0.238 * safeZoneH";
             colorBackground[] = {0, 0, 0, 0.3};
         };
         ////////////////////////////////////////////////////////
@@ -280,7 +288,7 @@ class OT_dialog_jobs {
             y = "0.214 * safeZoneH + safeZoneY";
             w = "0.654844 * safeZoneW";
             h = "0.572 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -365,7 +373,7 @@ class OT_dialog_logistics {
             y = "0.214 * safeZoneH + safeZoneY";
             w = "0.654844 * safeZoneW";
             h = "0.572 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -450,7 +458,7 @@ class OT_dialog_joboffer {
             y = "0.28 * safeZoneH + safeZoneY";
             w = "0.345469 * safeZoneW";
             h = "0.319 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };

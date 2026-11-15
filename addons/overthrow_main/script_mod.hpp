@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 /*
  * Header: script_mod.hpp
  *
@@ -35,7 +37,7 @@
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 
 // MINIMAL required ARMA version for the addon
-#define REQUIRED_VERSION 2.12
+#define REQUIRED_VERSION 2.14 // CfgRemoteExec import/inheritance support
 
 // MINIMAL required CBA_A3 version for the addon
 #define REQUIRED_CBA_VERSION {3,15,8}

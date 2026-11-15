@@ -1,3 +1,9 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+private _recruitTarget = missionNamespace getVariable ["OT_interactingWith", objNull];
+if ((_recruitTarget getVariable ["OT_commanderKey", ""]) isNotEqualTo "") exitWith {
+    "An assigned commander cannot be recruited as a civilian. Manage the assignment in the Commanders menu." call OT_fnc_notifyMinor;
+};
 private _town = player call OT_fnc_nearestTown;
 private _standing = [_town] call OT_fnc_support;
 

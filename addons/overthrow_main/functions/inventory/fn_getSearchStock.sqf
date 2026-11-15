@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _items = [];
 private _done = [];
 
@@ -8,7 +10,7 @@ if (_this isKindOf "CAManBase") then {
 } else {
     _myitems = (itemCargo _this) + (weaponCargo _this) + (magazineCargo _this) + (backpackCargo _this);
     {
-        _myitems = _myitems append ((items _this) + (magazines _this));
+        _myitems append ((items _x) + (magazines _x));
     } forEach (units _this);
 };
 if !(isNil "_myitems") then {

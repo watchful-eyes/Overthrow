@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 if (!isServer) exitWith {};
 
 if !(isClass (configFile >> "CfgPatches" >> "OT_Overthrow_Main")) exitWith {
@@ -72,6 +74,11 @@ switch (_faction) do {
     default { _faction = OT_faction_NATO };
 };
 
+private _requestedFaction = _faction;
+_faction = [_faction, OT_faction_NATO] call OT_fnc_resolveEnemyFaction;
+if (_faction isNotEqualTo _requestedFaction) then {
+    diag_log format ["Overthrow: Occupation faction %1 is unavailable or unsupported; using %2.", _requestedFaction, _faction];
+};
 OT_faction_NATO = _faction;
 publicVariable "OT_faction_NATO";
 
@@ -88,23 +95,37 @@ if (isDedicated) then {
 
 diag_log "Overthrow: Server Pre-Init";
 server setVariable ["StartupType", "", true];
+server setVariable ["OT_startupOwner", objNull, true];
+server setVariable ["OT_startupInProgress", false, true];
+private _autoLoad = (["ot_start_autoload", 0] call BIS_fnc_getParamValue) isEqualTo 1;
+_autoLoad = _autoLoad || { isDedicated && { profileNamespace getVariable ["OT_autoload", false] } };
+server setVariable ["OT_startupAutoLoad", _autoLoad, true];
 call OT_fnc_initVirtualization;
 
 OT_tpl_checkpoint = [] call compileScript ["data\templates\NATOcheckpoint.sqf", true];
 
 [] spawn {
-    if (false /*isDedicated && profileNamespace getVariable ["OT_autoload",false]*/ ) then {
-        diag_log "== OVERTHROW == Mission autoloaded as per settings. Toggle in the options menu in-game to disable.";
-        diag_log "== OVERTHROW == Waiting for a player to connect!";
-        waitUntil {
-            sleep 1;
-            ([] call CBA_fnc_players) isNotEqualTo [];
-        };
-        [] spawn OT_fnc_loadGame;
+    waitUntil { sleep 0.1; ([] call CBA_fnc_players) isNotEqualTo [] };
+    server setVariable ["OT_startupOwner", ([] call CBA_fnc_players) # 0, true];
+    server setVariable ["generals", [getPlayerUID (([] call CBA_fnc_players) # 0)], true];
+    if (server getVariable ["OT_startupAutoLoad", false]) then {
+        server setVariable ["OT_difficulty", ["ot_start_difficulty", 1] call BIS_fnc_getParamValue, true];
+        server setVariable ["OT_fastTravelType", ["ot_start_fasttravel", 1] call BIS_fnc_getParamValue, true];
+        server setVariable ["OT_fastTravelRules", ["ot_start_fasttravelrules", 1] call BIS_fnc_getParamValue, true];
+        [] call OT_fnc_loadGame;
     };
 
     waitUntil {
         sleep 0.1;
+        private _players = [] call CBA_fnc_players;
+        if (_players isNotEqualTo []
+            && { (server getVariable ["StartupType", ""]) isEqualTo "" }
+            && { !(server getVariable ["OT_startupInProgress", false]) }
+            && { !((server getVariable ["OT_startupOwner", objNull]) in _players) }
+        ) then {
+            server setVariable ["OT_startupOwner", _players # 0, true];
+            server setVariable ["generals", [getPlayerUID (_players # 0)], true];
+        };
         server getVariable ["StartupType", ""] != "";
     };
 
@@ -147,7 +168,7 @@ OT_tpl_checkpoint = [] call compileScript ["data\templates\NATOcheckpoint.sqf", 
     //ACE3 Arsenal default loadouts
     {
         _x params ["_cls", "_loadout"];
-        [_cls call OT_fnc_vehicleGetName, _loadout] call ace_arsenal_fnc_addDefaultLoadout;
+        [[_cls] call OT_fnc_soldierPresetName, _loadout] call ace_arsenal_fnc_addDefaultLoadout;
     } forEach (OT_Recruitables);
     ["Police", OT_Loadout_Police] call ace_arsenal_fnc_addDefaultLoadout;
 
@@ -158,7 +179,8 @@ OT_tpl_checkpoint = [] call compileScript ["data\templates\NATOcheckpoint.sqf", 
 
     //ACE3 events
     ["ace_cargoLoaded", OT_fnc_cargoLoadedHandler] call CBA_fnc_addEventHandler;
-    ["ace_common_setFuel", OT_fnc_refuelHandler] call CBA_fnc_addEventHandler;
+    ["ace_refuel_started", { ["started", _this] call OT_fnc_refuelHandler }] call CBA_fnc_addEventHandler;
+    ["ace_refuel_tick", { ["tick", _this] call OT_fnc_refuelHandler }] call CBA_fnc_addEventHandler;
     ["ace_explosives_place", OT_fnc_explosivesPlacedHandler] call CBA_fnc_addEventHandler;
     ["ace_tagCreated", OT_fnc_taggedHandler] call CBA_fnc_addEventHandler;
     ["ace_repair_setWheelHitPointDamage", OT_fnc_wheelStateHandler] call CBA_fnc_addEventHandler;

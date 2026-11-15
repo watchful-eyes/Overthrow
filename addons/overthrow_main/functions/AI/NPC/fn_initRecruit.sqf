@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_civ"];
 
 removeAllActions _civ;
@@ -11,9 +13,8 @@ _civ setVariable ["NOAI", true, true];
 
 _civ call OT_fnc_wantedSystem;
 
-private _recruits = server getVariable ["recruits", []];
 private _nameparts = [name _civ];
 _nameparts append (name _civ splitString " ");
 
-_recruits pushBack [getPlayerUID player, _nameparts, _civ, "PRIVATE", [], typeOf _civ];
-server setVariable ["recruits", _recruits, true];
+private _recruit = [getPlayerUID player, _nameparts, _civ, "PRIVATE", [], typeOf _civ, 0];
+[player, [_recruit], [], false] remoteExecCall ["OT_fnc_updatePlayerArmy", 2];

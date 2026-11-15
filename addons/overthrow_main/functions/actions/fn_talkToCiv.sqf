@@ -1,4 +1,9 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _civ = _this;
+if ((_civ getVariable ["OT_commanderKey", ""]) isNotEqualTo "") exitWith {
+    format ["%1 / Manage this assignment in the Commanders menu at a friendly station.", name _civ] call OT_fnc_notifyMinor;
+};
 
 OT_interactingWith = _civ;
 

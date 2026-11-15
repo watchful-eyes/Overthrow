@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 ///////////////////////////////////////////////////////////////////////////
 /// Styles
 ///////////////////////////////////////////////////////////////////////////
@@ -183,7 +185,7 @@ class RscOverthrowStructuredText {
     colorText[] = {1, 1, 1, 1};
     class Attributes {
         font = "RobotoCondensed";
-        color = "#ffffff";
+        color = "#dce8ef";
         align = "left";
         shadow = 0;
     };
@@ -229,7 +231,7 @@ class RscOverthrowEdit {
     y = 0;
     h = 0.04;
     w = 0.2;
-    colorBackground[] = {0, 0, 0, 1};
+    colorBackground[] = {0.025,0.045,0.06,0.98};
     colorText[] = {0.95, 0.95, 0.95, 1};
     colorDisabled[] = {1, 1, 1, 0.25};
     colorSelection[] = {
@@ -255,9 +257,9 @@ class RscOverthrowCombo {
     fade = 0;
     access = 0;
     type = 4;
-    colorSelect[] = {0, 0, 0, 1};
+    colorSelect[] = {0.66,1,0.81,1};
     colorText[] = {1, 1, 1, 1};
-    colorBackground[] = {0, 0, 0, 1};
+    colorBackground[] = {0.025,0.045,0.06,0.98};
     colorScrollbar[] = {1, 0, 0, 1};
     colorPicture[] = {1, 1, 1, 1};
     colorPictureSelected[] = {1, 1, 1, 1};
@@ -295,7 +297,7 @@ class RscOverthrowCombo {
     y = 0;
     w = 0.12;
     h = 0.035;
-    colorSelectBackground[] = {1, 1, 1, 0.7};
+    colorSelectBackground[] = {0.10,0.32,0.25,1};
     arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
     arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
     wholeHeight = 0.45;
@@ -315,11 +317,11 @@ class RscOverthrowListBox {
     colorText[] = {1, 1, 1, 1};
     colorDisabled[] = {1, 1, 1, 0.25};
     colorScrollbar[] = {1, 0, 0, 0};
-    colorSelect[] = {0, 0, 0, 1};
-    colorSelect2[] = {0, 0, 0, 1};
-    colorSelectBackground[] = {0.5, 0.5, 0.5, 1};
-    colorSelectBackground2[] = {0.5, 0.5, 0.5, 0.5};
-    colorBackground[] = {0, 0, 0, 0.3};
+    colorSelect[] = {0.66,1,0.81,1};
+    colorSelect2[] = {0.66,1,0.81,1};
+    colorSelectBackground[] = {0.10,0.32,0.25,1};
+    colorSelectBackground2[] = {0.10,0.32,0.25,1};
+    colorBackground[] = {0.025,0.045,0.06,0.98};
     soundSelect[] = {
         "\A3\ui_f\data\sound\RscListbox\soundSelect",
         0.09,
@@ -409,12 +411,12 @@ class RscOverthrowButton {
     access = 0;
     type = 1;
     text = "";
-    colorText[] = {1, 1, 1, 1};
-    colorDisabled[] = {1, 1, 1, 0.25};
-    colorBackground[] = {0, 0, 0, 0.5};
-    colorBackgroundDisabled[] = {0, 0, 0, 0.5};
-    colorBackgroundActive[] = {0, 0, 0, 1};
-    colorFocused[] = {0, 0, 0, 1};
+    colorText[] = {0.90,0.95,0.98,1};
+    colorDisabled[] = {0.40,0.48,0.53,0.8};
+    colorBackground[] = {0.07,0.11,0.14,1};
+    colorBackgroundDisabled[] = {0.035,0.05,0.065,0.9};
+    colorBackgroundActive[] = {0.12,0.30,0.26,1};
+    colorFocused[] = {0.10,0.24,0.22,1};
     colorShadow[] = {0, 0, 0, 0};
     colorBorder[] = {0, 0, 0, 1};
     soundEnter[] = {
@@ -442,7 +444,7 @@ class RscOverthrowButton {
     y = 0;
     w = 0.095589;
     h = 0.039216;
-    shadow = 2;
+    shadow = 0;
     font = "RobotoCondensed";
     sizeEx = "(((((2560 / safeZoneH ) min 1.2) / 1.2) / 25) * 0.8)";
     offsetX = 0;
@@ -457,12 +459,12 @@ class RscOverthrowGreenButton {
     access = 0;
     type = 1;
     text = "";
-    colorText[] = {1, 1, 1, 1};
-    colorDisabled[] = {1, 1, 1, 0.25};
-    colorBackground[] = {0, 0.5, 0, 0.5};
-    colorBackgroundDisabled[] = {0, 0.5, 0, 0.2};
-    colorBackgroundActive[] = {0, 0.5, 0, 1};
-    colorFocused[] = {0, 0.5, 0, 1};
+    colorText[] = {0.90,0.95,0.98,1};
+    colorDisabled[] = {0.40,0.48,0.53,0.8};
+    colorBackground[] = {0.10,0.42,0.31,1};
+    colorBackgroundDisabled[] = {0.035,0.05,0.065,0.9};
+    colorBackgroundActive[] = {0.16,0.59,0.42,1};
+    colorFocused[] = {0.10,0.24,0.22,1};
     colorShadow[] = {0, 0, 0, 0};
     colorBorder[] = {0, 0, 0, 1};
     soundEnter[] = {

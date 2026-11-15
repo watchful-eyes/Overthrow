@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 crim_counter = crim_counter + 1;
 if (crim_counter >= 12) then {
     crim_counter = 0;
@@ -32,13 +34,12 @@ if (crim_counter >= 12) then {
                 };
 
                 //when out of spawn distance, simulate kills (only when resistance controls the town)
-                if (_town in (server getVariable ["NATOabandoned", []]) && _stability < 50 && !([_pos] call OT_fnc_inSpawnDistance)) then {
+                if (_town in (server getVariable ["NATOabandoned", []]) && _stability < 50 && !([_pos] call OT_fnc_inSpawnDistance) && { !((spawner getVariable [format ["gangspawn%1", _gangid], grpNull]) getVariable ["OT_gangRaiding", false]) }) then {
                     _garrison = (server getVariable [format ["police%1", _x], 0]);
                     if (_numingang > _garrison) then {
                         if (_garrison > 0 && (random 50) < (_numingang - _garrison)) then {
                             format ["A police officer has been killed by %2 in %1", _town, _name] remoteExec ["OT_fnc_notifyMinor", 0, false];
-                            _garrison = (server getVariable [format ["police%1", _x], 0]) - 1;
-                            server setVariable [format ["police%1", _town], _garrison, true];
+                            _garrison = [_town, "", -1] call OT_fnc_changeGarrisonRoster;
                             [_town, -2] call OT_fnc_stability;
                             [_town, -2] call OT_fnc_support;
                             private _mrkid = format ["%1-police", _town];

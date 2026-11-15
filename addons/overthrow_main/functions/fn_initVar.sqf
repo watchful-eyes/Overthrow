@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _cfgVehicles = configFile >> "CfgVehicles";
 private _cfgWeapons = configFile >> "CfgWeapons";
 private _cfgMagazines = configFile >> "CfgMagazines";
@@ -610,10 +612,11 @@ OT_allBLURifleMagazines = [];
                         if (_base isKindOf ["Rifle", _cfgWeapons]) then {
                             private _mass = getNumber (_cfgWeapons >> _base >> "WeaponSlotsInfo" >> "mass");
                             _base call {
-                                private _itemType = ([_cls] call BIS_fnc_itemType) select 1;
+                                private _itemType = ([_base] call BIS_fnc_itemType) select 1;
                                 if (_itemType isEqualTo "MachineGun") exitWith { OT_allBLUMachineGuns pushBackUnique _base };
-                                if ((_this select [0, 7]) == "srifle_" || (_this isKindOf ["Rifle_Long_Base_F", _cfgWeapons])) exitWith { OT_allBLUSniperRifles pushBackUnique _base };
-                                if ("_GL_" in _this) exitWith { OT_allBLUGLRifles pushBackUnique _base };
+                                if (_itemType isEqualTo "SniperRifle" || { (_this select [0, 7]) == "srifle_" } || { _this isKindOf ["Rifle_Long_Base_F", _cfgWeapons] }) exitWith { OT_allBLUSniperRifles pushBackUnique _base };
+                                private _hasGrenadeMuzzle = (getArray (_cfgWeapons >> _base >> "muzzles")) findIf { _x isNotEqualTo "this" && { ([_base, _x] call OT_fnc_weaponMagazines) isNotEqualTo [] } } != -1;
+                                if ("_GL_" in _this || { _hasGrenadeMuzzle }) exitWith { OT_allBLUGLRifles pushBackUnique _base };
                                 private _events = "" configClasses (_cfgWeapons >> _base >> "Eventhandlers");
                                 private _add = true;
                                 {
@@ -623,7 +626,7 @@ OT_allBLURifleMagazines = [];
                                 if (_add && _mass < 61) exitWith { OT_allBLUSMG pushBackUnique _base };
                                 if (_add) then {
                                     OT_allBLURifles pushBackUnique _base;
-                                    OT_allBLURifleMagazines = OT_allBLURifleMagazines + getArray (_cfgWeapons >> _base >> "WeaponSlotsInfo" >> "magazines");
+                                    { if (getNumber (_cfgMagazines >> _x >> "scope") isEqualTo 2 && { !(_x in _blacklist) }) then { OT_allBLURifleMagazines pushBackUnique _x } } forEach ([_base] call OT_fnc_weaponMagazines);
                                 };
                             };
                         };
@@ -635,7 +638,7 @@ OT_allBLURifleMagazines = [];
                         if ((getNumber (configFile >> "CfgMagazines" >> _x >> "scope") isEqualTo 2) && { !(_x in _blacklist) || _x in OT_allExplosives }) then {
                             _weapons pushBackUnique _x;
                         };
-                    } forEach (getArray (_cfgWeapons >> _base >> "magazines"));
+                    } forEach ([_base, ""] call OT_fnc_weaponMagazines);
                 };
             } forEach (getArray (_cfgVehicles >> _cls >> "weapons"));
         } else {
@@ -679,7 +682,7 @@ private _caliberRegex = "(\d*\.\d+)\s*x\s*(\d+)|(\d+)\.(\d+)|\.(\d+)|(\d+)x(\d+)
         _caliber = _caliber # 0 # 0 # 0;
     } else {
         // We didn't find a caliber. Start looping through mags until we find a caliber.
-        private _magazines = getArray (_cfgWeapons >> _name >> "magazines");
+        private _magazines = [_name] call OT_fnc_weaponMagazines;
         {
             private _magName = getText (_cfgMagazines >> _x >> "displayName");
             private _magCaliber = _magName regexFind [_caliberRegex];
@@ -1141,5 +1144,7 @@ OT_warehouseLocationCache = createHashMap;
 zeusToggle = true;
 
 if (isServer) then {
+    [] call OT_fnc_initRHSPresets;
+    [] call OT_fnc_initNATOGarrisonPool;
     missionNamespace setVariable ["OT_varInitDone", true, true];
 };

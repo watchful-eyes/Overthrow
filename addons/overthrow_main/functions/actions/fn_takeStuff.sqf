@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 // _unit may be non-local
 params ["_unit", "_t"];
 
@@ -8,7 +10,7 @@ if (headgear _unit != "") then {
     _t addHeadgear headgear _unit;
 };
 if (backpack _unit != "") then {
-    _t addBackpack (backpack _unit) call BIS_fnc_basicBackpack;
+    _t addBackpack ((backpack _unit) call BIS_fnc_basicBackpack);
 };
 if (hmd _unit != "") then {
     _t linkItem hmd _unit;

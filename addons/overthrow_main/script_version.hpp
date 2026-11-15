@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 /*
  * Header: script_version.hpp
  *
@@ -17,6 +19,6 @@
  */
 
 #define MAJOR 2
-#define MINOR 7
+#define MINOR 8
 #define PATCHLVL 0
 #define BUILD 0

@@ -1,7 +1,9 @@
-name = "Overthrow Community Edition"
+# Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+# Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+name = "Overthrow CE - Garrison and Command Expansion (Unofficial)"
 prefix = "OT"
 author = "The Overthrow community"
-modname = "Overthrow-Community-Edition"
+modname = "OverthrowCE-GarrisonCommand"
 
 [version]
 path = "addons/overthrow_main/script_version.hpp"
@@ -12,13 +14,17 @@ include = [
     "LICENSE.md",
     "mod.cpp",
     "README.md",
+    "README_RELEASE_EN.md",
+    "RELEASE_NOTES_EN.md",
+    "CREDITS.md",
+    "MODIFICATIONS.md",
     "logo_overthrow.paa"
 ]
 folder_optionals = false
-reuse_private_key = false
-key_name = "overthrow-community-{{version}}"
-authority = "overthrow-community-{{version}}"
-sig_version = 3
+
+[signing]
+authority = "otce-garrison-command"
+version = 3
 
 [hemtt.release]
-folder = "Overthrow-Community-Edition"
+folder = "@OverthrowCE_GarrisonCommand"

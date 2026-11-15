@@ -1,5 +1,10 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 closeDialog 0;
 createDialog "OT_dialog_main";
+private _tacticalMap = (findDisplay 8001) displayCtrl 51;
+_tacticalMap ctrlMapAnimAdd [0, 0.10, getPosATL player];
+ctrlMapAnimCommit _tacticalMap;
 
 openMap false;
 
@@ -32,7 +37,7 @@ private _extra = "";
 
 if ((getPlayerUID player) in (server getVariable ["generals", []])) then {
     _extra = format [
-        "<t align='left' size='0.65'>Resistance Funds: $%1 (Tax Rate %2%3)</t>",
+        "<t align='left' size='0.85'>Shared funds: $%1 (Tax %2%3)</t>",
         [server getVariable ["money", 0], 1, 0, true] call CBA_fnc_formatNumber,
         server getVariable ["taxrate", 0],
         "%"
@@ -41,10 +46,10 @@ if ((getPlayerUID player) in (server getVariable ["generals", []])) then {
 
 _ctrl ctrlSetStructuredText parseText format [
     "
-		<t align='left' size='0.65'>Resistance Support: %1 (%2%3) %4 (%5%6)</t><br/>
-		<t align='left' size='0.65'>Influence: %7</t><br/>
-		<t align='left' size='0.65'>Weather: %8 (Forecast: %9)</t><br/>
-		<t align='left' size='0.65'>Fuel Price: $%10/L</t><br/>
+		<t align='left' size='0.85'>Resistance support: %1 (%2%3) %4 (%5%6)</t><br/>
+		<t align='left' size='0.85'>Influence: %7</t><br/>
+		<t align='left' size='0.85'>Weather: %8 (Forecast: %9)</t><br/>
+		<t align='left' size='0.85'>Fuel: $%10/L</t><br/>
 		%11
 	",
     _town,
@@ -100,8 +105,8 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>Warehouse</t><br/>
-				<t align='left' size='0.65'>Owned by %1</t><br/>
-				<t align='left' size='0.65'>Damage: %2%3</t>
+				<t align='left' size='0.85'>Owned by %1</t><br/>
+				<t align='left' size='0.85'>Damage: %2%3</t>
 			",
                 _ownername,
                 round ((damage _building) * 100),
@@ -125,7 +130,7 @@ if (_b isEqualType []) then {
                 _buildingTxt = format [
                     "
 					<t align='left' size='0.8'>Camp</t><br/>
-					<t align='left' size='0.65'>Owned by %1</t>
+					<t align='left' size='0.85'>Owned by %1</t>
 				",
                     _ownername
                 ];
@@ -143,9 +148,9 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>%1</t><br/>
-				<t align='left' size='0.65'>Owned by %2</t><br/>
-				<t align='left' size='0.65'>Lease Value: $%3/6hrs</t><br/>
-				<t align='left' size='0.65'>Damage: %4%5</t>
+				<t align='left' size='0.85'>Owned by %2</t><br/>
+				<t align='left' size='0.85'>Lease Value: $%3/6hrs</t><br/>
+				<t align='left' size='0.85'>Damage: %4%5</t>
 			",
                 _name,
                 _ownername,
@@ -166,8 +171,8 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>%1</t><br/>
-				<t align='left' size='0.65'>Owned by %2</t><br/>
-				<t align='left' size='0.65'>Damage: %3%4</t>
+				<t align='left' size='0.85'>Owned by %2</t><br/>
+				<t align='left' size='0.85'>Damage: %3%4</t>
 			",
                 _name,
                 _ownername,
@@ -188,8 +193,8 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>Barracks</t><br/>
-				<t align='left' size='0.65'>Built by %1</t><br/>
-				<t align='left' size='0.65'>Damage: %2%3</t>
+				<t align='left' size='0.85'>Built by %1</t><br/>
+				<t align='left' size='0.85'>Damage: %2%3</t>
 			",
                 _ownername,
                 round ((damage _building) * 100),
@@ -209,8 +214,8 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>Training Camp</t><br/>
-				<t align='left' size='0.65'>Built by %1</t><br/>
-				<t align='left' size='0.65'>Damage: %2%3</t>
+				<t align='left' size='0.85'>Built by %1</t><br/>
+				<t align='left' size='0.85'>Damage: %2%3</t>
 			",
                 _ownername,
                 round ((damage _building) * 100),
@@ -230,8 +235,8 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>Refugee Camp</t><br/>
-				<t align='left' size='0.65'>Built by %1</t><br/>
-				<t align='left' size='0.65'>Damage: %2%3</t>
+				<t align='left' size='0.85'>Built by %1</t><br/>
+				<t align='left' size='0.85'>Damage: %2%3</t>
 			",
                 _ownername,
                 round ((damage _building) * 100),
@@ -256,7 +261,7 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>%1</t><br/>
-				<t align='left' size='0.65'>Founded by %2</t>
+				<t align='left' size='0.85'>Founded by %2</t>
 			",
                 _base select 1,
                 _ownername
@@ -292,7 +297,7 @@ if (_b isEqualType []) then {
                 _buildingTxt = format [
                     "
 					<t align='left' size='0.8'>%1</t><br/>
-					<t align='left' size='0.65'>Lease Value: $%2/6hrs</t>
+					<t align='left' size='0.85'>Lease Value: $%2/6hrs</t>
 				",
                     _name,
                     [_lease, 1, 0, true] call CBA_fnc_formatNumber
@@ -327,7 +332,7 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>Police Station</t><br/>
-				<t align='left' size='0.65'>Built by %1</t>
+				<t align='left' size='0.85'>Built by %1</t>
 			",
                 _ownername
             ];
@@ -346,7 +351,7 @@ if (_b isEqualType []) then {
             _buildingTxt = format [
                 "
 				<t align='left' size='0.8'>Workshop</t><br/>
-				<t align='left' size='0.65'>Built by %1</t>
+				<t align='left' size='0.85'>Built by %1</t>
 			",
                 _ownername
             ];
@@ -382,7 +387,7 @@ if (_obpos distance player < 250) then {
         _areaText = format [
             "
 			<t align='left' size='0.8'>%1</t><br/>
-			<t align='left' size='0.65'>Under resistance control</t>
+			<t align='left' size='0.85'>Under resistance control</t>
 		",
             _obname
         ];
@@ -392,7 +397,7 @@ if (_obpos distance player < 250) then {
         _areaText = format [
             "
 			<t align='left' size='0.8'>%1</t><br/>
-			<t align='left' size='0.65'>Under NATO control</t>
+			<t align='left' size='0.85'>Under NATO control</t>
 		",
             _obname
         ];
@@ -411,8 +416,8 @@ if (_obpos distance player < 250) then {
                 _areaText = format [
                     "
 					<t align='left' size='0.8'>%1</t><br/>
-					<t align='left' size='0.65'>Operational</t><br/>
-					<t align='left' size='0.65'>(see resistance screen)</t><br/>
+					<t align='left' size='0.85'>Operational</t><br/>
+					<t align='left' size='0.85'>(see resistance screen)</t><br/>
 				",
                     _obname
                 ];
@@ -424,8 +429,8 @@ if (_obpos distance player < 250) then {
                 _areaText = format [
                     "
 					<t align='left' size='0.8'>%1</t><br/>
-					<t align='left' size='0.65'>Out Of Operation</t><br/>
-					<t align='left' size='0.65'>$%2</t>
+					<t align='left' size='0.85'>Out Of Operation</t><br/>
+					<t align='left' size='0.85'>$%2</t>
 				",
                     _obname,
                     [_price, 1, 0, true] call CBA_fnc_formatNumber
@@ -446,7 +451,7 @@ if (_obpos distance player < 250) then {
                 _areaText = format [
                     "
 					<t align='left' size='0.8'>%1</t><br/>
-					<t align='left' size='0.65'>Operational</t>
+					<t align='left' size='0.85'>Operational</t>
 				",
                     _obname
                 ];
@@ -458,8 +463,8 @@ if (_obpos distance player < 250) then {
                 _areaText = format [
                     "
 					<t align='left' size='0.8'>%1</t><br/>
-					<t align='left' size='0.65'>Out Of Operation</t><br/>
-					<t align='left' size='0.65'>$%2</t>
+					<t align='left' size='0.85'>Out Of Operation</t><br/>
+					<t align='left' size='0.85'>$%2</t>
 				",
                     _obname,
                     [_price, 1, 0, true] call CBA_fnc_formatNumber
@@ -474,7 +479,7 @@ if (_obpos distance player < 250) then {
             };
         } else {
             private _base = player call OT_fnc_nearestBase;
-            if !(isNil "_base" && { (_base select 0) distance player < 100 }) then {
+            if (!isNil "_base" && { _base isEqualType [] } && { _base isNotEqualTo [] } && { (_base select 0) distance player < 100 }) then {
                 ctrlEnable [1621, true];
             } else {
                 ctrlEnable [1621, false];
@@ -493,7 +498,7 @@ private _notifytxtctrl = (findDisplay 8001) displayCtrl 1150;
 
 private _notifications = [];
 private _opacityList = ["FF", "EF", "DF", "CF", "BF", "AF", "9F", "8F", "7F", "6F", "5F", "4F", "3F", "2F", "1F", "0F"];
-for "_x" from 0 to (count OT_notifyHistory - 1) do {
+for "_x" from 0 to ((count OT_notifyHistory min 3) - 1) do {
     // Notifications are retreived back to front because the latest one is at the back
     _notifications pushBack (format ["<t size='0.7' align='left' color='#%1FFFFFF'>%2</t>", _opacityList select _x, OT_notifyHistory select (-1 - _x)]);
 };
