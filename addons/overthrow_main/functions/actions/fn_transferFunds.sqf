@@ -6,7 +6,7 @@ if (inputData isEqualTo "") exitWith {};
 closeDialog 0;
 OT_inputHandler = {
     private _input = ctrlText 1400;
-    if (count _input > 64) exitWith { hint "You can't send that much!" };
+    if (count _input > 64) exitWith { hint ("You can't send that much!" call OT_fnc_localizeText) };
     private _amount = parseNumber _input;
     if (_amount > 0) then {
         [player, "transfer", _amount, inputData] remoteExecCall ["OT_fnc_processFunds", 2];

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 _this spawn {
     params ["_source", "_dest"];
 
@@ -50,7 +51,7 @@ _this spawn {
 
     if (_iswarehouse) then {
         private _warehouse = [player] call OT_fnc_nearestWarehouse;
-        if (_warehouse == objNull) exitWith { hint "No warehouse near by!" };
+        if (_warehouse == objNull) exitWith { hint ("No warehouse near by!" call OT_fnc_localizeText) };
         {
             _x params ["_cls", "_num"];
             private _d = _warehouse getVariable [format ["item_%1", _cls], [_cls, 0]];
@@ -119,7 +120,7 @@ _this spawn {
                 };
                 [_target, _cls, _count] call CBA_fnc_removeItemCargo;
             };
-            if (_full) exitWith { hint "The vehicle is full, use a truck or ammobox for more storage" };
+            if (_full) exitWith { hint ("The vehicle is full, use a truck or ammobox for more storage" call OT_fnc_localizeText) };
         } forEach (_target call OT_fnc_unitStock);
     };
 

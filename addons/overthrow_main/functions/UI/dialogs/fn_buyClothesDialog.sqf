@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_town", "_standing"];
 
 lbClear 1500;
@@ -6,9 +7,9 @@ lbClear 1500;
 
     private _price = [_town, _cls, _standing] call OT_fnc_getPrice;
 
-    (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+   (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
-    private _idx = lbAdd [1500, _name];
+    private _idx = lbAdd [1500, (_name call OT_fnc_localizeText)];
     lbSetPicture [1500, _idx, _pic];
     lbSetValue [1500, _idx, _price];
     lbSetData [1500, _idx, _cls];

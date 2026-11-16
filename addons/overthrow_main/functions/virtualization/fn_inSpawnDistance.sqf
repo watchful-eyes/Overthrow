@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 /*
 	This function is heavily optimized, because this might get called tens or hundreds times per frame.
 */
@@ -12,7 +13,7 @@ if !(params [
 
 if (time > (OT_trackedUnitCache # 1)) then {
     OT_trackedUnitCache = [
-        (allPlayers - (entities "HeadlessClient_F")) + (spawner getVariable ["track", []]),
+       (allPlayers - (entities "HeadlessClient_F")) + (spawner getVariable ["track", []]),
         time + 10
     ];
 };
@@ -22,6 +23,6 @@ if (time > (OT_trackedUnitCache # 1)) then {
 // Also optimizes the global variable to a local one
 private _spawnDistanceSquared = OT_spawnDistance ^ 2;
 (OT_trackedUnitCache # 0) findIf {
-    (_target distanceSqr _x) < _spawnDistanceSquared
+   (_target distanceSqr _x) < _spawnDistanceSquared
         && { alive _x || (_x getVariable ["player_uid", false]) isEqualType "" }
 } isNotEqualTo -1;

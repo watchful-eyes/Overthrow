@@ -20,7 +20,7 @@ if (_data isEqualTo "") then {
 
 if (_data isEqualType "" && { _data isEqualTo "" }) exitWith {
     [] spawn OT_fnc_newGame;
-    "No save found, starting new game" remoteExec ["hint", 0, false];
+    "No save found, starting new game" remoteExec ["OT_fnc_localizedHint", 0, false];
 };
 
 if !(_data isEqualType [] && { _data isNotEqualTo [] } && {
@@ -44,6 +44,9 @@ private _cc = 0;
         {
             if (isNil "_x") then { continue };
             _x params ["_subkey", "_subval"];
+            // Startup ownership/locks belong to the current session. Older
+            // saves could contain a live editor-named player object here.
+            if (toLower _subkey in ["startuptype", "ot_startupowner", "ot_startupinprogress", "ot_startupautoload"]) then { continue };
             if (!(toLower (_subkey select [0, 4]) in ["cba_", "bis_"])) then {
                 if (toLower _subkey isEqualTo "ot_commanders") then {
                     [_subval, true] call OT_fnc_commanderRecords;
@@ -55,6 +58,9 @@ private _cc = 0;
     };
 } forEach (_data);
 
+// New saves carry the army in the persistent server namespace. Legacy saves
+// keep the lobby choice; removed optional mods fall back to the map's army.
+[] call OT_fnc_applyCampaignForce;
 sleep 0.3;
 
 //now do everything else
@@ -250,7 +256,7 @@ private _hasList_buildableHouses = false;
 
                 if (count _x > 7) then {
                     // index range 0..6
-                    (_x select 7) params ["_fuel", "_dmg"];
+                   (_x select 7) params ["_fuel", "_dmg"];
                     //Fuel in tank
                     if !(_veh isKindOf "Building") then {
                         _veh setFuel _fuel;
@@ -602,4 +608,4 @@ OT_autoSave_last_time = (time + (OT_autoSave_time * 60)) + 60;
 sleep 2; //let the variables propagate
 server setVariable ["StartupType", "LOAD", true];
 server setVariable ["OT_startupInProgress", false, true];
-hint "Persistent Save Loaded";
+hint ("Persistent Save Loaded" call OT_fnc_localizeText);

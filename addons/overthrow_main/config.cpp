@@ -277,6 +277,7 @@ class ACE_Tags {
 
 #include "ui\dialogs\defines.hpp"
 #include "ui\dialogs\theme.hpp"
+#include "ui\dialogs\notifications.hpp"
 #include "ui\dialogs\stats.hpp"
 #include "ui\dialogs\shop.hpp"
 #include "ui\dialogs\sleep.hpp"
@@ -290,6 +291,7 @@ class ACE_Tags {
 #include "ui\dialogs\startup.hpp"
 #include "ui\dialogs\dashboard.hpp"
 #include "ui\dialogs\settings.hpp"
+#include "ui\dialogs\adminCheats.hpp"
 #include "ui\dialogs\townGarrison.hpp"
 #include "ui\dialogs\commanders.hpp"
 #include "ui\dialogs\garrisonPresets.hpp"

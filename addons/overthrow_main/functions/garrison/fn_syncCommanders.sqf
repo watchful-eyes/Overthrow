@@ -54,7 +54,7 @@ private _liveByKey = createHashMap;
         _unit setRank (_details # 3);
         _unit setVariable ["OT_commanderRank", _details # 2, true];
         [_unit, format ["%1 %2", _details # 2, _identity # 0]] remoteExecCall ["setName", 0, _unit];
-        (group _unit) setGroupIdGlobal [format ["%1 / %2", _details # 0, _details # 2]];
+       (group _unit) setGroupIdGlobal [format ["%1 / %2", _details # 0, _details # 2]];
     };
 } forEach _records;
 spawner setVariable ["OT_commanderUnits", _live];

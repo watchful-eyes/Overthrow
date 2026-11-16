@@ -55,8 +55,8 @@ sleep 0.5;
     if (_x isKindOf "StaticWeapon") then {
         _group addVehicle _x;
         [_x] call OT_fnc_createNATOGarrisonCrew;
-        ((units _x) select 0) setVariable ["NOAI", true, false];
-        (units _x) joinSilent _group;
+       ((units _x) select 0) setVariable ["NOAI", true, false];
+       (units _x) joinSilent _group;
         sleep 0.5;
     };
     _groups pushBack _x;

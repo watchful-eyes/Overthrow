@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 // This file is responsible for handling item verification -
 // for NPC's, player item verification method was updated -
 // and is now handled by fn_verifyFromWarehouse
@@ -5,7 +6,7 @@
 params ["_unit", ["_correct", true]];
 
 private _warehouse = [_unit] call OT_fnc_nearestWarehouse;
-if (_warehouse == objNull) exitWith { hint "No warehouse near by!" };
+if (_warehouse == objNull) exitWith { hint ("No warehouse near by!" call OT_fnc_localizeText) };
 
 private _ignore = [];
 {

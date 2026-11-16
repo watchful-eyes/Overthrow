@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _sorted = [];
 private _unit = (groupSelectedUnits player) select 0;
 
@@ -20,9 +21,9 @@ private _target = _sorted select 0;
 private _iswarehouse = _target call OT_fnc_positionIsAtWarehouse;
 
 if (!_iswarehouse) then {
-    _unit globalChat "Opening Arsenal (Ammobox)";
+    _unit globalChat ("Opening Arsenal (Ammobox)" call OT_fnc_localizeText);
 } else {
-    _unit globalChat "Opening Arsenal (Warehouse)";
+    _unit globalChat ("Opening Arsenal (Warehouse)" call OT_fnc_localizeText);
 };
 
 if (!isNull objectParent _target && (_unit distance _target) > 10) then {

@@ -18,7 +18,9 @@ private _buildingtextctrl = (findDisplay 8001) displayCtrl 1102;
 
 private _town = player call OT_fnc_nearestTown;
 
-private _weather = "Clear";
+private _weather = "Clear skies";
+private _forecast = server getVariable ["forecast", "Clear"];
+if (_forecast isEqualTo "Clear") then { _forecast = "Clear skies" };
 if (overcast > 0.4) then {
     _weather = "Cloudy";
 };
@@ -44,7 +46,7 @@ if ((getPlayerUID player) in (server getVariable ["generals", []])) then {
     ];
 };
 
-_ctrl ctrlSetStructuredText parseText format [
+_ctrl ctrlSetStructuredText parseText (format [
     "
 		<t align='left' size='0.85'>Resistance support: %1 (%2%3) %4 (%5%6)</t><br/>
 		<t align='left' size='0.85'>Influence: %7</t><br/>
@@ -60,16 +62,16 @@ _ctrl ctrlSetStructuredText parseText format [
     _rep,
     player getVariable ["influence", 0],
     _weather,
-    server getVariable "forecast",
+    _forecast,
     [OT_nation, "FUEL", 100] call OT_fnc_getPrice,
     _extra
-];
+] call OT_fnc_localizeText);
 
 _ctrl = (findDisplay 8001) displayCtrl 1106;
-_ctrl ctrlSetStructuredText parseText format [
+_ctrl ctrlSetStructuredText parseText (format [
     "<t align='right' size='0.9'>$%1</t>",
     [player getVariable ["money", 0], 1, 0, true] call CBA_fnc_formatNumber
-];
+] call OT_fnc_localizeText);
 
 //Nearest building info
 private _b = player call OT_fnc_nearestRealEstate;
@@ -79,9 +81,9 @@ if (_b isEqualType []) then {
     _b params ["_building", "_price", "_sell", "_lease"];
 
     private _cls = typeOf _building;
-    ([_cls, true] call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+   ([_cls, true] call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
-    ctrlSetText [1201, _pic];
+    ctrlSetText [1201, (_pic call OT_fnc_localizeText)];
 
     if (_building call OT_fnc_hasOwner) then {
         private _owner = _building call OT_fnc_getOwner;
@@ -90,12 +92,12 @@ if (_b isEqualType []) then {
 
         if (_cls isEqualTo OT_warehouse) exitWith {
             ctrlEnable [1609, true];
-            ctrlSetText [1609, "Procurement"];
+            ctrlSetText [1609, ("Procurement" call OT_fnc_localizeText)];
 
-            ctrlSetText [1608, "Sell"];
+            ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
             ctrlEnable [1608, false];
 
-            ctrlSetText [1610, "Repair"];
+            ctrlSetText [1610, ("Repair" call OT_fnc_localizeText)];
             if ((damage _building) isEqualTo 1) then {
                 ctrlEnable [1610, true];
             } else {
@@ -122,7 +124,7 @@ if (_b isEqualType []) then {
             };
 
             if (_cls isEqualTo OT_item_Tent) exitWith {
-                ctrlSetText [1608, "Sell"];
+                ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
                 ctrlEnable [1608, false];
                 ctrlEnable [1609, false];
                 ctrlEnable [1610, false];
@@ -136,7 +138,7 @@ if (_b isEqualType []) then {
                 ];
             };
 
-            ctrlSetText [1608, format ["Sell ($%1)", [_sell, 1, 0, true] call CBA_fnc_formatNumber]];
+            ctrlSetText [1608, (format ["Sell ($%1)", [_sell, 1, 0, true] call CBA_fnc_formatNumber] call OT_fnc_localizeText)];
 
             if (_id in _leased) then {
                 ctrlEnable [1609, false];
@@ -183,10 +185,10 @@ if (_b isEqualType []) then {
         if (_cls isEqualTo OT_barracks) then {
             _owner = _building call OT_fnc_getOwner;
             _ownername = players_NS getVariable format ["name%1", _owner];
-            ctrlSetText [1608, "Sell"];
+            ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
             ctrlEnable [1608, false];
             ctrlEnable [1609, true];
-            ctrlSetText [1609, "Recruit"];
+            ctrlSetText [1609, ("Recruit" call OT_fnc_localizeText)];
             //ctrlEnable [1609,false];
             //ctrlEnable [1610,false];
 
@@ -204,10 +206,10 @@ if (_b isEqualType []) then {
         if (_cls isEqualTo OT_trainingCamp) then {
             _owner = _building call OT_fnc_getOwner;
             _ownername = players_NS getVariable format ["name%1", _owner];
-            ctrlSetText [1608, "Sell"];
+            ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
             ctrlEnable [1608, false];
             ctrlEnable [1609, true];
-            ctrlSetText [1609, "Recruit"];
+            ctrlSetText [1609, ("Recruit" call OT_fnc_localizeText)];
             //ctrlEnable [1609,false];
             ctrlEnable [1610, false];
 
@@ -226,10 +228,10 @@ if (_b isEqualType []) then {
         if (_cls isEqualTo OT_refugeeCamp) then {
             _owner = _building call OT_fnc_getOwner;
             _ownername = players_NS getVariable format ["name%1", _owner];
-            ctrlSetText [1608, "Sell"];
+            ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
             ctrlEnable [1608, false];
             ctrlEnable [1609, true];
-            ctrlSetText [1609, "Recruit"];
+            ctrlSetText [1609, ("Recruit" call OT_fnc_localizeText)];
             ctrlEnable [1610, false];
 
             _buildingTxt = format [
@@ -251,7 +253,7 @@ if (_b isEqualType []) then {
             } forEach (server getVariable ["bases", []]);
 
             _ownername = players_NS getVariable [format ["name%1", _base select 2], ""];
-            ctrlSetText [1608, "Sell"];
+            ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
             ctrlEnable [1608, false];
             ctrlEnable [1621, true];
             ctrlEnable [1609, false];
@@ -271,7 +273,7 @@ if (_b isEqualType []) then {
         if (damage _building isEqualTo 1) then {
             if ((_owner isEqualTo getPlayerUID player) || (call OT_fnc_playerIsGeneral)) then {
                 ctrlEnable [1608, false]; //Not allowed to sell
-                ctrlSetText [1609, "Repair"]; //Replace lease/manage with repair
+                ctrlSetText [1609, ("Repair" call OT_fnc_localizeText)]; //Replace lease/manage with repair
                 ctrlEnable [1609, true];
                 ctrlEnable [1610, false];
             };
@@ -280,7 +282,7 @@ if (_b isEqualType []) then {
         if ((_cls) in OT_allRepairableRuins) then {
             ctrlEnable [1608, false];
             ctrlEnable [1609, false];
-            ctrlSetText [1610, "Repair"];
+            ctrlSetText [1610, ("Repair" call OT_fnc_localizeText)];
             ctrlEnable [1610, true];
 
             _buildingTxt = "<t align='left' size='0.8'>Ruins</t><br/>";
@@ -290,7 +292,7 @@ if (_b isEqualType []) then {
                 ctrlEnable [1609, false];
                 ctrlEnable [1610, false];
             } else {
-                ctrlSetText [1608, format ["Buy ($%1)", [_price, 1, 0, true] call CBA_fnc_formatNumber]];
+                ctrlSetText [1608, (format ["Buy ($%1)", [_price, 1, 0, true] call CBA_fnc_formatNumber] call OT_fnc_localizeText)];
                 ctrlEnable [1609, false];
                 ctrlEnable [1610, false];
 
@@ -304,7 +306,7 @@ if (_b isEqualType []) then {
                 ];
 
                 if (_cls isEqualTo OT_barracks) then {
-                    ctrlSetText [1608, "Sell"];
+                    ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
                     ctrlEnable [1608, false];
                     ctrlEnable [1609, false];
                     ctrlEnable [1610, false];
@@ -323,9 +325,9 @@ if (_b isEqualType []) then {
         private _owner = _building call OT_fnc_getOwner;
         if (!isNil "_owner") then {
             private _ownername = players_NS getVariable format ["name%1", _owner];
-            ctrlSetText [1608, "Sell"];
+            ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
             ctrlEnable [1608, false];
-            ctrlSetText [1609, "Manage"];
+            ctrlSetText [1609, ("Manage" call OT_fnc_localizeText)];
             ctrlEnable [1609, true];
             //ctrlEnable [1610,false];
 
@@ -343,7 +345,7 @@ if (_b isEqualType []) then {
         private _owner = _building call OT_fnc_getOwner;
         if (!isNil "_owner") then {
             private _ownername = players_NS getVariable format ["name%1", _owner];
-            ctrlSetText [1608, "Sell"];
+            ctrlSetText [1608, ("Sell" call OT_fnc_localizeText)];
             ctrlEnable [1608, false];
             ctrlEnable [1609, false];
             //ctrlEnable [1610,false];
@@ -365,7 +367,7 @@ if (_b isEqualType []) then {
         ctrlEnable [1610, false];
         ctrlEnable [1608, false];
         _lease = 0;
-        ctrlSetText [1608, "Buy"];
+        ctrlSetText [1608, ("Buy" call OT_fnc_localizeText)];
         _buildingTxt = format [
             "
 			<t align='left' size='0.8'>%1</t>
@@ -412,7 +414,7 @@ if (_obpos distance player < 250) then {
 
         if (_obpos distance player < 250) then {
             if (_obname in (server getVariable ["GEURowned", []])) then {
-                ctrlSetText [1201, "\A3\ui_f\data\map\markers\flags\Tanoa_ca.paa"];
+                ctrlSetText [1201, ("\A3\ui_f\data\map\markers\flags\Tanoa_ca.paa" call OT_fnc_localizeText)];
                 _areaText = format [
                     "
 					<t align='left' size='0.8'>%1</t><br/>
@@ -425,7 +427,7 @@ if (_obpos distance player < 250) then {
                 ctrlEnable [1621, false];
             } else {
                 private _price = _obname call OT_fnc_getBusinessPrice;
-                ctrlSetText [1201, "\overthrow_main\ui\closed.paa"];
+                ctrlSetText [1201, ("\overthrow_main\ui\closed.paa" call OT_fnc_localizeText)];
                 _areaText = format [
                     "
 					<t align='left' size='0.8'>%1</t><br/>
@@ -435,7 +437,7 @@ if (_obpos distance player < 250) then {
                     _obname,
                     [_price, 1, 0, true] call CBA_fnc_formatNumber
                 ];
-                ctrlSetText [1620, "Buy"];
+                ctrlSetText [1620, ("Buy" call OT_fnc_localizeText)];
                 ctrlEnable [1621, false];
                 if (call OT_fnc_playerIsGeneral) then {
                     ctrlEnable [1620, true];
@@ -456,7 +458,7 @@ if (_obpos distance player < 250) then {
                     _obname
                 ];
                 ctrlEnable [1620, true];
-                ctrlSetText [1620, "Manage"];
+                ctrlSetText [1620, ("Manage" call OT_fnc_localizeText)];
                 ctrlEnable [1621, false];
             } else {
                 private _price = _obname call OT_fnc_getBusinessPrice;
@@ -469,7 +471,7 @@ if (_obpos distance player < 250) then {
                     _obname,
                     [_price, 1, 0, true] call CBA_fnc_formatNumber
                 ];
-                ctrlSetText [1620, "Buy"];
+                ctrlSetText [1620, ("Buy" call OT_fnc_localizeText)];
                 ctrlEnable [1621, false];
                 if (call OT_fnc_playerIsGeneral) then {
                     ctrlEnable [1620, true];
@@ -489,10 +491,10 @@ if (_obpos distance player < 250) then {
     };
 };
 
-_areatxtctrl ctrlSetStructuredText parseText _areaText;
+_areatxtctrl ctrlSetStructuredText parseText (_areaText call OT_fnc_localizeText);
 
 OT_interactingWith = objNull;
-_buildingtextctrl ctrlSetStructuredText parseText _buildingTxt;
+_buildingtextctrl ctrlSetStructuredText parseText (_buildingTxt call OT_fnc_localizeText);
 
 private _notifytxtctrl = (findDisplay 8001) displayCtrl 1150;
 
@@ -504,4 +506,4 @@ for "_x" from 0 to ((count OT_notifyHistory min 3) - 1) do {
 };
 
 private _txt = _notifications joinString "<br/>";
-_notifytxtctrl ctrlSetStructuredText parseText _txt;
+_notifytxtctrl ctrlSetStructuredText parseText (_txt call OT_fnc_localizeText);

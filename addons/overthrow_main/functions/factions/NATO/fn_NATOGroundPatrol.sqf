@@ -64,7 +64,7 @@ if !(_frombase in _abandoned) then {
 
     waitUntil {
         sleep 10;
-        (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
+       (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
     };
 
     if (alive _veh) then {
@@ -73,7 +73,7 @@ if !(_frombase in _abandoned) then {
         };
         waitUntil {
             sleep 10;
-            (speed _veh) isEqualTo 0;
+           (speed _veh) isEqualTo 0;
         };
     };
     _veh call OT_fnc_cleanup;

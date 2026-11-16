@@ -489,7 +489,7 @@ if (_canTute) then {
                         "Yes! I will gladly pay you $250 to get them off my back",
                         "Alright I'll see what I can do"
                     ],
-                    (OT_tutorialMissions select 0)
+                   (OT_tutorialMissions select 0)
                 ] call OT_fnc_doConversation;
             }
         ];
@@ -508,7 +508,7 @@ if (_canTute) then {
                         "Not right now, I need some cash first",
                         "Oh OK, sell it to the civilians then"
                     ],
-                    (OT_tutorialMissions select 1)
+                   (OT_tutorialMissions select 1)
                 ] call OT_fnc_doConversation;
             }
         ];
@@ -526,7 +526,7 @@ if (_canTute) then {
                         "Legal money? Where's the fun in that. I guess you could try selling to stores or leasing houses.",
                         "Thanks."
                     ],
-                    (OT_tutorialMissions select 2)
+                   (OT_tutorialMissions select 2)
                 ] call OT_fnc_doConversation;
             }
         ];
@@ -547,8 +547,8 @@ if (_canBuyBoats) then {
                 if ("fuel depot" in (server getVariable "NATOabandoned")) then {
                     _price = round (_price * 0.5);
                 };
-                (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
-                private _idx = lbAdd [1500, format ["%1", _name]];
+               (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+                private _idx = lbAdd [1500, (format ["%1", _name] call OT_fnc_localizeText)];
                 lbSetPicture [1500, _idx, _pic];
                 lbSetData [1500, _idx, _cls];
                 lbSetValue [1500, _idx, _price];
@@ -600,10 +600,10 @@ if (_canBuyBoats) then {
                             private _driver = driver _veh;
                             player moveInCargo _veh;
 
-                            _driver globalChat format ["Departing for %1 in 10 seconds", _desttown];
+                            _driver globalChat (format ["Departing for %1 in 10 seconds", _desttown] call OT_fnc_localizeText);
 
                             sleep 5;
-                            _driver globalChat format ["Departing for %1 in 5 seconds", _desttown];
+                            _driver globalChat (format ["Departing for %1 in 5 seconds", _desttown] call OT_fnc_localizeText);
                             sleep 5;
 
                             private _g = group (driver _veh);
@@ -619,7 +619,7 @@ if (_canBuyBoats) then {
                                 }
                             ];
 
-                            systemChat format ["Departing for %1, press Y to skip (-$%2)", _desttown, _cost];
+                            systemChat (format ["Departing for %1, press Y to skip (-$%2)", _desttown, _cost] call OT_fnc_localizeText);
 
                             waitUntil {
                                 !alive player
@@ -630,12 +630,12 @@ if (_canBuyBoats) then {
                             };
 
                             if (vehicle player isEqualTo _veh && alive _driver) then {
-                                _driver globalChat format ["We've arrived in %1, enjoy your stay", _desttown];
+                                _driver globalChat (format ["We've arrived in %1, enjoy your stay", _desttown] call OT_fnc_localizeText);
                             };
                             sleep 15;
                             if (vehicle player isEqualTo _veh && alive _driver) then {
                                 moveOut player;
-                                _driver globalChat "Alright, bye";
+                                _driver globalChat ("Alright, bye" call OT_fnc_localizeText);
                             };
                             if (random 100 > 90) then {
                                 [player] spawn OT_fnc_NATOsearch;
@@ -740,7 +740,7 @@ if (_canSellDrugs) then {
                     private _civ = OT_interactingWith;
                     _civ setVariable ["OT_askedDrugs", true, true];
 
-                    player globalChat (format [
+                    player globalChat ((format [
                         selectRandom [
                             "Would you like to buy some %1?",
                             "Wanna buy some %1?",
@@ -750,7 +750,7 @@ if (_canSellDrugs) then {
                             "Hey you looking for any %1?"
                         ],
                         _drugname
-                    ]);
+                    ]) call OT_fnc_localizeText);
 
                     if (side _civ isEqualTo civilian) then {
                         _price = round (_price * 1.2);
@@ -819,7 +819,7 @@ if (_canSellDrugs) then {
                                     }
                                 ] call OT_fnc_doConversation;
                                 if (player call OT_fnc_unitSeenCRIM) then {
-                                    hint "You are dealing on enemy turf";
+                                    hint ("You are dealing on enemy turf" call OT_fnc_localizeText);
                                     player setCaptive false;
                                 };
                             };

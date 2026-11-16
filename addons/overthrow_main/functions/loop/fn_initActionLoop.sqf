@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 /*
 =============================================================================================================================
   FILE: fn_initActionLoop.sqf
@@ -22,7 +23,7 @@ action_loop = [];
                     [] spawn {
                         OT_autoSave_last_time = (time + (OT_autoSave_time * 60)) + 60;
                         uiSleep 55;
-                        "Autosaving Mission..." remoteExec ["systemChat", [0, -2] select isDedicated, false];
+                        "Autosaving Mission..." remoteExec ["OT_fnc_localizedSystemChat", [0, -2] select isDedicated, false];
                         diag_log "== OVERTHROW == Autosaving mission.";
                         if (OT_autoSave_time isNotEqualTo 0) then {
                             [objNull, true, true] remoteExec ['OT_fnc_saveGame', 2, false];

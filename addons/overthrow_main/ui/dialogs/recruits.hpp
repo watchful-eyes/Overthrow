@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_recruits {
+    onLoad = "[_this # 0, 'OT_dialog_recruits'] call OT_fnc_localizeDisplay";
     idd = 8004;
     movingenable = 0;
 

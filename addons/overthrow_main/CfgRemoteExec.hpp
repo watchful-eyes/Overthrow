@@ -24,6 +24,10 @@ class CfgRemoteExec: OT_CfgRemoteExecMod {
         class OT_fnc_initBuilding { allowedTargets = 2; jip = 0; };
         class OT_fnc_initObjectLocal { allowedTargets = 0; jip = 1; };
         class OT_fnc_loadGame { allowedTargets = 2; jip = 0; };
+        class OT_fnc_localizeTask { allowedTargets = 0; jip = 1; };
+        class OT_fnc_localizedHint { allowedTargets = 0; jip = 0; };
+        class OT_fnc_localizedChat { allowedTargets = 0; jip = 0; };
+        class OT_fnc_localizedSystemChat { allowedTargets = 0; jip = 0; };
         class OT_fnc_loadPlayerData { allowedTargets = 2; jip = 0; };
         class OT_fnc_makeWarehouseGlobal { allowedTargets = 2; jip = 0; };
         class OT_fnc_money { allowedTargets = 0; jip = 0; };
@@ -39,6 +43,8 @@ class CfgRemoteExec: OT_CfgRemoteExecMod {
         class OT_fnc_notifySilent { allowedTargets = 0; jip = 0; };
         class OT_fnc_notifyStart { allowedTargets = 0; jip = 0; };
         class OT_fnc_processFunds { allowedTargets = 2; jip = 0; };
+        class OT_fnc_processAdminCheat { allowedTargets = 2; jip = 0; };
+        class OT_fnc_adminCheatUI { allowedTargets = 0; jip = 0; };
         class OT_fnc_processCommander { allowedTargets = 2; jip = 0; };
         class OT_fnc_commanderUI { allowedTargets = 0; jip = 0; };
         class OT_fnc_processRefuel { allowedTargets = 2; jip = 0; };

@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_name {
+    onLoad = "[_this # 0, 'OT_dialog_name'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
     onKeyDown = "_this call OT_fnc_onNameKeyDown;";
@@ -55,6 +56,7 @@ class OT_dialog_name {
 };
 
 class OT_dialog_input {
+    onLoad = "[_this # 0, 'OT_dialog_input'] call OT_fnc_localizeDisplay";
     idd = 8001;
     movingenable = 0;
 
@@ -111,6 +113,7 @@ class OT_dialog_input {
 };
 
 class OT_dialog_place {
+    onLoad = "[_this # 0, 'OT_dialog_place'] call OT_fnc_localizeDisplay";
     idd = 8002;
     movingenable = 0;
 

@@ -29,7 +29,7 @@ if (_supplypos isEqualType []) then {
     _box setVariable ["NATOsupply", _name, true];
     _groups pushBack _box;
     //put stuff in it
-    (spawner getVariable [format ["NATOsupplyitems%1", _name], [[], [], []]]) params ["_items", "_wpns", "_mags"];
+   (spawner getVariable [format ["NATOsupplyitems%1", _name], [[], [], []]]) params ["_items", "_wpns", "_mags"];
     {
         [_box, _x # 0, _x # 1] call CBA_fnc_addItemCargo;
     } forEach (_items);

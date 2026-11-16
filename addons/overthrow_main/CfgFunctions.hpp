@@ -2,6 +2,18 @@
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class CfgFunctions {
     class OT {
+        class Localization {
+            file = "\overthrow_main\functions\localization";
+            class initLanguage { preInit = 1; };
+            class localizeText {};
+            class localizeDisplay {};
+            class setLanguage {};
+            class createLocalizedTask {};
+            class localizeTask {};
+            class localizedHint {};
+            class localizedChat {};
+            class localizedSystemChat {};
+        };
         class Base {
             file = "\overthrow_main\functions";
             class initVar {};
@@ -40,6 +52,7 @@ class CfgFunctions {
             file = "\overthrow_main\functions\save";
             class saveGame {};
             class loadGame {};
+            class parseSaveData {};
             class setOfflinePlayerAttribute {};
             class getOfflinePlayerAttribute {};
             class loadPlayerData {};
@@ -90,6 +103,7 @@ class CfgFunctions {
             file = "\overthrow_main\functions\admin";
             class toggleZeus {};
             class setZeus {};
+            class processAdminCheat {};
         };
 
         class Loop {
@@ -171,6 +185,10 @@ class CfgFunctions {
         class UI {
             file = "\overthrow_main\functions\UI";
             class notifyMinor {};
+            class notify {};
+            class initNotifications {};
+            class queueNotification {};
+            class renderNotification {};
             class notifyBig {};
             class notifyGood {};
             class notifyBad {};
@@ -214,6 +232,7 @@ class CfgFunctions {
             class garrisonDialog {};
             class newGameDialog {};
             class optionsDialog {};
+            class adminCheatUI {};
             class resistanceDialog {};
             class reverseEngineerDialog {};
             class vehicleDialog {};
@@ -681,6 +700,8 @@ class CfgFunctions {
             class soldierRole {};
             class weaponMagazines {};
             class resolveEnemyFaction {};
+            class campaignForces {};
+            class applyCampaignForce {};
             class getOwnerUnit {};
             class hasOwner {};
             class setOwner {};

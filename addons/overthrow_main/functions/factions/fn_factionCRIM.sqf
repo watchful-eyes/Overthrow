@@ -24,7 +24,7 @@
                 private _vest = _gang select 3;
                 private _weapon = selectRandom (OT_CRIM_Weapons + OT_allCheapRifles);
                 _loadout = [(format ["gang%1", _gangid]), OT_CRIMBaseLoadout, [[_weapon]]] call OT_fnc_getRandomLoadout;
-                (_loadout select 4) set [0, _vest];
+               (_loadout select 4) set [0, _vest];
 
                 _gang pushBack _loadout;
                 _gang pushBack 0; //resources

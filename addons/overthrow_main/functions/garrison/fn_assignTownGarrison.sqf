@@ -26,7 +26,7 @@ private _groups = [];
 {
     _x params ["_entry", "_amount"];
     private _group = createGroup [independent, true];
-    (_personnel select [_cursor, _amount]) joinSilent _group;
+   (_personnel select [_cursor, _amount]) joinSilent _group;
     _cursor = _cursor + _amount;
     _group setVariable ["OT_townGarrison", _town, true];
     _group setVariable ["OT_garrisonCompany", _entry # 0, true];

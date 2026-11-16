@@ -1,0 +1,472 @@
+{
+  "status": "automated_checks_passed_manual_acceptance_outstanding",
+  "tested_at": "2026-11-15T21:51:47.630800+00:00",
+  "engine": "Arma 3 2.22.154089 dedicated x64",
+  "dependencies": {
+    "CBA_A3": "3.19.0.260808",
+    "ACE3": "3.21.2.113",
+    "LAMBS_Danger": "2.6.2.1",
+    "RHS_AFRF_USAF_GREF_SAF": "0.5.6 Workshop stable (signature filenames)"
+  },
+  "hemtt": "1.23.1",
+  "sqfvm": "v2026.04.03-ed9f5f5",
+  "native": {
+    "unique_checks": 219,
+    "executed_checks": 419,
+    "counts": {
+      "REGRESSIONS": 29,
+      "VALIDATION": 12,
+      "ENGINE": 13,
+      "COMPATIBILITY": 31,
+      "NATO": 47,
+      "COMMANDERS": 50,
+      "GANGS": 21,
+      "START": 12,
+      "PERFORMANCE": 4
+    },
+    "commander_repeats": 5,
+    "script_errors": 0,
+    "rpt_file": "arma3server_x64_2026-11-16_00-44-58.rpt"
+  },
+  "python_tests_passed": 3,
+  "sqfvm_checks_passed": 29,
+  "build": {
+    "sqf_files": 568,
+    "rapified_configs": 9,
+    "pbo_entries": 1278,
+    "pbo_sha256": "009944341dedd2e119f0f7dd947afd86b57b778f76f5768b4619e7c4053328f9",
+    "pbo_sha1_stored_actual": "7876eb7d4905b23a4c64287ea913ac4674434d11",
+    "source_addons_sha256": "ab5f019f491afcdbd33c879cb88878a677a91fd2556055a2bb4659066f7e8abc",
+    "git_base": "151be6eecd4cb0497eac5003ed2381d1843f12d5",
+    "uncommitted_changes": true,
+    "lint_warnings": 32,
+    "errors": 0,
+    "signed": true,
+    "raw_multiplayer_descriptions": 4,
+    "hemtt": "1.23.1",
+    "command": "hemtt release --no-bin --no-archive",
+    "pbo_sha1": "7876eb7d4905b23a4c64287ea913ac4674434d11",
+    "signature": "BI V3",
+    "signature_verified": true,
+    "public_key_file": "otce-garrison-command_2.8.0.0-151be6ee.bikey",
+    "public_key_sha256": "23b246ddaddeeb9dffbc91f8c1ffc2a205d861dc4c8c6679c7900868aec8ef2a",
+    "signature_file": "OT_overthrow_main.pbo.otce-garrison-command_2.8.0.0-151be6ee.bisign",
+    "signature_sha256": "d5fd27486c742e922ccaf5bf6b734eb024fea4b2f56c07a0170206c8854d3ecb",
+    "private_key_distributed": false,
+    "source_changes_uncommitted": true
+  },
+  "performance": [
+    {
+      "case": "commanders_240_distant_1000_towns",
+      "before_ms": 31.9977,
+      "after_ms": 1.9989,
+      "before_samples": [
+        34.0004,
+        28.9993,
+        32.0015,
+        32.0015,
+        32.0015,
+        31.9977,
+        30.9982,
+        30.9982,
+        31.9977,
+        30.9982,
+        32.0015
+      ],
+      "after_samples": [
+        3.00217,
+        1.9989,
+        1.9989,
+        1.9989,
+        0.999451,
+        4.00162,
+        3.00217,
+        2.00272,
+        2.00272,
+        1.9989,
+        1.9989
+      ]
+    },
+    {
+      "case": "gangs_150_unspawned_1000_towns",
+      "before_ms": 34.0004,
+      "after_ms": 1.9989,
+      "before_samples": [
+        34.0004,
+        31.9977,
+        34.9998,
+        35.9993,
+        35.9993,
+        40.0009,
+        33.0009,
+        44.9982,
+        30.9982,
+        30.0026,
+        32.0015
+      ],
+      "after_samples": [
+        0.999451,
+        2.00272,
+        0.999451,
+        3.00217,
+        0.999451,
+        1.9989,
+        0.999451,
+        2.00272,
+        2.99835,
+        1.9989,
+        1.9989
+      ]
+    }
+  ],
+  "gang_recruitment_rate_changed": false,
+  "deferred": [
+    "In-game menu visual acceptance at different UI scales",
+    "Two real clients, JIP and prolonged battles"
+  ],
+  "mod_integration": {
+    "base": {
+      "rpt_file": "arma3server_x64_2026-11-16_00-49-24.rpt",
+      "checks_passed": 36,
+      "script_errors": 0,
+      "observations": {
+        "ace_api": [
+          15,
+          []
+        ],
+        "CBA_api": [
+          29,
+          []
+        ],
+        "lambs_api": [
+          1,
+          [
+            "lambs_wp_fnc_taskArtilleryRegister"
+          ]
+        ],
+        "ace_main": [
+          true,
+          "3.21.2.113",
+          [
+            3,
+            21,
+            2,
+            113
+          ]
+        ],
+        "cba_main": [
+          true,
+          "3.19.0.260808",
+          [
+            3,
+            19,
+            0,
+            260808
+          ]
+        ],
+        "lambs_main": [
+          false,
+          "",
+          []
+        ],
+        "lambs_wp": [
+          false,
+          "",
+          []
+        ],
+        "rhs_main": [
+          false,
+          "",
+          []
+        ],
+        "rhsusf_main": [
+          false,
+          "",
+          []
+        ],
+        "rhsgref_main": [
+          false,
+          "",
+          []
+        ],
+        "rhssaf_main": [
+          false,
+          "",
+          []
+        ],
+        "ace_compat_rhs_afrf3": [
+          false,
+          "",
+          []
+        ],
+        "ace_compat_rhs_usf3": [
+          false,
+          "",
+          []
+        ],
+        "ace_compat_rhs_gref3": [
+          false,
+          "",
+          []
+        ],
+        "ace_compat_rhs_saf3": [
+          false,
+          "",
+          []
+        ],
+        "selected_enemy": [
+          "BLU_F",
+          true,
+          true
+        ],
+        "catalog_sizes": [
+          445,
+          276,
+          16,
+          7,
+          61
+        ],
+        "machineguns_available": 36,
+        "magwell_only": [
+          1,
+          [
+            "ace_dragon_super"
+          ]
+        ],
+        "rhs_faction_usarmy_wd": [
+          false,
+          0,
+          0
+        ],
+        "rhs_faction_usarmy_d": [
+          false,
+          0,
+          0
+        ],
+        "rhs_faction_usmc_wd": [
+          false,
+          0,
+          0
+        ],
+        "rhs_faction_usmc_d": [
+          false,
+          0,
+          0
+        ],
+        "rhsgref_faction_hidf": [
+          false,
+          0,
+          0
+        ],
+        "mod_rpc": [
+          0,
+          0,
+          []
+        ],
+        "global_commands": []
+      }
+    },
+    "full": {
+      "rpt_file": "arma3server_x64_2026-11-16_00-47-17.rpt",
+      "checks_passed": 42,
+      "script_errors": 0,
+      "observations": {
+        "ace_api": [
+          15,
+          []
+        ],
+        "CBA_api": [
+          29,
+          []
+        ],
+        "lambs_api": [
+          1,
+          []
+        ],
+        "ace_main": [
+          true,
+          "3.21.2.113",
+          [
+            3,
+            21,
+            2,
+            113
+          ]
+        ],
+        "cba_main": [
+          true,
+          "3.19.0.260808",
+          [
+            3,
+            19,
+            0,
+            260808
+          ]
+        ],
+        "lambs_main": [
+          true,
+          "2.6.2.1",
+          [
+            2,
+            6,
+            2,
+            1
+          ]
+        ],
+        "lambs_wp": [
+          true,
+          "2.6.2.1",
+          [
+            2,
+            6,
+            2,
+            1
+          ]
+        ],
+        "rhs_main": [
+          true,
+          "",
+          []
+        ],
+        "rhsusf_main": [
+          true,
+          "",
+          []
+        ],
+        "rhsgref_main": [
+          true,
+          "",
+          []
+        ],
+        "rhssaf_main": [
+          true,
+          "",
+          []
+        ],
+        "ace_compat_rhs_afrf3": [
+          true,
+          "3.21.2.113",
+          [
+            3,
+            21,
+            2,
+            113
+          ]
+        ],
+        "ace_compat_rhs_usf3": [
+          true,
+          "3.21.2.113",
+          [
+            3,
+            21,
+            2,
+            113
+          ]
+        ],
+        "ace_compat_rhs_gref3": [
+          true,
+          "3.21.2.113",
+          [
+            3,
+            21,
+            2,
+            113
+          ]
+        ],
+        "ace_compat_rhs_saf3": [
+          true,
+          "3.21.2.113",
+          [
+            3,
+            21,
+            2,
+            113
+          ]
+        ],
+        "selected_enemy": [
+          "rhs_faction_usarmy_wd",
+          true,
+          true
+        ],
+        "catalog_sizes": [
+          1122,
+          644,
+          42,
+          18,
+          214
+        ],
+        "machineguns_available": 68,
+        "magwell_only": [
+          1,
+          [
+            "ace_dragon_super"
+          ]
+        ],
+        "rhs_faction_usarmy_wd": [
+          true,
+          56,
+          15
+        ],
+        "rhs_faction_usarmy_d": [
+          true,
+          56,
+          15
+        ],
+        "rhs_faction_usmc_wd": [
+          true,
+          69,
+          5
+        ],
+        "rhs_faction_usmc_d": [
+          true,
+          69,
+          5
+        ],
+        "rhsgref_faction_hidf": [
+          true,
+          16,
+          3
+        ],
+        "lambs_artillery_register": true,
+        "mod_rpc": [
+          4,
+          0,
+          []
+        ],
+        "global_commands": []
+      }
+    },
+    "total_executed_checks": 78,
+    "legacy_ace_rhs_compat": {
+      "workshop_id": "2216362075",
+      "installed_version": "3.15.2.69",
+      "loaded_in_test": false,
+      "user_launcher_state": "not inspected or modified"
+    }
+  },
+  "rhs_garrisons": {
+    "base": {
+      "rpt_file": "arma3server_x64_2026-11-16_00-49-24.rpt",
+      "checks_passed": 59,
+      "script_errors": 0,
+      "preset_count": 13,
+      "rhs_preset_count": 0,
+      "rhs_nato_classes": 0
+    },
+    "full": {
+      "rpt_file": "arma3server_x64_2026-11-16_00-47-17.rpt",
+      "checks_passed": 62,
+      "script_errors": 0,
+      "preset_count": 127,
+      "rhs_preset_count": 114,
+      "rhs_nato_classes": 341
+    },
+    "total_executed_checks": 121,
+    "nato_rhs_sides": [
+      "BLUFOR"
+    ],
+    "new_hire_equipment_included": true,
+    "group_creation_failure_refund": "implemented; null-group guard tested; engine group-cap exhaustion not forced"
+  },
+  "release_validation_file": "RELEASE_VALIDATION.json"
+}

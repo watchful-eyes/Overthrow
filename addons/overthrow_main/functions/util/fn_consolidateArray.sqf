@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 /*
 Author(s):
     ThomasAngel
@@ -26,7 +27,7 @@ private _resultMap = createHashMap;
 {
     _resultMap set [
         _x,
-        (_resultMap getOrDefault [_x, 0]) + 1
+       (_resultMap getOrDefault [_x, 0]) + 1
     ];
 } forEach _this;
 

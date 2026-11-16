@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if (!hasInterface) exitWith {};
 
 params ["_counter", "_del"];
@@ -21,8 +22,8 @@ if !(_del) then {
             {
                 params ["_start", "_end"];
                 private _progress = linearConversion [_start, _end, time, 0, 1];
-                (uiNamespace getVariable "pBar") progressSetPosition _progress;
-                (uiNamespace getVariable "pBarText") ctrlSetStructuredText parseText format ["<t align='center' font='PuristaMedium' size='0.65'>%1%2</t>", round (_progress * 100), "%"];
+               (uiNamespace getVariable "pBar") progressSetPosition _progress;
+               (uiNamespace getVariable "pBarText") ctrlSetStructuredText parseText (format ["<t align='center' font='PuristaMedium' size='0.65'>%1%2</t>", round (_progress * 100), "%"] call OT_fnc_localizeText);
                 if (_progress > 1) then {
                     ["TIMER", "onEachFrame"] call BIS_fnc_removeStackedEventHandler;
                     ctrlDelete (uiNamespace getVariable "pBar");

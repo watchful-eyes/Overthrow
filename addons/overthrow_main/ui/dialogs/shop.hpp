@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_buy {
+    onLoad = "[_this # 0, 'OT_dialog_buy'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -76,6 +77,7 @@ class OT_dialog_buy {
 };
 
 class OT_dialog_recruit {
+    onLoad = "[_this # 0, 'OT_dialog_recruit'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -163,6 +165,7 @@ class OT_dialog_recruit {
 };
 
 class OT_dialog_sell {
+    onLoad = "[_this # 0, 'OT_dialog_sell'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -217,6 +220,7 @@ class OT_dialog_sell {
 };
 
 class OT_dialog_workshop {
+    onLoad = "[_this # 0, 'OT_dialog_workshop'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -311,6 +315,7 @@ class OT_dialog_workshop {
     };
 };
 class OT_dialog_warehouse {
+    onLoad = "[_this # 0, 'OT_dialog_warehouse'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -426,6 +431,7 @@ class OT_dialog_warehouse {
 };
 
 class OT_dialog_import {
+    onLoad = "[_this # 0, 'OT_dialog_import'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -531,6 +537,7 @@ class OT_dialog_import {
 };
 
 class OT_dialog_loadout {
+    onLoad = "[_this # 0, 'OT_dialog_loadout'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 

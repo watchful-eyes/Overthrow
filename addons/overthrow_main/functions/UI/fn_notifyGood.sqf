@@ -1,5 +1,2 @@
-["TaskSucceeded", ["", _this]] call BIS_fnc_showNotification;
-OT_notifyHistory pushBack format ["(%1) %2", call OT_fnc_formatTime, _this];
-if (count OT_notifyHistory > 16) then {
-    OT_notifyHistory deleteAt 0;
-};
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
+[_this, "good"] call OT_fnc_notify;

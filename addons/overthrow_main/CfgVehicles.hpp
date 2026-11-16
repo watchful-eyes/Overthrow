@@ -1,24 +1,29 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 #define MACRO_SALVAGEWRECK \
     class ACE_Actions { \
         class ACE_MainActions { \
             class OT_Remove { \
                 condition = "!([player] call ace_repair_fnc_isInRepairFacility) && (_target call OT_fnc_hasOwner) && ((call OT_fnc_playerIsGeneral) || (_target call OT_fnc_playerIsOwner))"; \
                 displayName = "Remove"; \
+                modifierFunction = "(_this select 3) set [1, 'Remove' call OT_fnc_localizeText]"; \
                 statement = ""; \
                 class OT_Remove_Confirm { \
                     condition = "true"; \
                     displayName = "Confirm"; \
+                    modifierFunction = "(_this select 3) set [1, 'Confirm' call OT_fnc_localizeText]"; \
                     statement = "deleteVehicle _target"; \
                 }; \
             }; \
             class OT_Salvage { \
                 condition = "((damage _target) > 0.99 && 'ToolKit' in (items player)) || [player] call ace_repair_fnc_isInRepairFacility"; \
                 displayName = "Salvage"; \
+                modifierFunction = "(_this select 3) set [1, 'Salvage' call OT_fnc_localizeText]"; \
                 statement = "_target spawn OT_fnc_salvageWreck"; \
             }; \
             class OT_Unflip { \
                 condition = "!(canMove _target) && (alive _target) && (isNull objectParent player)"; \
                 displayName = "Unflip"; \
+                modifierFunction = "(_this select 3) set [1, 'Unflip' call OT_fnc_localizeText]"; \
                 statement = "_target call OT_fnc_unflipVehicle"; \
             }; \
         }; \
@@ -53,18 +58,22 @@ class CfgVehicles {
         class ACE_Actions {
             class ACE_MainActions {
                 displayName = "Interactions";
+                modifierFunction = "(_this select 3) set [1, 'Interactions' call OT_fnc_localizeText]";
                 distance = 6;
 
                 class mapinfo {
                     displayName = "Map Info";
+                    modifierFunction = "(_this select 3) set [1, 'Map Info' call OT_fnc_localizeText]";
                     statement = "[] spawn OT_fnc_mapInfoDialog;";
                 };
                 class resetui {
                     displayName = "Reset UI";
+                    modifierFunction = "(_this select 3) set [1, 'Reset UI' call OT_fnc_localizeText]";
                     statement = "[] spawn OT_fnc_setupPlayer;";
                 };
                 class sleepAction {
                     displayName = "Sleep";
+                    modifierFunction = "(_this select 3) set [1, 'Sleep' call OT_fnc_localizeText]";
                     statement = "createDialog 'OT_sleep_dialog';";
                 };
             };
@@ -75,15 +84,18 @@ class CfgVehicles {
         class ACE_Actions {
             class ACE_MainActions {
                 displayName = "Interactions";
+                modifierFunction = "(_this select 3) set [1, 'Interactions' call OT_fnc_localizeText]";
                 distance = 6;
 
                 class arsenal {
                     displayName = "Open Arsenal (This Ammobox)";
+                    modifierFunction = "(_this select 3) set [1, 'Open Arsenal (This Ammobox)' call OT_fnc_localizeText]";
                     condition = "!(call OT_fnc_playerIsAtWarehouse)";
                     statement = "[_target, _player] call OT_fnc_openArsenal;";
                 };
                 class warehouse {
                     displayName = "Open Arsenal (Warehouse)";
+                    modifierFunction = "(_this select 3) set [1, 'Open Arsenal (Warehouse)' call OT_fnc_localizeText]";
                     condition = "(call OT_fnc_playerIsAtWarehouse)";
                     statement = "['WAREHOUSE', _player, _target] call OT_fnc_openArsenal;";
                 };
@@ -127,6 +139,7 @@ class CfgVehicles {
                     selection = "pelvis";
                     distance = 4;
                     displayName = "Talk";
+                    modifierFunction = "(_this select 3) set [1, 'Talk' call OT_fnc_localizeText]";
                     statement = "_target call OT_fnc_talkToCiv";
                 };
             };
@@ -135,6 +148,7 @@ class CfgVehicles {
             class ACE_Equipment {
                 class OT_StartSpliff {
                     displayName = "Smoke a spliff";
+                    modifierFunction = "(_this select 3) set [1, 'Smoke a spliff' call OT_fnc_localizeText]";
                     condition = "('OT_Ganja' in (items player)) && { !(_player getVariable ['ot_isSmoking', false]) }";
                     statement = "[_player] spawn OT_fnc_startSpliff";
                     showDisabled = 0;
@@ -143,6 +157,7 @@ class CfgVehicles {
                 };
                 class OT_StopSpliff {
                     displayName = "Ditch your spliff!";
+                    modifierFunction = "(_this select 3) set [1, 'Ditch your spliff!' call OT_fnc_localizeText]";
                     condition = "(goggles _player) in OT_cigsArray && { _player getVariable ['ot_isSmoking', false] }";
                     statement = "[_player] spawn OT_fnc_stopSpliff";
                     showDisabled = 0;
@@ -158,10 +173,12 @@ class CfgVehicles {
         class ACE_Actions {
             class ACE_MainActions {
                 displayName = "Interactions";
+                modifierFunction = "(_this select 3) set [1, 'Interactions' call OT_fnc_localizeText]";
                 distance = 4;
                 class OT_Craft {
                     condition = "true";
                     displayName = "Craft";
+                    modifierFunction = "(_this select 3) set [1, 'Craft' call OT_fnc_localizeText]";
                     statement = "call OT_fnc_craftDialog";
                 };
             };

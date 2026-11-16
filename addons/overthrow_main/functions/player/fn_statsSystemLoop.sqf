@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_player"];
 if !(alive _player) exitWith {};
 
@@ -54,7 +55,7 @@ private _txt = format [
 ];
 
 private _setText = (uiNamespace getVariable "OT_statsHUD") displayCtrl 1001;
-_setText ctrlSetStructuredText (parseText format ["%1", _txt]);
+_setText ctrlSetStructuredText (parseText (format ["%1", _txt] call OT_fnc_localizeText));
 _setText ctrlCommit 0;
 
 [OT_fnc_statsSystemLoop, _this, 1] call CBA_fnc_waitAndExecute;

@@ -75,7 +75,7 @@ if !(isNil "_from") then {
 
     waitUntil {
         sleep 10;
-        (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
+       (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
     };
 
     if (alive _veh) then {
@@ -86,7 +86,7 @@ if !(isNil "_from") then {
         // Sometimes helicopters land just briefly and take off again, so checking this every second
         waitUntil {
             sleep 1;
-            (getPos _veh) # 2 < 2;
+           (getPos _veh) # 2 < 2;
         };
     };
     _veh call OT_fnc_cleanup;

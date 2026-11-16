@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_ctrl", "_index"];
 
 disableSerialization;
@@ -30,9 +31,9 @@ if (_def isNotEqualTo []) then {
         _recipeText = _recipeText + format ["%1 x %2<br/>", _rqty, _name];
     } forEach (_recipe);
 
-    ([_cls, true] call OT_fnc_getClassDisplayInfo) params ["_pic", "_itemName", "_desc"];
+   ([_cls, true] call OT_fnc_getClassDisplayInfo) params ["_pic", "_itemName", "_desc"];
 
-    _textctrl ctrlSetStructuredText parseText format [
+    _textctrl ctrlSetStructuredText parseText (format [
         "
     	<t align='center' size='1.1'>%1 x %2</t><br/>
         <t align='center' size='0.7'>%3</t><br/><br/>
@@ -43,7 +44,7 @@ if (_def isNotEqualTo []) then {
         _itemName,
         _desc,
         _recipeText
-    ];
+    ] call OT_fnc_localizeText);
 
-    ctrlSetText [1200, _pic];
+    ctrlSetText [1200, (_pic call OT_fnc_localizeText)];
 };

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_unit", "_dir"];
 (group _unit) setFormDir _dir;
 _unit spawn {
@@ -5,6 +6,6 @@ _unit spawn {
     waitUntil {
         sleep 1;
         _ti = _ti + 1;
-        (!(_this getVariable ["OT_talking", false]) && isNull (findDisplay 8001) && isNull (findDisplay 8002)) || _ti > 20;
+       (!(_this getVariable ["OT_talking", false]) && isNull (findDisplay 8001) && isNull (findDisplay 8002)) || _ti > 20;
     };
 };

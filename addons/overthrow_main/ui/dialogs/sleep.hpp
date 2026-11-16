@@ -1,9 +1,10 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 class OT_sleep_dialog {
     idd = 152001;
     name = "sleep";
     movingEnable = 0;
     enableSimulation = 1;
-    onLoad = " [152001] spawn OT_fnc_dialogFadeIn; ";
+    onLoad = " [152001] spawn OT_fnc_dialogFadeIn; ; [_this # 0, 'OT_sleep_dialog'] call OT_fnc_localizeDisplay;";
 
     class controlsBackground {
         class Background1: RscText {
@@ -54,7 +55,7 @@ class OT_sleep_dialog {
             w = "0.237187 * safeZoneW";
             h = "0.022 * safeZoneH";
             onLoad = "(_this # 0) sliderSetRange [1, 48]; OT_sleepTime = 1;";
-            onSliderPosChanged = "((findDisplay 152001) displayCtrl 10) ctrlSetText format ['%1 Hour(s)', round (_this # 1)]; OT_sleepTime = (round (_this # 1));";
+            onSliderPosChanged = "((findDisplay 152001) displayCtrl 10) ctrlSetText (format ['%1 Hour(s)', round (_this # 1)] call OT_fnc_localizeText); OT_sleepTime = (round (_this # 1));";
         };
         class SleepButton: RscButton {
             idc = -1;
@@ -82,7 +83,7 @@ class OT_sleep_dialog {
             w = "0.0928125 * safeZoneW";
             h = "0.033 * safeZoneH";
             font = "PuristaMedium";
-            onLoad = "(_this # 0) ctrlSetText '1 Hour(s)'";
+            onLoad = "(_this # 0) ctrlSetText ('1 Hour(s)' call OT_fnc_localizeText)";
         };
     };
 };

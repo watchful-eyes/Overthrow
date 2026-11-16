@@ -10,7 +10,7 @@ private _townpos = server getVariable _town;
 while { _count < _amt } do {
     private _civid = (OT_civilians getVariable ["autocivid", -1]) + 1;
     OT_civilians setVariable ["autocivid", _civid];
-    (_gang select 0) pushBack _civid;
+   (_gang select 0) pushBack _civid;
 
     private _identity = call OT_fnc_randomLocalIdentity;
     _identity set [1, selectRandom OT_CRIM_Clothes];

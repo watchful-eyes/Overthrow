@@ -43,12 +43,12 @@ private _wp = _group addWaypoint [ASLToAGL (getPosASL _target), 0];
 _wp setWaypointBehaviour "AWARE";
 _group setBehaviour "AWARE";
 if (isPlayer _target) then {
-    [_cop, (selectRandom ["Stop right there!", "Halt, citizen!", "HALT!", "Stay right there, citizen"])] remoteExec ["globalChat", _target, false];
+    [_cop, (selectRandom ["Stop right there!", "Halt, citizen!", "HALT!", "Stay right there, citizen"])] remoteExec ["OT_fnc_localizedChat", _target, false];
     _wp setWaypointSpeed "FULL";
     _hdl = _target addEventHandler [
         "InventoryOpened",
         {
-            hint "NATO search is in progress, you cannot open your inventory";
+            hint ("NATO search is in progress, you cannot open your inventory" call OT_fnc_localizeText);
             true; //<-- inventory override
         }
     ];
@@ -79,7 +79,7 @@ private _cleanup = {
 _cop doMove ASLToAGL (getPosASL _target);
 waitUntil {
     sleep 1;
-    (_cop distance _target) < 7 || (_target distance _posnow) > 2 || (time - _timenow) > 120;
+   (_cop distance _target) < 7 || (_target distance _posnow) > 2 || (time - _timenow) > 120;
 };
 if (isNil "_cop" || isNil "_target") exitWith { [_group, _cop, _target, _hdl] call _cleanup };
 if (!alive _cop || !alive _target) exitWith { [_group, _cop, _target, _hdl] call _cleanup };
@@ -88,7 +88,7 @@ if ((isPlayer _target && !captive _target) || (!alive _cop) || ((time - _timenow
 
 if ((_target distance _posnow) > 2) then {
     if (isPlayer _target) then {
-        [_cop, "I said stop! move again and we WILL open fire"] remoteExec ["globalChat", _target, false];
+        [_cop, "I said stop! move again and we WILL open fire"] remoteExec ["OT_fnc_localizedChat", _target, false];
         "sectorLost" remoteExec ["playSound", _target, false];
 
         while { (waypoints _group) isNotEqualTo [] } do {
@@ -105,7 +105,7 @@ if ((_target distance _posnow) > 2) then {
         _cop doMove ASLToAGL (getPosASL _target);
         waitUntil {
             sleep 2;
-            (_cop distance _target) < 7 || (_target distance _posnow) > 2 || (time - _timenow) > 120;
+           (_cop distance _target) < 7 || (_target distance _posnow) > 2 || (time - _timenow) > 120;
         };
         if ((_target distance _posnow) > 2) then {
             _target setCaptive false;
@@ -117,7 +117,7 @@ if (isNil "_cop" || isNil "_target") exitWith { [_group, _cop, _target, _hdl] ca
 if (!alive _cop || !alive _target) exitWith { [_group, _cop, _target, _hdl] call _cleanup };
 [_cop, "Amovpknlmstpsraswrfldnon_gear"] remoteExec ["playMove", _cop, false];
 if (isPlayer _target) then {
-    [_cop, "This is a random search, stay perfectly still"] remoteExec ["globalChat", _target, false];
+    [_cop, "This is a random search, stay perfectly still"] remoteExec ["OT_fnc_localizedChat", _target, false];
     sleep 5;
 } else {
     sleep 15;
@@ -127,7 +127,7 @@ if ((isPlayer _target && !captive _target) || (!alive _cop) || ((time - _timenow
 
 if ((_target distance _posnow) > 2) exitWith {
     if (isPlayer _target) then {
-        "You tried to escape a NATO search" remoteExecCall ["hint", _target, false];
+        "You tried to escape a NATO search" remoteExecCall ["OT_fnc_localizedHint", _target, false];
     };
     [_group, _cop, _target, _hdl] call _cleanup;
     _target setCaptive false;
@@ -161,8 +161,8 @@ if (isPlayer _target) then {
     if (_foundillegal || _foundweapons) then {
         if (_foundweapons) then {
             if (isPlayer _target) then {
-                [_cop, "What's this!?"] remoteExec ["globalChat", _target, false];
-                "NATO found weapons" remoteExecCall ["hint", _target, false];
+                [_cop, "What's this!?"] remoteExec ["OT_fnc_localizedChat", _target, false];
+                "NATO found weapons" remoteExecCall ["OT_fnc_localizedHint", _target, false];
             };
             _target setCaptive false;
             [_target] call OT_fnc_revealToNATO;
@@ -174,15 +174,15 @@ if (isPlayer _target) then {
                     _chance = 100 - (_stealth * 20);
                 };
                 if ((random 100) < _chance) then {
-                    [_cop, "We found some illegal items and confiscated them, be on your way"] remoteExec ["globalChat", _target, false];
-                    "NATO confiscated illegal items" remoteExecCall ["hint", _target, false];
+                    [_cop, "We found some illegal items and confiscated them, be on your way"] remoteExec ["OT_fnc_localizedChat", _target, false];
+                    "NATO confiscated illegal items" remoteExecCall ["OT_fnc_localizedHint", _target, false];
                 } else {
-                    [_cop, "Thank you for your co-operation"] remoteExec ["globalChat", _target, false];
+                    [_cop, "Thank you for your co-operation"] remoteExec ["OT_fnc_localizedChat", _target, false];
                 };
             };
         };
     } else {
-        [_cop, "Thank you for your co-operation"] remoteExec ["globalChat", _target, false];
+        [_cop, "Thank you for your co-operation"] remoteExec ["OT_fnc_localizedChat", _target, false];
     };
 };
 [_group, _cop, _target, _hdl] call _cleanup;

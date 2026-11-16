@@ -1,11 +1,12 @@
-if (!(cursorTarget isKindOf "LandVehicle")) exitWith { hint "Workshop Mode: You must be looking at a vehicle" };
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
+if (!(cursorTarget isKindOf "LandVehicle")) exitWith { hint ("Workshop Mode: You must be looking at a vehicle" call OT_fnc_localizeText) };
 
 createDialog "OT_dialog_workshop";
 
 private _veh = cursorTarget;
 
 private _pic = getText (configOf _veh >> "editorPreview");
-ctrlSetText [1201, _pic];
+ctrlSetText [1201, (_pic call OT_fnc_localizeText)];
 
 lbClear 1500;
 {
@@ -14,7 +15,7 @@ lbClear 1500;
         _price = [OT_nation, _free] call OT_fnc_getPrice;
         _price = [_price, 0] select ((backpack player) isEqualTo _free);
         private _pic = _do call OT_fnc_vehicleGetPic;
-        private _idx = lbAdd [1500, format ["%1", _name]];
+        private _idx = lbAdd [1500, (format ["%1", _name] call OT_fnc_localizeText)];
         lbSetPicture [1500, _idx, _pic];
         lbSetValue [1500, _idx, _price];
         lbSetData [1500, _idx, _do];

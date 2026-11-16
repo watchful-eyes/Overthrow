@@ -67,7 +67,7 @@ if !(OT_NATO_HQ in _abandoned) then {
 
     waitUntil {
         sleep 10;
-        (alive _veh && (_veh distance OT_NATO_JetLandPos) < 150) || !alive _veh;
+       (alive _veh && (_veh distance OT_NATO_JetLandPos) < 150) || !alive _veh;
     };
 
     if (alive _veh) then {
@@ -77,7 +77,7 @@ if !(OT_NATO_HQ in _abandoned) then {
         _veh action ["LAND", _veh];
         waitUntil {
             sleep 10;
-            (speed _veh) isEqualTo 0;
+           (speed _veh) isEqualTo 0;
         };
     };
     _veh call OT_fnc_cleanup;

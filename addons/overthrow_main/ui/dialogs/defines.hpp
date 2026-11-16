@@ -942,7 +942,7 @@ class RscOverthrowActiveText {
     soundPush[] = {"", 0, 1};
     soundClick[] = {"", 0, 1};
     soundEscape[] = {"", 0, 1};
-    action = "hint 'Good choice!'";
+    action = "hint  ('Good choice!' call OT_fnc_localizeText)";
     tooltip = "";
     text = "";
     default = 1;

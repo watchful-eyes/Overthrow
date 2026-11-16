@@ -16,7 +16,7 @@ if (_possible isNotEqualTo []) then {
     private _vest = selectRandom OT_allProtectiveVests;
     private _weapon = selectRandom (OT_CRIM_Weapons + OT_allCheapRifles);
     private _loadout = [(format ["gang%1", _gangid]), OT_CRIMBaseLoadout, [[_weapon]]] call OT_fnc_getRandomLoadout;
-    (_loadout # 4) set [0, _vest];
+   (_loadout # 4) set [0, _vest];
 
     //Gang format [members,leader,town,vest,camp pos,loadout,resources,level,name]
 

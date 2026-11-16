@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if (dialog) then {
     closeDialog 0;
 };
@@ -16,7 +17,7 @@ createDialog "OT_dialog_upload";
 private _editBox = ((findDisplay 49558) displayCtrl 1);
 private _legalText = ((findDisplay 49558) displayCtrl 5);
 
-_editBox ctrlSetText _str;
+_editBox ctrlSetText (_str call OT_fnc_localizeText);
 
-_legalText ctrlSetStructuredText parseText format ["<t font='PuristaMedium'>For use in /overthrow_main/data/prices.sqf. Will only show items that are not already in the file, so you can append mod items etc.</t>"];
+_legalText ctrlSetStructuredText parseText (format ["<t font='PuristaMedium'>For use in /overthrow_main/data/prices.sqf. Will only show items that are not already in the file, so you can append mod items etc.</t>"] call OT_fnc_localizeText);
 [_legalText] call BIS_fnc_ctrlFitToTextHeight;

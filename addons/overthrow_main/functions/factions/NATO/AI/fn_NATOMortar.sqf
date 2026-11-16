@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_mortar", "_mortarGroup"];
 
 // Lambs is enabled - register the arty
@@ -7,7 +8,7 @@ if (isClass (configFile >> "CfgPatches" >> "lambs_wp")) then {
 
 while {
     sleep (5 + (random 5));
-    ("8Rnd_82mm_Mo_shells" in getArtilleryAmmo [_mortar]) && (alive _mortar) && ((units _mortarGroup) findIf { alive _x } != -1);
+   ("8Rnd_82mm_Mo_shells" in getArtilleryAmmo [_mortar]) && (alive _mortar) && ((units _mortarGroup) findIf { alive _x } != -1);
 } do {
     private _attacking = server getVariable ["NATOattacking", ""];
     private _mortarpos = getPos _mortar;

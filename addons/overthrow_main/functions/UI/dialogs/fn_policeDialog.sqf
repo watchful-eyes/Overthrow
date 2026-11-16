@@ -23,7 +23,7 @@ if !(call OT_fnc_playerIsGeneral) then {
     ctrlEnable [1613, false];
 };
 
-((findDisplay 9000) displayCtrl 1100) ctrlSetStructuredText parseText format ["<t size=""2"" align=""center"">%1 Police Station</t>", _town];
-((findDisplay 9000) displayCtrl 1103) ctrlSetStructuredText parseText format ["<t align=""center"">Hire police ($-%1)</t>", _price];
-((findDisplay 9000) displayCtrl 1101) ctrlSetStructuredText parseText format ["<t size=""1.5"" align=""center"">Police: %1</t>", _garrison];
-((findDisplay 9000) displayCtrl 1104) ctrlSetStructuredText parseText format ["<t size=""1.2"" align=""center"">Effects</t><br/><br/><t size=""0.8"" align=""center"">%1</t>", _effect];
+((findDisplay 9000) displayCtrl 1100) ctrlSetStructuredText parseText (format ["<t size=""2"" align=""center"">%1 Police Station</t>", _town] call OT_fnc_localizeText);
+((findDisplay 9000) displayCtrl 1103) ctrlSetStructuredText parseText (format ["<t align=""center"">Hire police ($-%1)</t>", _price] call OT_fnc_localizeText);
+((findDisplay 9000) displayCtrl 1101) ctrlSetStructuredText parseText (format ["<t size=""1.5"" align=""center"">Police: %1</t>", _garrison] call OT_fnc_localizeText);
+((findDisplay 9000) displayCtrl 1104) ctrlSetStructuredText parseText (format ["<t size=""1.2"" align=""center"">Effects</t><br/><br/><t size=""0.8"" align=""center"">%1</t>", _effect] call OT_fnc_localizeText);

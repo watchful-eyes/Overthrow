@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_personOne", "_personTwo", "_lines", ["_onFinish", {}], ["_params", []]];
 
 _personOne setRandomLip false;
@@ -8,7 +9,7 @@ if (_lines isEqualTo []) exitWith {
 
 private _line = _lines deleteAt 0;
 _personOne setRandomLip true;
-_personOne globalChat _line;
+_personOne globalChat (_line call OT_fnc_localizeText);
 private _wait = (ceil ((count _line) * 0.1) + 1) min 5;
 
 _this set [0, _personTwo];

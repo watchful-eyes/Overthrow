@@ -1,9 +1,10 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _categorize = {
     params ["_c", "_cat"];
     private _done = false;
     {
         if ((_x select 0) isEqualTo _cat) exitWith {
-            (_x select 1) pushBackUnique _c;
+           (_x select 1) pushBackUnique _c;
             _done = true;
         };
     } forEach (OT_items);
@@ -120,7 +121,7 @@ private _getprice = {
         OT_allItems pushBack _cls;
     };
 } forEach ("
-    (getNumber (_x >> 'scope') isEqualTo 2)
+   (getNumber (_x >> 'scope') isEqualTo 2)
         && { (configName _x call BIS_fnc_itemType) # 0 isEqualTo 'Item' };
 " configClasses (configFile >> "CfgWeapons"));
 
@@ -133,7 +134,7 @@ private _getprice = {
         cost setVariable [_cls, [_mass, 0, 0, 1], true]; // the price of a bag is its mass, unless otherwise stated in prices.sqf.
     };
 } forEach ("
-    (getNumber (_x >> 'scope') isEqualTo 2)
+   (getNumber (_x >> 'scope') isEqualTo 2)
         && {
             private _parents = ([_x, true] call BIS_fnc_returnParents);
             'Bag_Base' in _parents

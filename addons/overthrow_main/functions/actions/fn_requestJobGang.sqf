@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 closeDialog 0;
 private _gotjob = false;
 private _activeJobs = spawner getVariable ["OT_activeJobIds", []];
@@ -45,13 +46,13 @@ _info params ["_title", "_desc"];
 
 private _textctrl = (findDisplay 8000) displayCtrl 1199;
 
-_textctrl ctrlSetStructuredText parseText format [
+_textctrl ctrlSetStructuredText parseText (format [
     "
     <t align='center' size='1.1'>%1</t><br/><br/>
     <t align='center' size='0.8'>%2</t><br/>
 ",
     _title,
     _desc
-];
+] call OT_fnc_localizeText);
 
 _job;

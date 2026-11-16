@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_name"];
 
 profileNamespace setVariable [format ["OT_loadout_%1", _name], nil];
@@ -10,7 +11,7 @@ lbClear 1500;
 {
     private _cls = _x;
 
-    private _idx = lbAdd [1500, _cls];
+    private _idx = lbAdd [1500, (_cls call OT_fnc_localizeText)];
     lbSetValue [1500, _idx, 0];
     lbSetData [1500, _idx, _cls];
 } forEach (_loadouts);

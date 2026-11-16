@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_user"];
 
 private _range = 150;
@@ -23,7 +24,7 @@ if (isPlayer _user) then {
     format ["Looting all bodies and item piles within %1m", _range] call OT_fnc_notifyMinor;
     [_time, false] call OT_fnc_progressBar;
 } else {
-    _user globalChat format ["Looting bodies and item piles within %1m using Recovery vehicle", _range];
+    _user globalChat (format ["Looting bodies and item piles within %1m using Recovery vehicle", _range] call OT_fnc_localizeText);
 };
 
 sleep _time;
@@ -68,5 +69,5 @@ if (isPlayer _user) then {
     _veh enableSimulation true;
     format ["Looted %1 item piles and %2 bodies into this truck", _countWeaponHolders, _countBodies] call OT_fnc_notifyMinor;
 } else {
-    _user globalChat format ["All done! Looted %1 item piles and %2 bodies", _countWeaponHolders, _countBodies];
+    _user globalChat (format ["All done! Looted %1 item piles and %2 bodies", _countWeaponHolders, _countBodies] call OT_fnc_localizeText);
 };

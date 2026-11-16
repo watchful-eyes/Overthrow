@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_buildbase {
+    onLoad = "[_this # 0, 'OT_dialog_buildbase'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
     onMouseMoving = "_this call buildOnMouseMove";
@@ -109,6 +110,7 @@ class OT_dialog_buildbase {
 };
 
 class OT_dialog_buildobjective {
+    onLoad = "[_this # 0, 'OT_dialog_buildobjective'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
     onMouseMoving = "_this call buildOnMouseMove";
@@ -238,6 +240,7 @@ class OT_dialog_buildobjective {
 };
 
 class OT_dialog_buildtown {
+    onLoad = "[_this # 0, 'OT_dialog_buildtown'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
     onMouseMoving = "_this call buildOnMouseMove";
@@ -313,6 +316,7 @@ class OT_dialog_buildtown {
 };
 
 class OT_dialog_police {
+    onLoad = "[_this # 0, 'OT_dialog_police'] call OT_fnc_localizeDisplay";
     idd = 9000;
     movingenable = 0;
     class controlsBackground {

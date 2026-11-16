@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 closeDialog 0;
 createDialog "OT_dialog_logistics";
 lbClear 1500;
@@ -6,7 +7,7 @@ lbClear 1500;
     private _cls = typeOf _veh;
     if ((_veh call OT_fnc_hasOwner) && ((_cls isKindOf "LandVehicle") || (_cls isKindOf "Air") || (_cls isKindOf "Ship"))) then {
 
-        (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+       (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
         private _dis = round (_veh distance player);
         private _t = "m";
@@ -15,7 +16,7 @@ lbClear 1500;
             _t = "km";
         };
 
-        private _idx = lbAdd [1500, format ["%1 (%2%3)", _name, _dis, _t]];
+        private _idx = lbAdd [1500, (format ["%1 (%2%3)", _name, _dis, _t] call OT_fnc_localizeText)];
         lbSetPicture [1500, _idx, _pic];
         lbSetData [1500, _idx, _veh call BIS_fnc_netId];
         private _color = [0.9, 0.9, 0.9, 1];

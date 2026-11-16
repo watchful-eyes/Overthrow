@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_resistance {
+    onLoad = "[_this # 0, 'OT_dialog_resistance'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -156,6 +157,7 @@ class OT_dialog_resistance {
 
 
 class OT_dialog_garrison {
+    onLoad = "[_this # 0, 'OT_dialog_garrison'] call OT_fnc_localizeDisplay";
     idd = 9000;
     movingenable = 0;
     class controlsBackground {
@@ -278,6 +280,7 @@ class OT_dialog_garrison {
 };
 
 class OT_dialog_jobs {
+    onLoad = "[_this # 0, 'OT_dialog_jobs'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -363,6 +366,7 @@ class OT_dialog_jobs {
 };
 
 class OT_dialog_logistics {
+    onLoad = "[_this # 0, 'OT_dialog_logistics'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -448,6 +452,7 @@ class OT_dialog_logistics {
 };
 
 class OT_dialog_joboffer {
+    onLoad = "[_this # 0, 'OT_dialog_joboffer'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 

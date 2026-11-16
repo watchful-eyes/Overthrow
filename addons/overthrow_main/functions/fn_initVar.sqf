@@ -11,13 +11,14 @@ OT_ACEremoveAction = [
     {},
     {
         params ["_target"];
-        (call OT_fnc_playerIsGeneral) || (_target call OT_fnc_playerIsOwner);
+       (call OT_fnc_playerIsGeneral) || (_target call OT_fnc_playerIsOwner);
     },
     {},
     [],
     [0, 0, 0],
     10
 ] call ace_interact_menu_fnc_createAction;
+OT_ACEremoveAction set [10, { (_this # 3) set [1, "Remove" call OT_fnc_localizeText] }];
 OT_ACEremoveActionConfirm = [
     "OT_Remove_Confirm",
     "Confirm",
@@ -32,6 +33,7 @@ OT_ACEremoveActionConfirm = [
     [0, 0, 0],
     10
 ] call ace_interact_menu_fnc_createAction;
+OT_ACEremoveActionConfirm set [10, { (_this # 3) set [1, "Confirm" call OT_fnc_localizeText] }];
 
 //Find markers
 OT_ferryDestinations = [];
@@ -145,7 +147,7 @@ OT_rankXP = [100, 250, 500, 1000, 4000, 10000, 100000];
 OT_adminMode = false;
 OT_deepDebug = false;
 OT_allIntel = [];
-OT_notifies = [];
+if (hasInterface) then { [true] call OT_fnc_initNotifications };
 
 OT_NATO_HQPos = [0, 0, 0];
 
@@ -332,7 +334,7 @@ if (isServer) then {
 };
 
 private _allVehs = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') # 0) < 0.5 }
         && { toLowerANSI getText (_x >> 'vehicleClass') in ['car', 'support'] }
         && { toLowerANSI getText (_x >> 'faction') in ['civ_f', 'ind_f'] }
@@ -365,7 +367,7 @@ private _mostExpensive = 0;
 
 //Determine vehicle threats
 _allVehs = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') # 0) > 0 }
         && { toLowerANSI getText (_x >> 'vehicleClass') in ['car', 'armored'] }
     );
@@ -376,7 +378,7 @@ _allVehs = "
 } forEach (_allVehs);
 
 private _allHelis = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') select 0) < 0.5 }
         && { toLowerANSI getText (_x >> 'vehicleClass') isEqualTo 'air' }
         && { toLowerANSI getText (_x >> 'faction') in ['civ_f', 'ind_f'] }
@@ -409,7 +411,7 @@ private _allHelis = "
 
 //Determine aircraft threats
 _allHelis = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') select 0) >= 0.5 }
         && { toLowerANSI getText (_x >> 'vehicleClass') isEqualTo 'air' }
     );
@@ -447,7 +449,7 @@ if (isServer) then {
 
 // Filter the scope only once
 private _filteredWeaponConfigs = "
-    (getNumber (_x >> 'scope') == 2);
+   (getNumber (_x >> 'scope') == 2);
 " configClasses (_cfgWeapons);
 
 private _allWeapons = [];
@@ -490,19 +492,19 @@ private _allHelmets = [];
 _filteredWeaponConfigs = nil;
 
 private _allAmmo = "
-    (getNumber (_x >> 'scope') isEqualTo 2);
+   (getNumber (_x >> 'scope') isEqualTo 2);
 " configClasses (_cfgMagazines);
 
 private _allVehicles = "
-    (getNumber (_x >> 'scope') > 0);
+   (getNumber (_x >> 'scope') > 0);
 " configClasses (_cfgVehicles);
 
 private _allFactions = "
-    (getNumber (_x >> 'side') < 3);
+   (getNumber (_x >> 'side') < 3);
 " configClasses (configFile >> "CfgFactionClasses");
 
 private _allGlasses = "
-    (getNumber (_x >> 'scope') isEqualTo 2);
+   (getNumber (_x >> 'scope') isEqualTo 2);
 " configClasses (configFile >> "CfgGlasses");
 
 OT_allFactions = [];
@@ -709,7 +711,7 @@ private _caliberRegex = "(\d*\.\d+)\s*x\s*(\d+)|(\d+)\.(\d+)|\.(\d+)|(\d+)x(\d+)
         };
     } forEach (_muzzles);
 
-    ([_weaponType, _name, _caliber, _haslauncher, _short] call {
+   ([_weaponType, _name, _caliber, _haslauncher, _short] call {
         params ["_weaponType", "_name", "_caliber", "_haslauncher", "_short"];
 
         if (_weaponType == "SubmachineGun") exitWith {

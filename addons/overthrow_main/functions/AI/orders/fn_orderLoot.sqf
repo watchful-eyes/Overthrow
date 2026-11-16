@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _selectedUnits = groupSelectedUnits player;
 {
     player groupSelectUnit [_x, false];
@@ -21,14 +22,14 @@ private _target = _sortedTargets # 0;
 
         private _range = 100;
 
-        _looter globalChat format ["Looting bodies and item piles within %1m into the %2", _range, (typeOf _target) call OT_fnc_vehicleGetName];
+        _looter globalChat (format ["Looting bodies and item piles within %1m into the %2", _range, (typeOf _target) call OT_fnc_vehicleGetName] call OT_fnc_localizeText);
 
         _looter setBehaviour "SAFE";
         if (!isNull objectParent _looter) then {
             doGetOut _looter;
             waitUntil {
                 sleep 1;
-                (isNull objectParent _looter) || (!alive _looter);
+               (isNull objectParent _looter) || (!alive _looter);
             };
         };
 
@@ -38,15 +39,15 @@ private _target = _sortedTargets # 0;
         private _timeout = time + 30;
         waitUntil {
             sleep 1;
-            (_looter distance _target < 12) || (!alive _looter) || (!alive _target) || (_timeout < time);
+           (_looter distance _target < 12) || (!alive _looter) || (!alive _target) || (_timeout < time);
         };
         if ((!alive _looter) || (!alive _target) || (_timeout < time)) exitWith {
-            if (alive _looter) then { _looter globalChat format ["Can't get to the %1, cancelling loot order", (typeOf _target) call OT_fnc_vehicleGetName] };
+            if (alive _looter) then { _looter globalChat (format ["Can't get to the %1, cancelling loot order", (typeOf _target) call OT_fnc_vehicleGetName] call OT_fnc_localizeText) };
         };
 
         // Looter has reached the target container. Dump his loadout to it.
         if !([_looter, _target] call OT_fnc_canDumpUnitLoadout) exitWith {
-            _looter globalChat "This vehicle is full, cancelling loot order";
+            _looter globalChat ("This vehicle is full, cancelling loot order" call OT_fnc_localizeText);
         };
 
         private _looterOwnUniform = uniform _looter;
@@ -72,7 +73,7 @@ private _target = _sortedTargets # 0;
             if (_sortedBodies isNotEqualTo []) then {
                 // There are bodies to be looted. Loot the nearest body.
 
-                _looter globalChat format ["%1 bodies to loot", count _sortedBodies];
+                _looter globalChat (format ["%1 bodies to loot", count _sortedBodies] call OT_fnc_localizeText);
                 private _body = _sortedBodies # 0;
 
                 _body setVariable ["OT_looterReserved", true, false];
@@ -83,15 +84,15 @@ private _target = _sortedTargets # 0;
                 _timeout = time + 30;
                 waitUntil {
                     sleep 1;
-                    (_looter distance2D _body < 12) || (isNull _body) || (!alive _looter) || (!alive _target) || (_timeout < time);
+                   (_looter distance2D _body < 12) || (isNull _body) || (!alive _looter) || (!alive _target) || (_timeout < time);
                 };
                 if ((!alive _looter) || (!alive _target) || (_timeout < time)) then {
-                    if (alive _looter) then { _looter globalChat "Can't get to a body, cancelling loot order" };
+                    if (alive _looter) then { _looter globalChat ("Can't get to a body, cancelling loot order" call OT_fnc_localizeText) };
                     _body setVariable ["OT_looterReserved", false, false];
                     break;
                 };
                 if (isNull _body) then {
-                    _looter globalChat "Body has vanished, skipping";
+                    _looter globalChat ("Body has vanished, skipping" call OT_fnc_localizeText);
                     continue;
                 };
 
@@ -133,16 +134,16 @@ private _target = _sortedTargets # 0;
                 _timeout = time + 30;
                 waitUntil {
                     sleep 1;
-                    (_looter distance _target < 12) || (!alive _looter) || (!alive _target) || (_timeout < time);
+                   (_looter distance _target < 12) || (!alive _looter) || (!alive _target) || (_timeout < time);
                 };
                 if ((!alive _looter) || (!alive _target) || (_timeout < time)) then {
-                    if (alive _looter) then { _looter globalChat format ["Can't get back to the %1, cancelling loot order", (typeOf _target) call OT_fnc_vehicleGetName] };
+                    if (alive _looter) then { _looter globalChat (format ["Can't get back to the %1, cancelling loot order", (typeOf _target) call OT_fnc_vehicleGetName] call OT_fnc_localizeText) };
                     break;
                 };
 
                 // Looter has reached the target container. Dump his loadout to it.
                 if !([_looter, _target] call OT_fnc_canDumpUnitLoadout) then {
-                    _looter globalChat "This vehicle is full, cancelling loot order";
+                    _looter globalChat ("This vehicle is full, cancelling loot order" call OT_fnc_localizeText);
                     break;
                 };
 
@@ -154,11 +155,11 @@ private _target = _sortedTargets # 0;
                 private _sortedWeaponHolders = nearestObjects [_target, ["WeaponHolder", "WeaponHolderSimulated"], _range] select { !(_x getVariable ["OT_looterReserved", false]) };
 
                 if (_sortedWeaponHolders isEqualTo []) then {
-                    _looter globalChat "All done!";
+                    _looter globalChat ("All done!" call OT_fnc_localizeText);
                     break;
                 };
 
-                _looter globalChat format ["%1 item piles to loot", count _sortedWeaponHolders];
+                _looter globalChat (format ["%1 item piles to loot", count _sortedWeaponHolders] call OT_fnc_localizeText);
                 private _weaponHolder = _sortedWeaponHolders # 0;
 
                 _weaponHolder setVariable ["OT_looterReserved", true, false];
@@ -169,10 +170,10 @@ private _target = _sortedTargets # 0;
                 _timeout = time + 30;
                 waitUntil {
                     sleep 1;
-                    (_looter distance2D _weaponHolder < 12) || (isNull _weaponHolder) || (!alive _looter) || (!alive _target) || (_timeout < time);
+                   (_looter distance2D _weaponHolder < 12) || (isNull _weaponHolder) || (!alive _looter) || (!alive _target) || (_timeout < time);
                 };
                 if ((!alive _looter) || (!alive _target) || (_timeout < time)) then {
-                    if (alive _looter) then { _looter globalChat "Can't get to an item pile, cancelling loot order" };
+                    if (alive _looter) then { _looter globalChat ("Can't get to an item pile, cancelling loot order" call OT_fnc_localizeText) };
                     _weaponHolder setVariable ["OT_looterReserved", false, false];
                     break;
                 };
@@ -188,21 +189,21 @@ private _target = _sortedTargets # 0;
                 _timeout = time + 30;
                 waitUntil {
                     sleep 1;
-                    (_looter distance _target < 12) || (isNull _weaponHolder) || (!alive _looter) || (!alive _target) || (_timeout < time);
+                   (_looter distance _target < 12) || (isNull _weaponHolder) || (!alive _looter) || (!alive _target) || (_timeout < time);
                 };
                 if ((!alive _looter) || (!alive _target) || (_timeout < time)) then {
-                    if (alive _looter) then { _looter globalChat format ["Can't get back to the %1, cancelling loot order", (typeOf _target) call OT_fnc_vehicleGetName] };
+                    if (alive _looter) then { _looter globalChat (format ["Can't get back to the %1, cancelling loot order", (typeOf _target) call OT_fnc_vehicleGetName] call OT_fnc_localizeText) };
                     _weaponHolder setVariable ["OT_looterReserved", false, false];
                     break;
                 };
                 if (isNull _weaponHolder) then {
-                    _looter globalChat "Item pile has vanished, skipping";
+                    _looter globalChat ("Item pile has vanished, skipping" call OT_fnc_localizeText);
                     continue;
                 };
 
                 // Looter has reached the target container.
                 if !([_weaponHolder, _target] call OT_fnc_canDumpContainer) then {
-                    _looter globalChat "This vehicle is full, cancelling loot order";
+                    _looter globalChat ("This vehicle is full, cancelling loot order" call OT_fnc_localizeText);
                     _weaponHolder setVariable ["OT_looterReserved", false, false];
                     break;
                 };

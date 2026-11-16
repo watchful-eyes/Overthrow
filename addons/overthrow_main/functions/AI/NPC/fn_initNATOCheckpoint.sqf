@@ -44,7 +44,7 @@ while { !(isNil "_group") && (units _group) isNotEqualTo [] } do {
 
                 if ((isPlayer _unit) && (captive _unit)) then {
                     if (_iscar) then {
-                        [_leader, "Please approach the checkpoint slowly, do NOT exit your vehicle"] remoteExec ["globalChat", _unit, false];
+                        [_leader, "Please approach the checkpoint slowly, do NOT exit your vehicle"] remoteExec ["OT_fnc_localizedChat", _unit, false];
                         _inrange pushBack _unit;
                     } else {
                         [_unit] spawn OT_fnc_NATOsearch;
@@ -82,7 +82,7 @@ while { !(isNil "_group") && (units _group) isNotEqualTo [] } do {
                 if !(_x in _searching || _x in _searched) then {
                     if (isPlayer _x) then {
                         _searching pushBack _x;
-                        [_leader, "Please wait... personal items will be stored in your vehicle"] remoteExec ["globalChat", _x, false];
+                        [_leader, "Please wait... personal items will be stored in your vehicle"] remoteExec ["OT_fnc_localizedChat", _x, false];
                         if (!isNull objectParent _x) then {
                             private _v = objectParent _x;
                             _v setVelocity [0, 0, 0];
@@ -144,14 +144,14 @@ while { !(isNil "_group") && (units _group) isNotEqualTo [] } do {
                                 } forEach (units vehicle _unit);
                             };
                         };
-                        [_leader, _msg] remoteExec ["globalChat", _x, false];
+                        [_leader, _msg] remoteExec ["OT_fnc_localizedChat", _x, false];
                         _searched pushBack _x;
                         _searching deleteAt (_searching find _x);
                     };
                 };
             } else {
                 if (_x in _searching && isPlayer _x) then {
-                    [_leader, "Return to the checkpoint immediately and wait while you are searched"] remoteExec ["globalChat", _x, false];
+                    [_leader, "Return to the checkpoint immediately and wait while you are searched"] remoteExec ["OT_fnc_localizedChat", _x, false];
                     _searching deleteAt (_searching find _x);
                 };
             };

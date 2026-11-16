@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_vehicle {
+    onLoad = "[_this # 0, 'OT_dialog_vehicle'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -122,6 +123,7 @@ class OT_dialog_vehicle {
 };
 
 class OT_dialog_vehiclewarehouse {
+    onLoad = "[_this # 0, 'OT_dialog_vehiclewarehouse'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -201,6 +203,7 @@ class OT_dialog_vehiclewarehouse {
 };
 
 class OT_dialog_vehicleport {
+    onLoad = "[_this # 0, 'OT_dialog_vehicleport'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -270,6 +273,7 @@ class OT_dialog_vehicleport {
 };
 
 class OT_dialog_vehiclehardware {
+    onLoad = "[_this # 0, 'OT_dialog_vehiclehardware'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -339,6 +343,7 @@ class OT_dialog_vehiclehardware {
 };
 
 class OT_dialog_vehiclestore {
+    onLoad = "[_this # 0, 'OT_dialog_vehiclestore'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -408,6 +413,7 @@ class OT_dialog_vehiclestore {
 };
 
 class OT_dialog_command {
+    onLoad = "[_this # 0, 'OT_dialog_command'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -486,6 +492,7 @@ class OT_dialog_command {
 };
 
 class OT_dialog_squad {
+    onLoad = "[_this # 0, 'OT_dialog_squad'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -567,7 +574,7 @@ class OT_dialog_squad {
 class OT_dialog_upload {
     idd = 49558;
     movingenable = 0;
-    onLoad = "params ['_display']; _display displayAddEventHandler ['KeyDown', { if ((_this select 1) == 1) then { true } }];";
+    onLoad = "params ['_display']; _display displayAddEventHandler ['KeyDown', { if ((_this select 1) == 1) then { true } }]; [_this # 0, 'OT_dialog_upload'] call OT_fnc_localizeDisplay;";
 
     class controlsBackground {
         class background1: RscOverthrowText {
@@ -647,6 +654,7 @@ class OT_dialog_upload {
 };
 
 class OT_dialog_char {
+    onLoad = "[_this # 0, 'OT_dialog_char'] call OT_fnc_localizeDisplay";
     idd = 8003;
     movingenable = 0;
 
@@ -719,6 +727,7 @@ class OT_dialog_char {
 };
 
 class OT_dialog_tute {
+    onLoad = "[_this # 0, 'OT_dialog_tute'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -776,6 +785,7 @@ class OT_dialog_tute {
 };
 
 class OT_dialog_choose {
+    onLoad = "[_this # 0, 'OT_dialog_choose'] call OT_fnc_localizeDisplay";
     idd = 8002;
     movingenable = 0;
 

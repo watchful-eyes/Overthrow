@@ -1,6 +1,7 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 OT_inputHandler = {
     private _name = ctrlText 1400;
-    if (_name isEqualType "" && count _name > 64) exitWith { hint "Loadout name is too long!" };
+    if (_name isEqualType "" && count _name > 64) exitWith { hint ("Loadout name is too long!" call OT_fnc_localizeText) };
     if (_name != "") then {
         profileNamespace setVariable [format ["OT_loadout_%1", _name], getUnitLoadout player];
         private _loadouts = profileNamespace getVariable ["OT_loadouts", []];

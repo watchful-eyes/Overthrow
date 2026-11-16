@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 OT_salvageVehicle = _this;
 private _doSalvage = {
     [_this] spawn {
@@ -86,7 +87,7 @@ private _filtered = [];
 } forEach (_objects);
 
 if ((count _filtered) isEqualTo 1) then {
-    (_filtered select 0) call _doSalvage;
+   (_filtered select 0) call _doSalvage;
 } else {
     if (count _filtered > 1) then {
         private _options = [];

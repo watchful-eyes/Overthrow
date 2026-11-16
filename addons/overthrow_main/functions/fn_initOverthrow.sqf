@@ -55,6 +55,8 @@ OT_centerPos = getArray (configFile >> "CfgWorlds" >> worldName >> "centerPositi
 call compileScript ["initVar.sqf", false];
 
 // Get faction before final variable init & detection takes place
+OT_mapEnemyFaction = OT_faction_NATO;
+publicVariable "OT_mapEnemyFaction";
 private _faction = ["ot_enemy_faction", 0] call BIS_fnc_getParamValue;
 switch (_faction) do {
     case 0: { _faction = OT_faction_NATO };
@@ -81,6 +83,7 @@ if (_faction isNotEqualTo _requestedFaction) then {
 };
 OT_faction_NATO = _faction;
 publicVariable "OT_faction_NATO";
+server setVariable ["OT_enemyFaction", _faction, true];
 
 // Dedicated servers need a separate definition for mission params
 if (isDedicated) then {
@@ -136,24 +139,24 @@ OT_tpl_checkpoint = [] call compileScript ["data\templates\NATOcheckpoint.sqf", 
     };
 
     //Init factions
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
     [OT_fnc_initNATO] call CBA_fnc_directCall; // directCall is way faster, but won't show script errors, so switch to a normal call for debug!
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
     [] call OT_fnc_factionNATO;
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
     [] call OT_fnc_factionGUER;
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
     [] call OT_fnc_factionCRIM;
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
 
     [OT_fnc_initEconomyLoad] call CBA_fnc_directCall; // [] call OT_fnc_initEconomyLoad;
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
 
     //Game systems
     [] call OT_fnc_weatherSystem;
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
     [] call OT_fnc_incomeSystem;
-    (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
+   (selectRandom OT_loadingMessages) remoteExec ['OT_fnc_notifyStart', 0];
     [] call OT_fnc_jobSystem;
     [] spawn OT_fnc_propagandaSystem; // Must be spawned due to delay
 

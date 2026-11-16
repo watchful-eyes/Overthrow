@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_target", "_unit", ["_ammobox", false]];
 
 if (_ammobox isEqualTo false) then {
@@ -13,7 +14,7 @@ private _missing = [];
 
 if (_target isEqualType "") then {
     private _warehouse = [_unit] call OT_fnc_nearestWarehouse;
-    if (_warehouse == objNull) exitWith { hint "No warehouse near by!" };
+    if (_warehouse == objNull) exitWith { hint ("No warehouse near by!" call OT_fnc_localizeText) };
 
     // Old method, remove all items and then verify the new loadout
     //[_unit,true] call OT_fnc_dumpIntoWarehouse;

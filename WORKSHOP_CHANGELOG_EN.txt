@@ -1,0 +1,88 @@
+[h1]What's New in This Community Fork[/h1]
+[b]Cumulative changes from the original CE base used for this fork through release 2.8.0[/b]
+
+Expand Overthrow CE with territorial command, customizable forces, local conflict, and campaign fixes.
+
+[h2]Custom garrison companies and patrol routes[/h2]
+[list]
+[*]Organize friendly town garrisons into named companies with individual planned strengths, movement speeds, and assignments.
+[*]Choose AUTO for automatic patrols, PATROL for a custom looping route, or HOLD to defend a position.
+[*]Create separate routes for each company. Shift + left-click adds waypoints on the map; right-click removes the last point.
+[*]Plans use existing soldiers. Shortages remain vacancies; surplus personnel form reserve patrols. Removing a company returns its soldiers to the garrison.
+[*]Plans survive regrouping, NPC virtualization, and save/load. Outdated edits cannot overwrite newer plans.
+[*]Generals access Companies and patrol routes at friendly town police stations. This editor manages friendly town garrisons.
+[/list]
+
+[h2]Town commanders and regional generals[/h2]
+[list]
+[*]Purchase a separate commander NPC for a town and a separate general for its region. Each town supports one town commander; each region supports one regional general.
+[*]Displayed town ranks scale with population from Lieutenant and Captain to Major and Colonel. Regional population determines Brigadier General, Major General, or Lieutenant General titles.
+[*]Identity, equipment, and assignments persist through save/load. Distant commanders are virtualized.
+[*]Move a regional headquarters to another friendly town in the same region. Losing its headquarters suspends the assignment until the town is recovered.
+[*]Death clears the assignment for a replacement purchase. Dismissal gives no refund.
+[*]Generals use Commanders and regional generals at friendly police stations. NPC titles grant no player permissions.
+[/list]
+
+[h2]Mixed NATO and RHS occupation forces[/h2]
+[list]
+[*]Occupied town patrols, military objectives, checkpoints, and vehicle/static-weapon crews can draw personnel from both the selected occupation army and installed RHS BLUFOR/USAF classes.
+[*]Preserve infantry roles including medics, leaders, machine gunners, grenadiers, AT/AA, snipers, spotters, and crews.
+[*]When both sources supply a role, selection is roughly balanced between them. Individual patrols can have different proportions.
+[*]Missing RHS content or missing roles fall back to valid army classes. Vehicle seats and heavy city patrol training are retained.
+[/list]
+
+[h2]Recruitable and editable RHS soldier presets[/h2]
+[list]
+[*]Use the searchable Soldier / RHS presets menu at friendly police stations/base garrisons. Review equipment and prices; recruit 1, 4, or 8 soldiers.
+[*]The full tested RHS set adds 114 presets alongside the existing templates. Available entries depend on installed USAF, AFRF, GREF, and SAF packages.
+[*]Friendly recruits from these templates join the resistance Independent side. The occupation-force RHS pool uses BLUFOR/USAF classes.
+[*]Generals can edit weapons, ammunition, uniforms, vests, backpacks, headgear, and assigned items through ACE Arsenal, using the preset's equipment and nearby warehouse items.
+[*]Edits apply to future recruits and town respawns. Existing NPCs keep their current equipment.
+[*]Town rosters track personnel by preset. Mixed compositions survive casualties, virtualization, and save/load, and older count-only town rosters migrate to police records.
+[*]Server checks validate purchases. Failed spawns are refunded. Outdated template edits cannot overwrite newer changes.
+[/list]
+
+[h2]Local gang raids[/h2]
+[list]
+[*]Gangs raid nearby towns and NATO bases, airfields, and communications sites within a connected region and 3 km range.
+[*]A raid requires at least three living, conscious members. Groups attack/search at the target and then retreat.
+[*]Allow up to two raids worldwide and one per gang, with a 30-minute cooldown and 10-minute duration limit. Timing depends on eligibility and chance.
+[*]Gang recruitment speed, recruitment costs, and membership caps remain unchanged. Raids create physical combat; territorial capture still follows the campaign's ownership systems.
+[*]Casualty handling prevents the same gang members from being counted in both physical combat and distant simulated losses.
+[/list]
+
+[h2]Starting location selection and refreshed menus[/h2]
+[list]
+[*]Choose the shared starting town when creating a new campaign, using the map's configured starting locations. A random-start option is also available.
+[*]Preview the location on the map. Loaded campaigns retain their existing start.
+[*]Campaign setup, save loading, main command, settings, garrison, and commander screens received a dark theme with emerald accents and clearer controls.
+[*]Added menus, notifications, validation messages, default company names, and displayed ranks are in English. Settings/preset window conflicts were fixed.
+[/list]
+
+[h2]Campaign, economy, and counterattack fixes[/h2]
+[list]
+[*]Preserve offline soldiers, experience, squad names, and custom templates across reconnects and save/load. Merge army updates with current server records.
+[*]Correct startup/autoload handling, save fallbacks, disconnect/death events, warehouse resolution, and equipment-transfer issues.
+[*]Validate affected sales, shared funds, garrison purchases, and fuel charges on the server. ACE billing tracks the actual customer/fuel progress and handles duplicate events and insufficient funds.
+[*]Repair NATO counterattack target selection, resource allocation, victory/defeat accounting, ownership restoration, and regional crew casualty records.
+[*]Counterattacks use a corrected 20-minute minimum cooldown and one active attack at a time. Resources, targets, proximity, and campaign rules determine whether an attack starts. Previously attacked locations can become eligible again.
+[/list]
+
+[h2]Mod compatibility and performance[/h2]
+[list]
+[*]Update obsolete ACE medical parameters and refuelling integration. Check ACE, CBA, RHS, and LAMBS integration against the tested dependency set.
+[*]Support modern magazine wells, fix NATO weapon classification and rifle-magazine discovery, and preserve grenade-launcher and disposable-launcher ammunition handling.
+[*]Improve loaded-mod remote-execution compatibility while retaining mission call restrictions.
+[*]Cache NATO role pools, RHS templates, and per-spawn soldier data. Reduce repeated commander lookups and skip unnecessary gang target scans.
+[*]These changes target script overhead. Gameplay FPS gains have not been measured.
+[/list]
+
+[h2]Release, requirements, and save compatibility[/h2]
+Release 2.8.0 includes a signed PBO, public server key, English documentation, and complete source under GNU GPL v2. Requires Arma 3 2.22+, CBA_A3, and ACE3 including Medical. RHS/LAMBS are optional. Load one Overthrow version with matching client/server releases and mods.
+
+Existing CE save data and migration paths are retained, but individual historical campaigns have unverified compatibility. Back up saves and test a copy with the same terrain/mods. Native checks passed across 618 executions, including repeats. Manual UI-scale, two-client JIP/locality, and prolonged-battle acceptance remains outstanding.
+
+[h2]Credits[/h2]
+ARMAzac - Overthrow. Nifnat - Overthrow Plus. ThomasAngel / rekterakathom and contributors - Community Edition. Original author notices are retained. Thanks to Ugly Valkyries for upstream support, the ACE3/CBA_A3/RHS/LAMBS teams, Bohemia Interactive, and HEMTT/SQF-VM contributors.
+
+OpenAI Codex was used for AI-assisted source analysis, implementation, translation, build automation, and test preparation for this independent community fork.

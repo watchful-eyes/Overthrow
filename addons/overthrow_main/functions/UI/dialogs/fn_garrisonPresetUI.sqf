@@ -8,7 +8,7 @@ if (isRemoteExecuted) exitWith {
     private _display = findDisplay 9240;
     if (isNull _display) exitWith { _message call OT_fnc_notifyMinor };
     _display setVariable ["pending", false];
-    (_display displayCtrl 1105) ctrlSetText _message;
+   (_display displayCtrl 1105) ctrlSetText (_message call OT_fnc_localizeText);
     ["select"] call OT_fnc_garrisonPresetUI;
 };
 params [["_mode", "open", [""]], ["_args", []]];
@@ -19,7 +19,7 @@ if (_mode isEqualTo "open") exitWith {
     private _display = findDisplay 9240;
     _display setVariable ["kind", _kind];
     _display setVariable ["town", _town];
-    (_display displayCtrl 1100) ctrlSetText (if (_kind isEqualTo "TOWN") then { "TOWN GARRISON / " + _town } else { "BASE GARRISON / SOLDIER PRESETS" });
+   (_display displayCtrl 1100) ctrlSetText ((if (_kind isEqualTo "TOWN") then { "TOWN GARRISON / " + _town } else { "BASE GARRISON / SOLDIER PRESETS" }) call OT_fnc_localizeText);
     ["list"] call OT_fnc_garrisonPresetUI;
 };
 private _display = findDisplay 9240;
@@ -37,7 +37,7 @@ switch (_mode) do {
             if (_x isNotEqualTo "Police" && { !isClass (configFile >> "CfgVehicles" >> _x) }) then { continue };
             private _label = [_x] call OT_fnc_soldierPresetName;
             if (_filter isNotEqualTo "" && { !(_filter in toLowerANSI (_label + " " + _x)) }) then { continue };
-            private _row = _list lbAdd _label;
+            private _row = _list lbAdd (_label call OT_fnc_localizeText);
             _list lbSetData [_row, _x];
             if (_x isEqualTo _selected) then { _index = _row };
         } forEach _classes;
@@ -49,12 +49,12 @@ switch (_mode) do {
         private _soldier = [_class, player, false] call OT_fnc_getSoldier;
         private _valid = _soldier isNotEqualTo [];
         { (_display displayCtrl _x) ctrlEnable (_valid && { !(_display getVariable ["pending", false]) }) } forEach [1600,1601,1602];
-        (_display displayCtrl 1603) ctrlEnable (_valid && { call OT_fnc_playerIsGeneral });
-        if (!_valid) exitWith { (_display displayCtrl 1101) ctrlSetStructuredText parseText "No matching presets found." };
+       (_display displayCtrl 1603) ctrlEnable (_valid && { call OT_fnc_playerIsGeneral });
+        if (!_valid) exitWith { (_display displayCtrl 1101) ctrlSetStructuredText parseText ("No matching presets found." call OT_fnc_localizeText) };
         _display setVariable ["price", _soldier # 0];
         private _primary = ((_soldier # 2) # 0) param [0, ""];
         private _weapon = getText (configFile >> "CfgWeapons" >> _primary >> "displayName");
-        (_display displayCtrl 1101) ctrlSetStructuredText parseText format ["<t color='#6ee7b7' size='1.25'>%1</t><br/><br/>Per soldier: $%2<br/>Weapon: %3<br/><br/>Equipment is included in the recruitment price.<br/>Editing requires general authority.<br/>Changes apply to future recruits and town garrison respawns.", [_class] call OT_fnc_soldierPresetName, _soldier # 0, _weapon];
+       (_display displayCtrl 1101) ctrlSetStructuredText parseText (format ["<t color='#6ee7b7' size='1.25'>%1</t><br/><br/>Per soldier: $%2<br/>Weapon: %3<br/><br/>Equipment is included in the recruitment price.<br/>Editing requires general authority.<br/>Changes apply to future recruits and town garrison respawns.", [_class] call OT_fnc_soldierPresetName, _soldier # 0, _weapon] call OT_fnc_localizeText);
     };
     case "hire": {
         if (_display getVariable ["pending", false]) exitWith {};

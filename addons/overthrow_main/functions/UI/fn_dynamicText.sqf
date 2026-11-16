@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 disableSerialization;
 
 params ["_text", ["_x", -1], ["_y", -1], ["_delay", 4], ["_fade", 1], ["_moveY", 0], ["_layer", [] call BIS_fnc_rscLayer]];
@@ -41,7 +42,7 @@ OT_dynamicTextIdCounter = (OT_dynamicTextIdCounter + 1) % 11000;
 _control = _display ctrlCreate [ /*ctrlClassName _control*/ "OTRscDynamicText", OT_dynamicTextIdCounter];
 _control ctrlSetPosition _pos;
 if (_text isEqualType "") then {
-    _control ctrlSetStructuredText parseText _text;
+    _control ctrlSetStructuredText parseText (_text call OT_fnc_localizeText);
 } else {
     _control ctrlSetStructuredText _text;
 };

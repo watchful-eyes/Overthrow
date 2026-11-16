@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_town", "_spawnid"];
 
 private _activeshops = server getVariable [format ["activeshopsin%1", _town], []];
@@ -58,7 +59,7 @@ if (_activeshops isNotEqualTo []) exitWith {
 
     // High command fix
     if (hcLeader _group isNotEqualTo objNull) then {
-        (hcLeader _group) hcRemoveGroup _group;
+       (hcLeader _group) hcRemoveGroup _group;
     };
 
     spawner setVariable [_spawnid, (spawner getVariable [_spawnid, []]) + _groups, false];

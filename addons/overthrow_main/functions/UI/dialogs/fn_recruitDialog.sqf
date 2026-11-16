@@ -19,12 +19,12 @@ if ((typeOf _building == OT_barracks) && isNil "_base") exitWith {};
 if ((typeOf _building == OT_barracks) && !_good) exitWith { "This barracks is under NATO control" call OT_fnc_notifyMinor };
 
 createDialog "OT_dialog_recruit";
-ctrlSetText [1600, "Recruit"];
+ctrlSetText [1600, ("Recruit" call OT_fnc_localizeText)];
 lbClear 1500;
 if (typeOf _building isEqualTo OT_barracks) then {
     {
         _x params ["_cls", "_comp"];
-        private _idx = lbAdd [1500, _cls];
+        private _idx = lbAdd [1500, (_cls call OT_fnc_localizeText)];
         lbSetData [1500, _idx, _cls];
     } forEach (OT_Squadables);
 };
@@ -33,6 +33,6 @@ if (typeOf _building isEqualTo OT_barracks) then {
     if (!isClass (configFile >> "CfgVehicles" >> _cls)) then { continue };
     private _name = [_cls] call OT_fnc_soldierPresetName;
 
-    private _idx = lbAdd [1500, _name];
+    private _idx = lbAdd [1500, (_name call OT_fnc_localizeText)];
     lbSetData [1500, _idx, _cls];
 } forEach ([] call OT_fnc_recruitPresets);

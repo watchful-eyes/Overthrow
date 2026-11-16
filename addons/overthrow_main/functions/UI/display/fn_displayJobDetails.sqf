@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_ctrl", "_index"];
 
 disableSerialization;
@@ -24,7 +25,7 @@ if (_job isNotEqualTo []) then {
 
     private _textctrl = (findDisplay 8000) displayCtrl 1100;
 
-    _textctrl ctrlSetStructuredText parseText format [
+    _textctrl ctrlSetStructuredText parseText (format [
         "
     	<t align='center' size='1.1'>%1</t><br/><br/>
         <t align='center' size='0.8'>%2</t><br/>
@@ -33,5 +34,5 @@ if (_job isNotEqualTo []) then {
         _title,
         _remainTxt,
         _desc
-    ];
+    ] call OT_fnc_localizeText);
 };

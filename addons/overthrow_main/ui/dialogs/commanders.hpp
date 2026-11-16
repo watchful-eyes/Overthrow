@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_commanders {
+    onLoad = "[_this # 0, 'OT_dialog_commanders'] call OT_fnc_localizeDisplay";
     idd = 9220; movingEnable = 0; enableSimulation = 1;
     class controlsBackground {
         class Background: RscOverthrowText {

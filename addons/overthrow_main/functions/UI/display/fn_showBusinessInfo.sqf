@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 disableSerialization;
 private _name = "";
 private _data = [];
@@ -57,4 +58,4 @@ if (count _data > 2) then {
 _text = _text + format ["<t size='0.65'>Next cycle: %1:00</t><br/>", _nexthr];
 
 private _textctrl = (findDisplay 8000) displayCtrl 1104;
-_textctrl ctrlSetStructuredText parseText _text;
+_textctrl ctrlSetStructuredText parseText (_text call OT_fnc_localizeText);

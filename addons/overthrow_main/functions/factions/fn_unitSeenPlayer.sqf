@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _target = _this;
 
 if (!isNull objectParent _target) then { _target = objectParent _target };
@@ -5,9 +6,9 @@ if (!isNull objectParent _target) then { _target = objectParent _target };
 private _cache = _target getVariable "SeenCachePlayer";
 if (isNil "_cache" || { time > (_cache select 1) }) then {
     _cache = [
-        (((allPlayers - (entities "HeadlessClient_F")) findIf {
+       (((allPlayers - (entities "HeadlessClient_F")) findIf {
             _x = driver _x;
-            (_x distance _target) < 7
+           (_x distance _target) < 7
                 || { (time - ((_x targetKnowledge _target) select 2)) < 10 };
         }) isNotEqualTo -1),
         time + 7

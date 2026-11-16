@@ -35,7 +35,7 @@ call {
     if (_kind isEqualTo "TOWN") then {
         private _strength = [_town, _preset, _amount] call OT_fnc_changeGarrisonRoster;
         [_town, 5 * _amount] call OT_fnc_support;
-        (_town + "-police") setMarkerText str _strength;
+       (_town + "-police") setMarkerText str _strength;
     };
     _success = true;
     _message = format ["%1 x %2 joined the garrison.", _amount, [_preset] call OT_fnc_soldierPresetName];

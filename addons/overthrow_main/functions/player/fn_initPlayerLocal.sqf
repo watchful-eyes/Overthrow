@@ -35,6 +35,9 @@ if (!isServer) then {
     call OT_fnc_initBaseVar;
     call compileScript ["initVar.sqf", false];
     call OT_fnc_initVar;
+    // Map init defines its default locally; restore the server's selected army
+    // for clients joining an existing or newly configured campaign.
+    OT_faction_NATO = server getVariable ["OT_enemyFaction", OT_faction_NATO];
     [] spawn OT_fnc_jobSystem;
     addMissionEventHandler ["EntityKilled", OT_fnc_deathHandler];
     //ACE3 events
@@ -68,7 +71,7 @@ showCinemaBorder false;
 
 waitUntil {
     sleep 0.1;
-    (server getVariable ["StartupType", ""]) isNotEqualTo ""
+   (server getVariable ["StartupType", ""]) isNotEqualTo ""
         || { server getVariable ["OT_startupInProgress", false] }
         || { server getVariable ["OT_startupAutoLoad", false] }
         || { player isEqualTo (server getVariable ["OT_startupOwner", objNull]) };
@@ -327,13 +330,13 @@ private _count = 0;
     };
     if (_count > 5000) then {
         _count = 0;
-        titleText ["Loading... please wait", "BLACK FADED", 0];
+        titleText [ ("Loading... please wait" call OT_fnc_localizeText), "BLACK FADED", 0];
     };
     _count = _count + 1;
 } forEach ((allMissionObjects "Building") + vehicles);
 
 waitUntil { !isNil "OT_SystemInitDone" };
-titleText ["Loading Session", "BLACK FADED", 0];
+titleText [ ("Loading Session" call OT_fnc_localizeText), "BLACK FADED", 0];
 player setCaptive true;
 player setPos (_housepos findEmptyPosition [1, 20, typeOf player]);
 if !("ItemMap" in (assignedItems player)) then {
@@ -360,7 +363,7 @@ if !("ItemMap" in (assignedItems player)) then {
 
 [] spawn {
     waitUntil { !(isNull (findDisplay 46)) };
-    (findDisplay 46) displayAddEventHandler ["KeyDown", { if ((_this # 1) isEqualTo 1) then { [player] call OT_fnc_savePlayerData } }];
+   (findDisplay 46) displayAddEventHandler ["KeyDown", { if ((_this # 1) isEqualTo 1) then { [player] call OT_fnc_savePlayerData } }];
 };
 
 player addEventHandler [
@@ -386,7 +389,7 @@ player addEventHandler [
         if !(_veh call OT_fnc_playerIsOwner) then {
             private _isgen = call OT_fnc_playerIsGeneral;
             if (!_isgen && (_veh getVariable ["OT_locked", false])) exitWith {
-                hint format ["This inventory has been locked by %1", server getVariable "name" + (_veh call OT_fnc_getOwner)];
+                hint (format ["This inventory has been locked by %1", server getVariable "name" + (_veh call OT_fnc_getOwner)] call OT_fnc_localizeText);
                 _locked = true;
             };
         };
@@ -420,7 +423,7 @@ player addEventHandler [
                 private _isgen = call OT_fnc_playerIsGeneral;
                 if (!_isgen && (_veh getVariable ["OT_locked", false])) then {
                     moveOut player;
-                    hint format ["This vehicle has been locked by %1", server getVariable "name" + (_veh call OT_fnc_getOwner)];
+                    hint (format ["This vehicle has been locked by %1", server getVariable "name" + (_veh call OT_fnc_getOwner)] call OT_fnc_localizeText);
                 };
             };
         } else {
@@ -429,7 +432,7 @@ player addEventHandler [
                     private _isgen = call OT_fnc_playerIsGeneral;
                     if (!_isgen && (_veh getVariable ["OT_locked", false])) then {
                         moveOut player;
-                        hint format ["This vehicle has been locked by %1", server getVariable "name" + (_veh call OT_fnc_getOwner)];
+                        hint (format ["This vehicle has been locked by %1", server getVariable "name" + (_veh call OT_fnc_getOwner)] call OT_fnc_localizeText);
                     };
                 };
             };
@@ -479,8 +482,7 @@ player call OT_fnc_mapSystem;
     private _base = _pos nearObjects [OT_flag_IND, 5];
     if (_base isNotEqualTo []) then {
         _base = _base # 0;
-        _base addAction [
-            "Set As Home",
+        _base addAction [ ("Set As Home" call OT_fnc_localizeText),
             {
                 player setVariable ["home", getPos (_this select 0), true];
                 "This FOB is now your home" call OT_fnc_notifyMinor;
@@ -495,11 +497,11 @@ player call OT_fnc_mapSystem;
 
 // ZEN integration
 if (isClass (configFile >> "CfgPatches" >> "zen_common")) then {
-    systemChat "Zeus Enhanced has been detected, Overthrow specific functionality has been added to Zeus";
+    systemChat ("Zeus Enhanced has been detected, Overthrow specific functionality has been added to Zeus" call OT_fnc_localizeText);
     ["Overthrow", "Change Town Stability", { _this call OT_fnc_zenSetStability }] call zen_custom_modules_fnc_register;
     ["Overthrow", "Change Town Support", { _this call OT_fnc_zenChangeSupport }] call zen_custom_modules_fnc_register;
 } else {
-    systemChat "Zeus Enhanced not detected, consider adding it to your modlist for Overthrow specific functionality";
+    systemChat ("Zeus Enhanced not detected, consider adding it to your modlist for Overthrow specific functionality" call OT_fnc_localizeText);
 };
 
 [] call OT_fnc_setupPlayer;

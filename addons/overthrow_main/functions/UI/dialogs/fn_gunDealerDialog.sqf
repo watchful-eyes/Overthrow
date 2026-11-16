@@ -56,7 +56,7 @@ createDialog "OT_dialog_buy";
 {
     _x params ["_cls", "_price"];
     if !(isNil "_cls") then {
-        (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_txt"];
+       (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_txt"];
 
         // special case
         if (_cls == "Set_HMG") then {
@@ -69,7 +69,7 @@ createDialog "OT_dialog_buy";
         } else {
             _price = [OT_nation, _cls] call OT_fnc_getPrice;
         };
-        private _idx = lbAdd [1500, format ["%1", _txt]];
+        private _idx = lbAdd [1500, (format ["%1", _txt] call OT_fnc_localizeText)];
         lbSetData [1500, _idx, _cls];
         lbSetValue [1500, _idx, _price];
         lbSetPicture [1500, _idx, _pic];

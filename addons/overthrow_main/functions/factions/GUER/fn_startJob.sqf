@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_id", "_job", "_repeat", "_expires"];
 _job params ["_info", "_markerPos", "_setup", "_fail", "_success", "_end", "_jobparams"];
 if !(_jobparams call _setup) exitWith {
@@ -29,13 +30,13 @@ if !(_jobparams call _setup) exitWith {
         };
         [
             {
-                (_this select 0) params ["_done", "_id", "_job", "_repeat", "", "", "", "_fail", "_success", "_end", "_jobparams", "_expires", "_lastdate"];
+               (_this select 0) params ["_done", "_id", "_job", "_repeat", "", "", "", "_fail", "_success", "_end", "_jobparams", "_expires", "_lastdate"];
                 private _handle = _this select 1;
                 private _remains = spawner getVariable [format ["OT_jobRemain%1", _id], 0];
                 if (!_done) then {
                     private _date = call OT_fnc_datestamp;
                     _remains = _remains - (_date - _lastdate);
-                    (_this select 0) set [12, _date]; //updates _lastdate
+                   (_this select 0) set [12, _date]; //updates _lastdate
                     if (_expires < 1) then { _remains = 1 };
                     private _wassuccess = false;
                     if (call {

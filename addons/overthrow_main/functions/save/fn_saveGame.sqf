@@ -55,7 +55,7 @@ private _server = (allVariables server select {
     } else {
 
         _x = toLower _x;
-        !(_x in ["startuptype", "recruits", "squads", "marta_reveal", "ot_commanderrecords", "ot_recruitpresetrecords", "ot_recruitpresetview", "ot_policepreset", "ot_policepresetview"])
+        !(_x in ["startuptype", "ot_startupowner", "ot_startupinprogress", "ot_startupautoload", "recruits", "squads", "marta_reveal", "ot_commanderrecords", "ot_recruitpresetrecords", "ot_recruitpresetview", "ot_policepreset", "ot_policepresetview"])
             && { !("diwako_dui" in _x) } // Diwako DUI
             && { !("bettinv_" in _x) } // Better Inventory..?
             && { !("emr_main" in _x) } // Enhanced Movement rework
@@ -124,7 +124,7 @@ _data pushBack ["players", _players];
 
 private _cfgVeh = configFile >> "CfgVehicles";
 private _tocheck = ((allMissionObjects "Static") + vehicles) select {
-    (alive _x)
+   (alive _x)
         && { (typeOf _x != OT_flag_IND) }
         && { !(typeOf _x isKindOf ["CAManBase", _cfgVeh]) }
         && { (_x call OT_fnc_hasOwner) || (_x getVariable ["OT_forceSaveUnowned", false]) }
@@ -255,7 +255,7 @@ if !(_quiet) then {
 };
 
 private _getGroupSoldiers = {
-    (units _this select {
+   (units _this select {
         private _veh = vehicle _x;
         alive _x && { _veh isEqualTo _x || { (someAmmo _veh && toLower typeOf _veh in ["i_hmg_01_high_f", "i_gmg_01_high_f"]) } };
     }) apply {

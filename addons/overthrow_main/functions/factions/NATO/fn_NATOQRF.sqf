@@ -85,7 +85,7 @@ sleep 2;
 
 if (_strength > 500 && _air isNotEqualTo []) then {
     //Send CAS
-    (_air select 0) params ["_obpos", "_name"];
+   (_air select 0) params ["_obpos", "_name"];
     [_obpos, _pos, 10] spawn OT_fnc_NATOAirSupport;
     _strength = _strength - 300;
     diag_log format ["Overthrow: NATO Sent CAS from %1 %2", _name, str _obpos];
@@ -109,7 +109,7 @@ if (_popControl > 2000 && _strength > 1500) then {
 
 //Send ground support
 if ((_ground isNotEqualTo []) && (_strength > 250)) then {
-    (_ground select 0) params ["_obpos", "_name"];
+   (_ground select 0) params ["_obpos", "_name"];
     private _send = 100;
     if (_strength > 1000) then {
         _send = 300;
@@ -125,7 +125,7 @@ sleep 2;
 
 //Send tanks
 if ((_ground isNotEqualTo []) && (_strength > 1500) && (_popControl > 500)) then {
-    (_ground select 0) params ["_obpos", "_name"];
+   (_ground select 0) params ["_obpos", "_name"];
     [_obpos, _pos, 100, 0] spawn OT_fnc_NATOTankSupport;
     _strength = _strength - 500;
     diag_log format ["Overthrow: NATO Sent tank from %1 %2", _name, str _obpos];

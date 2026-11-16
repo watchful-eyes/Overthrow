@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _unit = _this;
 
 _unit setCaptive true;
@@ -40,7 +41,7 @@ _unit addEventHandler [
         if (captive _me) then {
             //See if anyone heard the shots
             private _range = 800;
-            (_me weaponAccessories (currentMuzzle _me)) params [["_silencer", ""]];
+           (_me weaponAccessories (currentMuzzle _me)) params [["_silencer", ""]];
             if (_silencer isNotEqualTo "") then {
                 //Shot was suppressed
                 _range = 50;
@@ -72,7 +73,7 @@ if ((isPlayer _unit) && isNil "OT_ACEunconsciousChangedEHId") then {
                         name player,
                         mapGridPosition player
                     ]
-                ] remoteExec ["systemChat", [0, -2] select isDedicated];
+                ] remoteExec ["OT_fnc_localizedSystemChat", [0, -2] select isDedicated];
             };
 
             //Look for a medic
@@ -85,7 +86,7 @@ if ((isPlayer _unit) && isNil "OT_ACEunconsciousChangedEHId") then {
                     && { _unit isNotEqualTo _x }
                     && { _havepi || { ("ACE_epinephrine" in (items _x)) } }
                 ) exitWith {
-                    systemChat format ["%1: On my way to help you", name _x];
+                    systemChat (format ["%1: On my way to help you", name _x] call OT_fnc_localizeText);
                     _unit setVariable ["OT_informedMedics", (_unit getVariable ["OT_informedMedics", 0]) + 1];
                     [_x, _unit] call OT_fnc_orderRevivePlayer;
                 };

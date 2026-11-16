@@ -14,7 +14,7 @@ private _error = "";
     if !(_name isEqualType "" && { count _name > 0 } && { count _name <= 40 }) exitWith { _error = "Company names must contain 1-40 characters." };
     if !(_size isEqualType 0 && { finite _size } && { _size isEqualTo floor _size } && { _size >= 1 } && { _size <= 64 }) exitWith { _error = "Company strength must be an integer from 1 to 64." };
     if !(_speed in ["LIMITED", "NORMAL", "FULL"] && { _mode in ["AUTO", "PATROL", "HOLD"] }) exitWith { _error = "Invalid patrol behavior." };
-    if !(_route isEqualType [] && { count _route <= 32 }) exitWith { _error = "Bir rotada en fazla 32 nokta olabilir." };
+    if !(_route isEqualType [] && { count _route <= 32 }) exitWith { _error = "A route can contain at most 32 points." };
     if (_mode isEqualTo "PATROL" && { count _route < 2 }) exitWith { _error = "Add at least two points for a custom patrol route." };
     private _points = [];
     {

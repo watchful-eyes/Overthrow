@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 createDialog 'OT_dialog_reverse';
 
 private _playerstock = player call OT_fnc_unitStock;
@@ -8,9 +9,9 @@ private _blueprints = server getVariable ["GEURblueprints", []];
 {
     _x params ["_cls"];
     if !((_cls in _blueprints) || (_cls in OT_allExplosives)) then {
-        (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+       (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
-        private _idx = lbAdd [1500, _name];
+        private _idx = lbAdd [1500, (_name call OT_fnc_localizeText)];
         lbSetPicture [1500, _idx, _pic];
         lbSetData [1500, _idx, _cls];
         _numitems = _numitems + 1;
@@ -20,9 +21,9 @@ private _blueprints = server getVariable ["GEURblueprints", []];
 {
     if (!(_x isKindOf "Animal") && !(_x isKindOf "CaManBase") && alive _x && (damage _x) isEqualTo 0) then {
         private _cls = typeOf _x;
-        (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+       (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
-        private _idx = lbAdd [1500, _name];
+        private _idx = lbAdd [1500, (_name call OT_fnc_localizeText)];
         lbSetPicture [1500, _idx, _pic];
         lbSetData [1500, _idx, _cls];
         _numitems = _numitems + 1;

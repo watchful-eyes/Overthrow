@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _idx = lbCurSel 1500;
 private _cls = lbData [1500, _idx];
 private _price = lbValue [1500, _idx];
@@ -6,7 +7,7 @@ private _money = player getVariable ["money", 0];
 if (_money < _price) exitWith { "You cannot afford that!" call OT_fnc_notifyMinor };
 
 private _veh = cursorTarget;
-if (_veh getVariable ["OT_attachedClass", ""] != "") exitWith { hint "This vehicle already has a weapon attached" };
+if (_veh getVariable ["OT_attachedClass", ""] != "") exitWith { hint ("This vehicle already has a weapon attached" call OT_fnc_localizeText) };
 
 closeDialog 0;
 if (!alive _veh) exitWith {};

@@ -1,6 +1,7 @@
 // Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
 // Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_start {
+    onLoad = "[_this # 0, 'OT_dialog_start'] call OT_fnc_localizeDisplay";
     idd = 8098; movingEnable = 0; enableSimulation = 1;
     class controlsBackground {
         class Backdrop: RscOTPanel {
@@ -41,6 +42,17 @@ class OT_dialog_start {
             x = "safeZoneX + 0.53 * safeZoneW"; y = "safeZoneY + 0.24 * safeZoneH";
             w = "0.34 * safeZoneW"; h = "0.06 * safeZoneH";
         };
+        class LanguageEnglish: RscOverthrowButton {
+            idc = 1951; text = "English";
+            x = "safeZoneX + 0.53 * safeZoneW"; y = "safeZoneY + 0.18 * safeZoneH";
+            w = "0.16 * safeZoneW"; h = "0.04 * safeZoneH";
+            action = "'en' call OT_fnc_setLanguage";
+        };
+        class LanguageTurkish: LanguageEnglish {
+            idc = 1952; text = "Türkçe";
+            x = "safeZoneX + 0.71 * safeZoneW";
+            action = "'tr' call OT_fnc_setLanguage";
+        };
         class Hint: RscOverthrowText {
             style = 16;
             idc = -1; text = "Choose your town. Build the resistance. Take back control.";
@@ -69,6 +81,7 @@ class OT_dialog_start {
 };
 
 class OT_dialog_newgame {
+    onLoad = "[_this # 0, 'OT_dialog_newgame'] call OT_fnc_localizeDisplay";
     idd = 8099; movingEnable = 0; enableSimulation = 1;
     class controlsBackground {
         class Backdrop: RscOTPanel {
@@ -178,12 +191,19 @@ class OT_dialog_newgame {
             x = "safeZoneX + 0.065 * safeZoneW"; y = "safeZoneY + 0.665 * safeZoneH";
             w = "0.256 * safeZoneW"; h = "0.045 * safeZoneH";
             onLBSelChanged = "[] call OT_fnc_newGameDialog";
+            tooltip = "Shared starting location for the new campaign";
         };
-        class SharedStart: RscOverthrowText {
-            style = 16; sizeEx = "0.025 * safeZoneH";
-            idc = -1; text = "Shared starting location for the new campaign";
-            x = "safeZoneX + 0.065 * safeZoneW"; y = "safeZoneY + 0.73 * safeZoneH";
-            w = "0.256 * safeZoneW"; h = "0.06 * safeZoneH";
+        class ForceLabel: RscOverthrowText {
+            sizeEx = "0.025 * safeZoneH";
+            idc = -1; text = "OCCUPYING FORCE";
+            x = "safeZoneX + 0.065 * safeZoneW"; y = "safeZoneY + 0.735 * safeZoneH";
+            w = "0.256 * safeZoneW"; h = "0.03 * safeZoneH";
+        };
+        class Force: RscOverthrowCombo {
+            idc = 2101;
+            x = "safeZoneX + 0.065 * safeZoneW"; y = "safeZoneY + 0.77 * safeZoneH";
+            w = "0.256 * safeZoneW"; h = "0.045 * safeZoneH";
+            tooltip = "Sets the occupying army for the new campaign. Only installed, supported forces are shown.";
         };
         class Preview: RscMapControl {
             idc = 51; text = "";
@@ -213,6 +233,7 @@ class OT_dialog_newgame {
 
 
 class OT_dialog_load {
+    onLoad = "[_this # 0, 'OT_dialog_load'] call OT_fnc_localizeDisplay";
     idd = 15150; movingEnable = 0; enableSimulation = 1;
     class controlsBackground {
         class Background: RscOTPanel { x = "safeZoneX + 0.22 * safeZoneW"; y = "safeZoneY + 0.12 * safeZoneH"; w = "0.56 * safeZoneW"; h = "0.76 * safeZoneH"; };
@@ -222,7 +243,7 @@ class OT_dialog_load {
         class LoadNormal: RscOTPrimaryButton { idc = 1600; text = "LOAD THIS PROFILE SAVE"; x = "safeZoneX + 0.25 * safeZoneW"; y = "safeZoneY + 0.25 * safeZoneH"; w = "0.5 * safeZoneW"; h = "0.065 * safeZoneH"; action = "closeDialog 0; [] remoteExec ['OT_fnc_loadGame', 2, false]"; };
         class ImportLabel: RscOverthrowText { idc = -1; text = "OR PASTE EXPORTED SAVE DATA"; sizeEx = "0.023 * safeZoneH"; x = "safeZoneX + 0.25 * safeZoneW"; y = "safeZoneY + 0.36 * safeZoneH"; w = "0.5 * safeZoneW"; h = "0.035 * safeZoneH"; };
         class EditBox: RscOverthrowEdit { idc = 1400; style = 16; autocomplete = ""; x = "safeZoneX + 0.25 * safeZoneW"; y = "safeZoneY + 0.41 * safeZoneH"; w = "0.5 * safeZoneW"; h = "0.29 * safeZoneH"; };
-        class LoadString: RscOverthrowButton { idc = 1601; text = "IMPORT SAVE"; x = "safeZoneX + 0.25 * safeZoneW"; y = "safeZoneY + 0.74 * safeZoneH"; w = "0.5 * safeZoneW"; h = "0.045 * safeZoneH"; action = "private _data = parseSimpleArray ctrlText ((findDisplay 15150) displayCtrl 1400); closeDialog 0; [_data] remoteExec ['OT_fnc_loadGame', 2, false]"; };
+        class LoadString: RscOverthrowButton { idc = 1601; text = "IMPORT SAVE"; x = "safeZoneX + 0.25 * safeZoneW"; y = "safeZoneY + 0.74 * safeZoneH"; w = "0.5 * safeZoneW"; h = "0.045 * safeZoneH"; action = "private _result = [ctrlText ((findDisplay 15150) displayCtrl 1400)] call OT_fnc_parseSaveData; if (_result # 0) then { closeDialog 0; [_result # 2] remoteExec ['OT_fnc_loadGame', 2, false] } else { (_result # 1) call OT_fnc_notifyMinor }"; };
         class Back: RscOverthrowButton { idc = 1602; text = "BACK"; x = "safeZoneX + 0.25 * safeZoneW"; y = "safeZoneY + 0.81 * safeZoneH"; w = "0.5 * safeZoneW"; h = "0.035 * safeZoneH"; action = "closeDialog 0; createDialog 'OT_dialog_start'"; };
     };
 };

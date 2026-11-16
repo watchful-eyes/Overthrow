@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 ot_weather_getWeather = {
     private _wavetarget = 0;
     private _fogtarget = 0;
@@ -65,7 +66,7 @@ if ((server getVariable "StartupType") == "NEW" || (server getVariable ["weather
     skipTime 24;
 
     simulWeatherSync;
-    (_weather select 3) spawn {
+   (_weather select 3) spawn {
         sleep 2;
         10 setRain _this;
     };
@@ -88,7 +89,7 @@ if ((server getVariable "StartupType") == "NEW" || (server getVariable ["weather
     86400 setWindDir (85 + random 10); //https://en.wikipedia.org/wiki/Trade_winds
     skipTime 24;
 
-    (_weather select 3) spawn {
+   (_weather select 3) spawn {
         sleep 2;
         10 setRain _this;
     };

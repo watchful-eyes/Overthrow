@@ -16,6 +16,7 @@ include = [
     "README.md",
     "README_RELEASE_EN.md",
     "RELEASE_NOTES_EN.md",
+    "TESTING_EN.md",
     "CREDITS.md",
     "MODIFICATIONS.md",
     "logo_overthrow.paa"
@@ -23,8 +24,8 @@ include = [
 folder_optionals = false
 
 [signing]
-authority = "otce-garrison-command"
+authority = "otce-garrison-command-test"
 version = 3
 
 [hemtt.release]
-folder = "@OverthrowCE_GarrisonCommand"
+folder = "@OverthrowCE_GarrisonCommand_Test"
