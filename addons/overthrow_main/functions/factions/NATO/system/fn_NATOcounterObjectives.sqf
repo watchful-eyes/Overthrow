@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 /*
     Author: ThomasAngel, ARMAZac
 
@@ -12,16 +14,22 @@
     Returns: Boolean - was an objective counter-attacked
 */
 
+if (!isServer) exitWith { false };
 if (isNil "OT_townsSortedByPopulation") then {
     OT_townsSortedByPopulation = [OT_allTowns, [], { server getVariable format ["population%1", _x] }, "DESCEND"] call BIS_fnc_sortBy;
 };
 
 private _countered = false;
 private _popControl = call OT_fnc_getControlledPopulation;
-private _lastAttack = time - (server getVariable ["NATOlastattack", 0]);
+private _lastAttack = server getVariable ["NATOlastattack", 0];
 private _abandoned = server getVariable ["NATOabandoned", []];
 private _resources = server getVariable ["NATOresources", 2000];
 private _lastCounter = server getVariable ["NATOlastcounter", ""];
+private _diff = server getVariable ["OT_difficulty", 1];
+private _knownTargets = spawner getVariable ["NATOknownTargets", []];
+private _attackReady = (time - _lastAttack) >= 1200 && { (server getVariable ["NATOattacking", ""]) isEqualTo "" };
+private _objectives = OT_objectiveData + OT_NATOComms;
+private _candidates = (_objectives select { (_x # 1) isNotEqualTo _lastCounter }) + (_objectives select { (_x # 1) isEqualTo _lastCounter });
 
 {
     _x params [
@@ -34,21 +42,15 @@ private _lastCounter = server getVariable ["NATOlastcounter", ""];
     if (_pri > 800) then { _chance = _chance - 1 };
     if (_popControl > 1000) then { _chance = _chance - 1 };
     if (_popControl > 2000) then { _chance = _chance - 1 };
-    if ((time - _lastAttack) > 1200 && { (_name != _lastCounter) } && { (_name in _abandoned) } && { (_resources > _pri) } && { (random 100) > _chance }) exitWith {
+    if (_attackReady && { _name in _abandoned } && { _resources > _pri } && { (random 100) > _chance }) exitWith {
         //Counter an objective
         private _multiplier = _diff + 1;
         if (_popControl > 1000) then { _multiplier = 2 };
         if (_popControl > 2000) then { _multiplier = 4 };
         if (_pri > 800) then { _multiplier = _multiplier + 2 };
         if (_pri > _resources) then { _pri = _resources };
-        _resources = _resources - _pri;
-        [_name, _pri * _multiplier] spawn OT_fnc_NATOCounterObjective;
-        diag_log format ["Overthrow: Counter-attacking %1", _name];
-        server setVariable ["NATOlastcounter", _name, true];
-        server setVariable ["NATOattacking", _name, true];
-        server setVariable ["NATOattackstart", time, true];
-        server setVariable ["NATOlastattack", time, true];
-        _countered = true;
+        _countered = [_name, _pri * _multiplier, _pri, "OBJECTIVE"] call OT_fnc_NATOstartCounterattack;
+        _resources = server getVariable ["NATOresources", _resources];
     };
 
     if !(_name in _abandoned) then {
@@ -124,7 +126,7 @@ private _lastCounter = server getVariable ["NATOlastcounter", ""];
                 _wp setWaypointType "CYCLE";
 
                 {
-                    _x addCuratorEditableObjects [[_drone]];
+                    _x addCuratorEditableObjects [[_drone], true];
                 } forEach (allCurators);
 
                 [_drone, _name] spawn OT_fnc_NATODrone;
@@ -132,7 +134,7 @@ private _lastCounter = server getVariable ["NATOlastcounter", ""];
         };
     };
     if (_resources <= 0) exitWith { _resources = 0 };
-} forEach (OT_objectiveData + OT_NATOComms);
+} forEach _candidates;
 
 server setVariable ["NATOresources", _resources];
 

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _veh = vehicle player;
 
 if (_veh isEqualTo player) exitWith {};
@@ -33,7 +34,7 @@ private _doTransfer = {
     private _full = false;
     if (_iswarehouse) then {
         private _warehouse = [player] call OT_fnc_nearestWarehouse;
-        if (_warehouse == objNull) exitWith { hint "No warehouse near by!" };
+        if (_warehouse == objNull) exitWith { hint ("No warehouse near by!" call OT_fnc_localizeText) };
         {
             private _count = 0;
             private _d = _warehouse getVariable [_x, false];
@@ -78,12 +79,12 @@ private _doTransfer = {
             if (_full) exitWith {};
         } forEach (_target call OT_fnc_unitStock);
     };
-    if (_full) then { hint "This vehicle is full, use a truck for more storage" };
+    if (_full) then { hint ("This vehicle is full, use a truck for more storage" call OT_fnc_localizeText) };
     "Inventory Transfer done" call OT_fnc_notifyMinor;
 };
 
 if (count _objects isEqualTo 1) then {
-    (_objects select 0) call _doTransfer;
+   (_objects select 0) call _doTransfer;
 } else {
     private _options = [];
     {

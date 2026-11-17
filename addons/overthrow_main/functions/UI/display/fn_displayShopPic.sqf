@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 disableSerialization;
 params ["_ctrl", "_index"];
 
@@ -46,7 +47,7 @@ if (_price > -1) then {
     };
 
     // General case
-    ([_cls, true] call OT_fnc_getClassDisplayInfo) params ["_rPic", "_rTxt", "_rDesc"];
+   ([_cls, true] call OT_fnc_getClassDisplayInfo) params ["_rPic", "_rTxt", "_rDesc"];
     _pic = _rPic;
     _txt = _rTxt;
     _desc = _rDesc;
@@ -66,7 +67,7 @@ if (_price > -1) then {
     _price = "";
 };
 
-ctrlSetText [1200, _pic];
+ctrlSetText [1200, (_pic call OT_fnc_localizeText)];
 
 private _textctrl = (findDisplay 8000) displayCtrl 1100;
 
@@ -76,7 +77,7 @@ if (_price isEqualType 0) then {
     _price = "";
 };
 
-_textctrl ctrlSetStructuredText parseText format [
+_textctrl ctrlSetStructuredText parseText (format [
     "
 	<t align='center' size='1.5'>%1</t><br/>
 	<t align='center' size='1.2'>%3</t><br/><br/>
@@ -85,4 +86,4 @@ _textctrl ctrlSetStructuredText parseText format [
     _txt,
     _desc,
     _price
-];
+] call OT_fnc_localizeText);

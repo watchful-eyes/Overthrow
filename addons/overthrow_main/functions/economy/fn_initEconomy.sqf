@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 if (!isServer) exitWith {};
 
 //automatically determinine the population of each town/city on the map
@@ -77,7 +79,7 @@ OT_allShops = [];
     } forEach (OT_regions);
     //sleep 0.1;
 } forEach (OT_allTowns);
-private _spawn = selectRandom OT_spawnTowns;
+private _spawn = [server getVariable ["OT_requestedStartTown", ""]] call OT_fnc_resolveStartTown;
 diag_log format ["Overthrow: Spawn town is %1", _spawn];
 server setVariable ["spawntown", _spawn, true];
 {

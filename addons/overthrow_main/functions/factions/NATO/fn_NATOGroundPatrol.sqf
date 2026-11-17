@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 //Send a patrol vehicle to a town
 params ["_frombase", "_topos", ["_delay", 0]];
 
@@ -18,7 +20,7 @@ if !(_frombase in _abandoned) then {
     _veh setVariable ["garrison", "HQ", false];
 
     {
-        _x addCuratorEditableObjects [[_veh]];
+        _x addCuratorEditableObjects [[_veh], true];
     } forEach (allCurators);
 
     clearWeaponCargoGlobal _veh;
@@ -62,7 +64,7 @@ if !(_frombase in _abandoned) then {
 
     waitUntil {
         sleep 10;
-        (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
+       (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
     };
 
     if (alive _veh) then {
@@ -71,7 +73,7 @@ if !(_frombase in _abandoned) then {
         };
         waitUntil {
             sleep 10;
-            (speed _veh) isEqualTo 0;
+           (speed _veh) isEqualTo 0;
         };
     };
     _veh call OT_fnc_cleanup;

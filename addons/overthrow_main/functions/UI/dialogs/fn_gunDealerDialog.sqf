@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _town = player call OT_fnc_nearestTown;
 
 private _stock = server getVariable format ["gunstock%1", _town];
@@ -32,9 +34,9 @@ if (isNil "_stock") then {
             _stock pushBack [_type, 0];
 
             private _base = [_type] call BIS_fnc_baseWeapon;
-            private _magazines = getArray (configFile >> "CfgWeapons" >> _base >> "magazines");
+            private _magazines = ([_base] call OT_fnc_weaponMagazines);
 
-            _stock pushBack [selectRandom _magazines, 0];
+            if (_magazines isNotEqualTo []) then { _stock pushBack [selectRandom _magazines, 0] };
         };
     };
 
@@ -54,7 +56,7 @@ createDialog "OT_dialog_buy";
 {
     _x params ["_cls", "_price"];
     if !(isNil "_cls") then {
-        (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_txt"];
+       (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_txt"];
 
         // special case
         if (_cls == "Set_HMG") then {
@@ -67,7 +69,7 @@ createDialog "OT_dialog_buy";
         } else {
             _price = [OT_nation, _cls] call OT_fnc_getPrice;
         };
-        private _idx = lbAdd [1500, format ["%1", _txt]];
+        private _idx = lbAdd [1500, (format ["%1", _txt] call OT_fnc_localizeText)];
         lbSetData [1500, _idx, _cls];
         lbSetValue [1500, _idx, _price];
         lbSetPicture [1500, _idx, _pic];

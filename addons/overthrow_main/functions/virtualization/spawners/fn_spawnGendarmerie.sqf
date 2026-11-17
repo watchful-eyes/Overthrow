@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 if (!isServer) exitWith {};
 
 params ["_town", "_spawnid"];
@@ -33,7 +35,8 @@ while { _count < _numNATO } do {
 
         private _toSpawn = OT_NATO_Unit_PoliceCommander;
         if (_stability < 25) then { _toSpawn = OT_NATO_Unit_PoliceCommander_Heavy };
-        private _civ = _group createUnit [_toSpawn, _home, [], 0, "NONE"];
+        private _civ = _group createUnit [[_toSpawn] call OT_fnc_selectNATOGarrisonUnit, _home, [], 0, "NONE"];
+        _civ setVariable ["OT_heavyGendarme", _stability < 25];
 
         _civ setVariable ["garrison", _town, false];
         [_civ] joinSilent _group;
@@ -44,7 +47,8 @@ while { _count < _numNATO } do {
 
         _toSpawn = OT_NATO_Unit_Police;
         if (_stability < 25) then { _toSpawn = OT_NATO_Unit_Police_Heavy };
-        _civ = _group createUnit [_toSpawn, _pos, [], 0, "NONE"];
+        _civ = _group createUnit [[_toSpawn] call OT_fnc_selectNATOGarrisonUnit, _pos, [], 0, "NONE"];
+        _civ setVariable ["OT_heavyGendarme", _stability < 25];
         _civ setVariable ["garrison", _town, false];
         [_civ] joinSilent _group;
         _civ setRank "PRIVATE";
@@ -52,7 +56,8 @@ while { _count < _numNATO } do {
         _civ setBehaviour "SAFE";
         if (_stability < 25) then {
             _toSpawn = OT_NATO_Unit_PoliceMedic_Heavy;
-            _civ = _group createUnit [_toSpawn, _pos, [], 0, "NONE"];
+            _civ = _group createUnit [[_toSpawn] call OT_fnc_selectNATOGarrisonUnit, _pos, [], 0, "NONE"];
+            _civ setVariable ["OT_heavyGendarme", true];
             _civ setVariable ["garrison", _town, false];
             [_civ] joinSilent _group;
             _civ setRank "PRIVATE";

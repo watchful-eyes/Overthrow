@@ -1,4 +1,12 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params [["_user", objNull], ["_quiet", false], ["_autoSave", false]];
+if !([false] call OT_fnc_isServerController) exitWith {};
+if (isRemoteExecuted && { remoteExecutedOwner != 2 }) then {
+    private _sender = remoteExecutedOwner;
+    _user = (allPlayers select { owner _x isEqualTo _sender }) param [0, objNull];
+    _autoSave = false;
+};
 
 if (OT_saving) exitWith {
     if !(_quiet) then {
@@ -38,6 +46,7 @@ if !(_quiet) then {
 private _data = [];
 
 // get all server data
+[] call OT_fnc_snapshotCommanders;
 private _server = (allVariables server select {
 
     private _val = server getVariable _x;
@@ -46,7 +55,7 @@ private _server = (allVariables server select {
     } else {
 
         _x = toLower _x;
-        !(_x in ["startuptype", "recruits", "squads", "marta_reveal"])
+        !(_x in ["startuptype", "ot_startupowner", "ot_startupinprogress", "ot_startupautoload", "recruits", "squads", "marta_reveal", "ot_commanderrecords", "ot_recruitpresetrecords", "ot_recruitpresetview", "ot_policepreset", "ot_policepresetview"])
             && { !("diwako_dui" in _x) } // Diwako DUI
             && { !("bettinv_" in _x) } // Better Inventory..?
             && { !("emr_main" in _x) } // Enhanced Movement rework
@@ -61,9 +70,12 @@ private _server = (allVariables server select {
     // copy array, we might modify them
     if (_val isEqualType []) then { _val = +_val };
 
+    // Save authority, not a potentially stale published view.
+    if (_x isEqualTo "ot_commanders") then { _val = +([] call OT_fnc_commanderRecords) };
+
     // dont abondon current attacks
     if (_x isEqualTo "natoabandoned") then {
-        _val deleteAt (_val find (server getVariable ["NATOattacking", ""]));
+        _val = _val - [server getVariable ["NATOattacking", ""]];
     };
 
     [_x, _val];
@@ -112,7 +124,7 @@ _data pushBack ["players", _players];
 
 private _cfgVeh = configFile >> "CfgVehicles";
 private _tocheck = ((allMissionObjects "Static") + vehicles) select {
-    (alive _x)
+   (alive _x)
         && { (typeOf _x != OT_flag_IND) }
         && { !(typeOf _x isKindOf ["CAManBase", _cfgVeh]) }
         && { (_x call OT_fnc_hasOwner) || (_x getVariable ["OT_forceSaveUnowned", false]) }
@@ -235,21 +247,7 @@ if !(_quiet) then {
     "Step 8/11 - Saving squads" remoteExecCall ["OT_fnc_notifyAndLog", 0, false];
 };
 
-private _squads = ((server getVariable ["squads", []]) select {
-    _x params ["_owner", "_cls", "_group"];
-    _group isEqualType grpNull
-        && { units _group isNotEqualTo [] }
-        && { (units _group) findIf { alive _x } != -1 };
-}) apply {
-    _x params ["_owner", "_cls", "_group"];
-    private _units = [];
-    {
-        if (alive _x) then {
-            _units pushBack [typeOf _x, getPos _x, getUnitLoadout _x];
-        };
-    } forEach (units _group);
-    [_owner, _cls, "Not a group, pls recreate", _units, groupId _group];
-};
+private _squads = (server getVariable ["squads", []]) call OT_fnc_serializeSquads;
 _data pushBack ["squads", _squads];
 
 if !(_quiet) then {
@@ -257,7 +255,7 @@ if !(_quiet) then {
 };
 
 private _getGroupSoldiers = {
-    (units _this select {
+   (units _this select {
         private _veh = vehicle _x;
         alive _x && { _veh isEqualTo _x || { (someAmmo _veh && toLower typeOf _veh in ["i_hmg_01_high_f", "i_gmg_01_high_f"]) } };
     }) apply {
@@ -299,8 +297,8 @@ if !(_quiet) then {
 _data pushBack ["server", _server];
 _data pushBack ["timedate", date];
 _data pushBack ["autosave", [OT_autoSave_time, OT_autoSave_last_time]];
-_data pushBack ["recruitables", OT_Recruitables];
-_data pushBack ["policeLoadout", OT_Loadout_Police];
+_data pushBack ["recruitables", [] call OT_fnc_recruitPresets];
+_data pushBack ["policeLoadout", server getVariable ["OT_policePreset", OT_Loadout_Police]];
 
 if !(_quiet) then {
     "Step 11/11 - Exporting" remoteExecCall ["OT_fnc_notifyAndLog", 0, false];

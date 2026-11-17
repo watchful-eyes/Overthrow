@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_playerstock", "_town", "_standing"];
 
 private _cursel = lbCurSel 1500;
@@ -10,9 +11,9 @@ private _numitems = 0;
 
     private _cansell = !(_cls isKindOf "Bag_Base" || { _cls in OT_allClothing });
     if (_cansell) then {
-        (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+       (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
-        private _idx = lbAdd [1500, format ["%1 x %2 ($%3)", _num, _name, _price]];
+        private _idx = lbAdd [1500, (format ["%1 x %2 ($%3)", _num, _name, _price] call OT_fnc_localizeText)];
         lbSetPicture [1500, _idx, _pic];
         lbSetValue [1500, _idx, _price];
         lbSetData [1500, _idx, _cls];

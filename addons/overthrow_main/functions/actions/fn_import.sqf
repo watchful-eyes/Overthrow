@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if (OT_taking) exitWith {};
 
 OT_taking = true;
@@ -13,7 +14,7 @@ if ((player getVariable ["money", 0]) < _total) exitWith {
     OT_taking = false;
 };
 if ((!(_veh isKindOf "Truck_F")) && (!(_veh canAdd [_cls, _num]))) exitWith {
-    hint "This vehicle cannot fit that, use a truck for more storage";
+    hint ("This vehicle cannot fit that, use a truck for more storage" call OT_fnc_localizeText);
     OT_taking = false;
 };
 

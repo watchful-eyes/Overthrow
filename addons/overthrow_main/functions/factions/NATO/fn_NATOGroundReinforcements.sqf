@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_frompos", "_ao", "_attackpos", "_byair", ["_delay", 0]];
 if (_delay > 0) then { sleep _delay };
 private _vehtype = OT_NATO_Vehicle_Transport_Light;
@@ -9,7 +10,7 @@ _group1 deleteGroupWhenEmpty true;
 
 // Spawn 4 soldiers to be seated in a transport vehicle
 for "_i" from 1 to 4 do {
-    (selectRandom OT_NATO_Units_LevelOne) createUnit [_frompos, _group1, "", 0.3, "private"];
+   (selectRandom OT_NATO_Units_LevelOne) createUnit [_frompos, _group1, "", 0.3, "private"];
 };
 
 sleep 0.5;
@@ -189,7 +190,7 @@ if (_tgroup isEqualType grpNull) then {
                 _done = true;
                 waitUntil {
                     sleep 2;
-                    (crew _veh) isEqualTo [];
+                   (crew _veh) isEqualTo [];
                 };
                 [_veh] call OT_fnc_cleanup;
             };

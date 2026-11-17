@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_unit"];
 
 //actually a loop
@@ -142,7 +143,7 @@ if !(captive _unit) then {
                 [objectParent _unit] call OT_fnc_revealToNATO;
 
                 //Record any threats as known targets
-                (objectParent _unit) call OT_fnc_NATOreportThreat;
+               (objectParent _unit) call OT_fnc_NATOreportThreat;
             };
             if (_unit call OT_fnc_hasWeaponEquipped) exitWith {
                 _unit setCaptive false;

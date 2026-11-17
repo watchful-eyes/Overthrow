@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _g = _this;
 
 private _start = getPosATL ((units _g) select 0);
@@ -41,5 +42,5 @@ _wp setWaypointType "CYCLE";
 
 // High command fix
 if (hcLeader _g isNotEqualTo objNull) then {
-    (hcLeader _g) hcRemoveGroup _g;
+   (hcLeader _g) hcRemoveGroup _g;
 };

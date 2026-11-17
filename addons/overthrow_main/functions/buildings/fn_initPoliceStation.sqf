@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _pos = _this select 0;
 private _town = _pos call OT_fnc_nearestTown;
 
@@ -16,7 +18,8 @@ if (_garrison == -1) then {
         [_x, format ["New Police Station: %1", _town], format ["%1 built a new police station %2", _builder, _town]] call BIS_fnc_createLogRecord;
     } forEach ([] call CBA_fnc_players);
 
-    server setVariable [format ['police%1', _town], 2, true];
+    [_town, "", 0, true] call OT_fnc_changeGarrisonRoster;
+    [_town, "Police", 2] call OT_fnc_changeGarrisonRoster;
 
     private _count = 0;
     private _range = 15;
@@ -38,6 +41,7 @@ if (_garrison == -1) then {
     };
     _group call OT_fnc_initPolicePatrol;
     spawner setVariable [_spawnid, _groups, false];
+    [_town] call OT_fnc_assignTownGarrison;
 };
 
 private _mrkid = format ["%1-police", _town];

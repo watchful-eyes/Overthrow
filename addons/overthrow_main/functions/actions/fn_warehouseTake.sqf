@@ -1,7 +1,8 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if (OT_taking) exitWith {};
 
 private _warehouse = [player] call OT_fnc_nearestWarehouse;
-if (_warehouse == objNull) exitWith { hint "No warehouse near by!" };
+if (_warehouse == objNull) exitWith { hint ("No warehouse near by!" call OT_fnc_localizeText) };
 
 OT_taking = true;
 private _idx = lbCurSel 1500;
@@ -31,7 +32,7 @@ if (_veh isEqualTo player) exitWith {
 
 while { _count < _num } do {
     if ((!(_veh isKindOf "Truck_F")) && (!(_veh isKindOf OT_item_Storage)) && (!(_veh canAdd _cls))) exitWith {
-        hint "This vehicle is full, use a truck for more storage";
+        hint ("This vehicle is full, use a truck for more storage" call OT_fnc_localizeText);
         closeDialog 0;
         _num = _count;
     };

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 /*
 	Author: Kyle Kotowick
 
@@ -27,7 +28,7 @@ for "_mi" from 0 to (_m - 1) do {
         for "_ni" from 0 to (_n1 - 1) do {
             _sum = _sum + (((_A select _mi) select _ni) * ((_B select _ni) select _pi));
         };
-        (_result select _mi) set [_pi, _sum];
+       (_result select _mi) set [_pi, _sum];
     };
 };
 

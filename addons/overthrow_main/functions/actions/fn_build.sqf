@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if !(captive player) exitWith { "You cannot build while wanted" call OT_fnc_notifyMinor };
 private _base = player call OT_fnc_nearestBase;
 private _closest = "";
@@ -131,7 +132,7 @@ buildOnMouseMove = {
         private _dist = (vectorMagnitude _mouseVec) * (buildCam distance buildFocus) / 200;
         private _dir = [0, 0, 0] getDir _mouseVec;
         _dir = _dir + getDir buildCam;
-        ([sin _dir, cos _dir, 0] vectorMultiply _dist) params ["_relX", "_relY"];
+       ([sin _dir, cos _dir, 0] vectorMultiply _dist) params ["_relX", "_relY"];
 
         private _camATL = getPosATL buildCam;
         private _camWaterDepth = (getTerrainHeightASL _camATL) min 0;
@@ -144,7 +145,7 @@ buildOnMouseMove = {
         private _dist = (vectorMagnitude _mouseVec) * (buildCam distance buildFocus) / 200;
         private _dir = [0, 0, 0] getDir _mouseVec;
         _dir = _dir + getDir buildCam;
-        ([sin _dir, cos _dir, 0] vectorMultiply _dist) params ["_relX", "_relY"];
+       ([sin _dir, cos _dir, 0] vectorMultiply _dist) params ["_relX", "_relY"];
 
         private _camATL = getPosATL buildCam;
         private _camWaterDepth = (getTerrainHeightASL _camATL) min 0;
@@ -158,7 +159,7 @@ buildMoveCam = {
     params ["_dir", "_dist"];
 
     _dir = _dir + getDir buildCam;
-    ([sin _dir, cos _dir, 0] vectorMultiply _dist) params ["_relX", "_relY"];
+   ([sin _dir, cos _dir, 0] vectorMultiply _dist) params ["_relX", "_relY"];
 
     buildFocus setPosATL ((getPosATL buildFocus) vectorAdd [_relX, _relY, 0]);
     buildCam camSetPos ((getPosATL buildCam) vectorAdd [_relX, _relY, 0]);

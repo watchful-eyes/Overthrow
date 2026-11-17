@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _sorted = [];
 private _unit = (groupSelectedUnits player) select 0;
 
@@ -24,7 +25,7 @@ if (_sorted isEqualTo []) exitWith {
 
 private _target = _sorted select 0;
 
-_unit globalChat format ["Opening %1", (typeOf _target) call OT_fnc_vehicleGetName];
+_unit globalChat (format ["Opening %1", (typeOf _target) call OT_fnc_vehicleGetName] call OT_fnc_localizeText);
 
 if (alive _unit) then {
     _unit action ["Gear", _target];

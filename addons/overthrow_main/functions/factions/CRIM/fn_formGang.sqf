@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_town", ["_spawn", true]];
 
 //get a camp position
@@ -14,7 +16,7 @@ if (_possible isNotEqualTo []) then {
     private _vest = selectRandom OT_allProtectiveVests;
     private _weapon = selectRandom (OT_CRIM_Weapons + OT_allCheapRifles);
     private _loadout = [(format ["gang%1", _gangid]), OT_CRIMBaseLoadout, [[_weapon]]] call OT_fnc_getRandomLoadout;
-    (_loadout # 4) set [0, _vest];
+   (_loadout # 4) set [0, _vest];
 
     //Gang format [members,leader,town,vest,camp pos,loadout,resources,level,name]
 
@@ -77,7 +79,7 @@ if (_possible isNotEqualTo []) then {
         [_group, _townpos] call OT_fnc_initCriminalGroup;
 
         {
-            _x addCuratorEditableObjects [[_civ]];
+            _x addCuratorEditableObjects [[_civ], true];
         } forEach (allCurators);
     };
     OT_civilians setVariable [format ["gangs%1", _town], _gangs, true];

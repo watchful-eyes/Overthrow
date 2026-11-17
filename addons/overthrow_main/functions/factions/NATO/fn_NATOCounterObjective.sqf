@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_objective", "_strength"];
 
 private _posObjective = getMarkerPos _objective;
@@ -6,7 +8,7 @@ private _posObjective = getMarkerPos _objective;
 _posObjective spawn OT_fnc_NATOSupportRecon;
 sleep (200 + (random 300));
 
-private _tskid = [independent, [format ["attack%1", _objective]], [format ["NATO is attempting to recapture %1.", _objective], format ["Defend %1", _objective], format ["attack%1", _objective]], _posObjective, 1, 2, true, "Defend", true] call BIS_fnc_taskCreate;
+private _tskid = [independent, [format ["attack%1", _objective]], [format ["NATO is attempting to recapture %1.", _objective], format ["Defend %1", _objective], format ["attack%1", _objective]], _posObjective, 1, 2, true, "Defend", true] call OT_fnc_createLocalizedTask;
 
 format ["NATO is counter-attacking %1", _objective] remoteExec ["OT_fnc_notifyMinor", 0, false];
 
@@ -19,9 +21,8 @@ private _success = {
     params ["_tskid", "_objective"];
     //NATO has won
     [_tskid, "FAILED", true] spawn BIS_fnc_taskSetState;
-    private _abandoned = server getVariable "NATOabandoned";
-    _abandoned deleteAt (_abandoned find _objective);
-    private _count = { (_x getVariable ["garrison", ""]) isEqualTo _objective } count (allUnits);
+    [_objective] call OT_fnc_NATOrestoreControl;
+    private _count = { alive _x && { side _x isEqualTo blufor } && { (_x getVariable ["garrison", ""]) isEqualTo _objective } } count allUnits;
     server setVariable [format ["garrison%1", _objective], _count, true];
     if (_objective isEqualTo OT_NATO_HQ) then {
         _objective setMarkerType "ot_HQ";

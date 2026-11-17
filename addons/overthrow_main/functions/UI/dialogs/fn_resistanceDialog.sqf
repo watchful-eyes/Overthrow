@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 createDialog 'OT_dialog_resistance';
 
 ctrlEnable [1600, false];
@@ -15,7 +17,7 @@ lbClear 1500;
 {
     private _uid = _x;
     private _name = players_NS getVariable [format ["name%1", _uid], "Player"];
-    private _idx = lbAdd [1500, _name];
+    private _idx = lbAdd [1500, (_name call OT_fnc_localizeText)];
     private _pic = "\A3\Ui_f\data\GUI\Cfg\Ranks\sergeant_gs.paa";
     if (_uid in (server getVariable ["generals", []])) then {
         _pic = "\A3\Ui_f\data\GUI\Cfg\Ranks\general_gs.paa";
@@ -25,7 +27,8 @@ lbClear 1500;
         if (getPlayerUID _x isEqualTo _uid) exitWith { _col = [1, 1, 1, 1] };
     } forEach (allPlayers);
 
-    lbSetColor [1500, _idx, _col] lbSetPicture [1500, _idx, _pic];
+    lbSetColor [1500, _idx, _col];
+    lbSetPicture [1500, _idx, _pic];
     lbSetData [1500, _idx, _uid];
 } forEach (players_NS getVariable ["OT_allplayers", []]);
 
@@ -34,7 +37,7 @@ lbClear 1501;
 
     private _name = _x select 1;
     if (_name in (server getVariable ["GEURowned", []])) then {
-        private _idx = lbAdd [1501, format ["%1", _name]];
+        private _idx = lbAdd [1501, (format ["%1", _name] call OT_fnc_localizeText)];
         lbSetData [1501, _idx, _name];
     };
 } forEach (OT_economicData);
@@ -108,4 +111,4 @@ _text = _text + format ["<t size='0.8'>Balance (You): $%1</t><br/>", [_lease + (
 
 disableSerialization;
 private _textctrl = (findDisplay 8000) displayCtrl 1106;
-_textctrl ctrlSetStructuredText parseText _text;
+_textctrl ctrlSetStructuredText parseText (_text call OT_fnc_localizeText);

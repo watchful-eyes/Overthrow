@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_frompos", "_ao", "_attackpos", "_byair", ["_delay", 0]];
 if (_delay > 0) then { sleep _delay };
 private _vehtype = selectRandom OT_NATO_Vehicle_Transport;
@@ -193,7 +194,7 @@ if !(_byair) then {
         } forEach (units _group2);
     },
     [_group1, _group2, _attackpos],
-    (120 * 60) // Timeout 2 hours
+   (120 * 60) // Timeout 2 hours
 ] call CBA_fnc_waitUntilAndExecute;
 
 if (_tgroup isEqualType grpNull) then {
@@ -237,7 +238,7 @@ if (_tgroup isEqualType grpNull) then {
                 _done = true;
                 waitUntil {
                     sleep 2;
-                    (crew _veh) isEqualTo [];
+                   (crew _veh) isEqualTo [];
                 };
                 [_veh] call OT_fnc_cleanup;
             };

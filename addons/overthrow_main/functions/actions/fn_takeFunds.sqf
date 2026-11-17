@@ -1,13 +1,12 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 closeDialog 0;
 OT_inputHandler = {
     private _input = ctrlText 1400;
-    if (_input isEqualType "" && count _input > 64) exitWith { hint "You can't take that much!" };
+    if (_input isEqualType "" && count _input > 64) exitWith { hint ("You can't take that much!" call OT_fnc_localizeText) };
     private _val = parseNumber _input;
-    private _cash = server getVariable ["money", 0];
-    if (_val > _cash) then { _val = _cash };
     if (_val > 0) then {
-        [-_val] call OT_fnc_resistanceFunds;
-        [_val] call OT_fnc_money;
+        [player, "withdraw", _val] remoteExecCall ["OT_fnc_processFunds", 2];
     };
 };
 

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 // The player doesn't have the vars -> wait until they do
 if (isNil "OT_localPlayerInitDone" || { !(isNil "OT_localPlayerInitDone") && { !(OT_localPlayerInitDone) } }) exitWith {
     [
@@ -11,9 +12,8 @@ if (isNil "OT_localPlayerInitDone" || { !(isNil "OT_localPlayerInitDone") && { !
 private _currentObjectType = typeOf _this;
 
 if (_currentObjectType == OT_item_Map) then {
-    _this addAction ["Town Info", OT_fnc_mapInfoDialog, nil, 0, false, true, "", ""];
-    _this addAction [
-        "Reset UI",
+    _this addAction [ ("Town Info" call OT_fnc_localizeText), OT_fnc_mapInfoDialog, nil, 0, false, true, "", ""];
+    _this addAction [ ("Reset UI" call OT_fnc_localizeText),
         {
             closeDialog 0;
             [] spawn OT_fnc_setupPlayer;
@@ -29,10 +29,9 @@ if (_currentObjectType == OT_item_Map) then {
 };
 
 if (_currentObjectType == OT_item_Storage) then {
-    _this addAction ["Open Arsenal (This Ammobox)", { [_this select 0, player] call OT_fnc_openArsenal }, nil, 0, false, true, "", "!(call OT_fnc_playerIsAtWarehouse)"];
-    _this addAction ["Open Arsenal (Warehouse)", { ["WAREHOUSE", player, _this select 0] call OT_fnc_openArsenal }, nil, 0, false, true, "", "call OT_fnc_playerIsAtWarehouse"];
-    _this addAction [
-        "Take From Warehouse",
+    _this addAction [ ("Open Arsenal (This Ammobox)" call OT_fnc_localizeText), { [_this select 0, player] call OT_fnc_openArsenal }, nil, 0, false, true, "", "!(call OT_fnc_playerIsAtWarehouse)"];
+    _this addAction [ ("Open Arsenal (Warehouse)" call OT_fnc_localizeText), { ["WAREHOUSE", player, _this select 0] call OT_fnc_openArsenal }, nil, 0, false, true, "", "call OT_fnc_playerIsAtWarehouse"];
+    _this addAction [ ("Take From Warehouse" call OT_fnc_localizeText),
         {
             private _iswarehouse = call OT_fnc_playerIsAtWarehouse;
 
@@ -52,8 +51,7 @@ if (_currentObjectType == OT_item_Storage) then {
         "",
         "call OT_fnc_playerIsAtWarehouse"
     ];
-    _this addAction [
-        "Store In Warehouse",
+    _this addAction [ ("Store In Warehouse" call OT_fnc_localizeText),
         {
             private _iswarehouse = call OT_fnc_playerIsAtWarehouse;
             if !(_iswarehouse) exitWith {
@@ -69,13 +67,12 @@ if (_currentObjectType == OT_item_Storage) then {
         "",
         "call OT_fnc_playerIsAtWarehouse"
     ];
-    _this addAction ["Dump Everything", { [player, _this select 0] call OT_fnc_dumpStuff }, nil, 0, false, true, "", ""];
-    _this addAction ["Dump Everything into Warehouse", { [player] call OT_fnc_dumpIntoWarehouse }, nil, 0, false, true, "", "call OT_fnc_playerIsAtWarehouse"];
+    _this addAction [ ("Dump Everything" call OT_fnc_localizeText), { [player, _this select 0] call OT_fnc_dumpStuff }, nil, 0, false, true, "", ""];
+    _this addAction [ ("Dump Everything into Warehouse" call OT_fnc_localizeText), { [player] call OT_fnc_dumpIntoWarehouse }, nil, 0, false, true, "", "call OT_fnc_playerIsAtWarehouse"];
     if (_this call OT_fnc_playerIsOwner) then {
-        _this addAction [
-            "Lock",
+        _this addAction [ ("Lock" call OT_fnc_localizeText),
             {
-                (_this select 0) setVariable ["OT_locked", true, true];
+               (_this select 0) setVariable ["OT_locked", true, true];
                 "Ammobox locked" call OT_fnc_notifyMinor;
             },
             nil,
@@ -85,10 +82,9 @@ if (_currentObjectType == OT_item_Storage) then {
             "",
             "!(_target getVariable ['OT_locked', false])"
         ];
-        _this addAction [
-            "Unlock",
+        _this addAction [ ("Unlock" call OT_fnc_localizeText),
             {
-                (_this select 0) setVariable ["OT_locked", false, true];
+               (_this select 0) setVariable ["OT_locked", false, true];
                 "Ammobox unlocked" call OT_fnc_notifyMinor;
             },
             nil,
@@ -98,8 +94,7 @@ if (_currentObjectType == OT_item_Storage) then {
             "",
             "(_target getVariable ['OT_locked', false])"
         ];
-        _this addAction [
-            "Make global (10000$)",
+        _this addAction [ ("Make global (10000$)" call OT_fnc_localizeText),
             {
                 [OT_fnc_makeWarehouseGlobal, _this] call CBA_fnc_directCall;
             },
@@ -115,9 +110,9 @@ if (_currentObjectType == OT_item_Storage) then {
 };
 
 if (_currentObjectType == OT_item_Safe) then {
-    _this addAction ["Put Money", OT_fnc_safePutMoney, nil, 0, false, true, "", ""];
-    _this addAction ["Take Money", OT_fnc_safeTakeMoney, nil, 0, false, true, "", ""];
-    _this addAction ["Set Password", OT_fnc_safeSetPassword, nil, 0, false, true, "", "(_target getVariable ['owner', '']) isEqualTo getPlayerUID _this"];
+    _this addAction [ ("Put Money" call OT_fnc_localizeText), OT_fnc_safePutMoney, nil, 0, false, true, "", ""];
+    _this addAction [ ("Take Money" call OT_fnc_localizeText), OT_fnc_safeTakeMoney, nil, 0, false, true, "", ""];
+    _this addAction [ ("Set Password" call OT_fnc_localizeText), OT_fnc_safeSetPassword, nil, 0, false, true, "", "(_target getVariable ['owner', '']) isEqualTo getPlayerUID _this"];
     _this enableDynamicSimulation true;
 };
 

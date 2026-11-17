@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _idx = lbCurSel 1500;
 private _cls = lbData [1500, _idx];
 
@@ -88,7 +89,7 @@ if (_cls == OT_item_UAV) exitWith {
     player reveal _veh;
     format ["You bought a Quadcopter"] call OT_fnc_notifyMinor;
     playSound "3DEN_notificationDefault";
-    hint "To use a UAV, scroll your mouse wheel to 'Open UAV Terminal' then right click your green quadcopter on the ground and 'Connect terminal to UAV'";
+    hint ("To use a UAV, scroll your mouse wheel to 'Open UAV Terminal' then right click your green quadcopter on the ground and 'Connect terminal to UAV'" call OT_fnc_localizeText);
 };
 if (_cls in OT_allVehicles) exitWith {
     private _pos = (getPosATL player) findEmptyPosition [5, 100, _cls];
@@ -131,7 +132,7 @@ if (_cls in OT_allClothing) exitWith {
     [-_price] call OT_fnc_money;
 
     if ((player getVariable ["OT_shopTarget", "Self"]) == "Vehicle") then {
-        (vehicle player) addItemCargoGlobal [_cls, 1];
+       (vehicle player) addItemCargoGlobal [_cls, 1];
     } else {
         if ((backpack player != "") && (player canAdd _cls)) then {
             player addItemToBackpack _cls;
@@ -217,9 +218,9 @@ if (_handled) then {
 
     if (_b == "Vehicle") then {
         if (_cls isKindOf "Bag_Base") then {
-            (vehicle player) addBackpackCargoGlobal [_cls, 1];
+           (vehicle player) addBackpackCargoGlobal [_cls, 1];
         } else {
-            (vehicle player) addItemCargoGlobal [_cls, 1];
+           (vehicle player) addItemCargoGlobal [_cls, 1];
         };
     } else {
         if (_cls isKindOf "Bag_Base") then {

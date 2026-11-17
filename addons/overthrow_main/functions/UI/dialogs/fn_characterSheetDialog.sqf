@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 closeDialog 0;
 createDialog "OT_dialog_char";
 openMap false;
@@ -7,15 +8,15 @@ disableSerialization;
 private _fitness = player getVariable ["OT_fitness", 1];
 
 private _ctrl = (findDisplay 8003) displayCtrl 1100;
-_ctrl ctrlSetStructuredText parseText format ["<t size=""2"">Fitness</t><br/><t size=""1.1"">Level %1</t><br/><t size=""0.7"">Increases the distance you can sprint</t>", _fitness];
+_ctrl ctrlSetStructuredText parseText (format ["<t size=""2"">Fitness</t><br/><t size=""1.1"">Level %1</t><br/><t size=""0.7"">Increases the distance you can sprint</t>", _fitness] call OT_fnc_localizeText);
 
 private _trade = player getVariable ["OT_trade", 1];
 _ctrl = (findDisplay 8003) displayCtrl 1101;
-_ctrl ctrlSetStructuredText parseText format ["<t size=""2"">Trade</t><br/><t size=""1.1"">Level %1</t><br/><t size=""0.7"">Ability to negotiate better purchasing prices</t>", _trade];
+_ctrl ctrlSetStructuredText parseText (format ["<t size=""2"">Trade</t><br/><t size=""1.1"">Level %1</t><br/><t size=""0.7"">Ability to negotiate better purchasing prices</t>", _trade] call OT_fnc_localizeText);
 
 private _stealth = player getVariable ["OT_stealth", 1];
 _ctrl = (findDisplay 8003) displayCtrl 1102;
-_ctrl ctrlSetStructuredText parseText format ["<t size=""2"">Stealth</t><br/><t size=""1.1"">Level %1</t><br/><t size=""0.7"">Less chance of NATO finding illegal items</t>", _stealth];
+_ctrl ctrlSetStructuredText parseText (format ["<t size=""2"">Stealth</t><br/><t size=""1.1"">Level %1</t><br/><t size=""0.7"">Less chance of NATO finding illegal items</t>", _stealth] call OT_fnc_localizeText);
 
 getPerkPrice = {
     private _perk = _this select 0;
@@ -34,13 +35,13 @@ getPerkPrice = {
 };
 
 private _price = ["fitness"] call getPerkPrice;
-ctrlSetText [1600, format ["Increase Level (-%1 Influence)", _price]];
+ctrlSetText [1600, (format ["Increase Level (-%1 Influence)", _price] call OT_fnc_localizeText)];
 
 _price = ["trade"] call getPerkPrice;
-ctrlSetText [1601, format ["Increase Level (-%1 Influence)", _price]];
+ctrlSetText [1601, (format ["Increase Level (-%1 Influence)", _price] call OT_fnc_localizeText)];
 
 _price = ["stealth"] call getPerkPrice;
-ctrlSetText [1602, format ["Increase Level (-%1 Influence)", _price]];
+ctrlSetText [1602, (format ["Increase Level (-%1 Influence)", _price] call OT_fnc_localizeText)];
 
 if (_fitness isEqualTo 5) then {
     ctrlShow [1600, false];
@@ -91,9 +92,9 @@ buyPerk = {
         _txt = format ["<t size=""2"">Stealth</t><br/><t size=""1.1"">Level %1</t><br/><t size=""0.7"">Less chance of people recognizing you or finding illegal items</t>", _fitness];
     };
 
-    _ctrl ctrlSetStructuredText parseText _txt;
+    _ctrl ctrlSetStructuredText parseText (_txt call OT_fnc_localizeText);
     _price = [_perk] call getPerkPrice;
-    ctrlSetText [_idc, format ["Increase Level (-%1 Influence)", _price]];
+    ctrlSetText [_idc, (format ["Increase Level (-%1 Influence)", _price] call OT_fnc_localizeText)];
 
     if (_fitness isEqualTo 5) then {
         ctrlShow [_idc, false];

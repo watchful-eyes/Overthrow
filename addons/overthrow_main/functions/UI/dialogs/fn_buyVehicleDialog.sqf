@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _town = player call OT_fnc_nearestTown;
 private _standing = [_town] call OT_fnc_support;
 private _items = OT_vehicles + [[OT_item_UAV]];
@@ -38,7 +39,7 @@ createDialog "OT_dialog_buy";
             _price = round (_price * 0.5);
         };
 
-        (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+       (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
         // special cases
         if (_cls == "Set_HMG") then {
@@ -56,7 +57,7 @@ createDialog "OT_dialog_buy";
             _name = "Quadcopter";
         };
 
-        private _idx = lbAdd [1500, format ["%1", _name]];
+        private _idx = lbAdd [1500, (format ["%1", _name] call OT_fnc_localizeText)];
         lbSetPicture [1500, _idx, _pic];
         lbSetData [1500, _idx, _cls];
         lbSetValue [1500, _idx, _price];

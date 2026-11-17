@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if !(captive player) exitWith { "You cannot place objects while wanted" call OT_fnc_notifyMinor };
 
 private _typecls = _this;
@@ -198,7 +199,7 @@ if (_cost > 0) then {
             || (!isPlayer player);
     };
 
-    (findDisplay 46) displayRemoveEventHandler ["KeyDown", _handlerId];
+   (findDisplay 46) displayRemoveEventHandler ["KeyDown", _handlerId];
 
     { detach _x } forEach attachedObjects player;
 

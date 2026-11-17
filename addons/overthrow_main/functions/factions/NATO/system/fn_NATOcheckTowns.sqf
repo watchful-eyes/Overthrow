@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 /*
     Author: ThomasAngel, ARMAZac
 
@@ -50,10 +51,10 @@ private _popControl = call OT_fnc_getControlledPopulation;
         } else {
             // Send patrol to towns low in stability (new in v0.7.8.5)
             if (_resources > 250 && _stability < 30 && !(server getVariable [format ["NATOpatrolsent%1", _town], false])) then {
-                ([_pos] call OT_fnc_NATOGetAttackVectors) params ["_ground", "_air"];
+               ([_pos] call OT_fnc_NATOGetAttackVectors) params ["_ground", "_air"];
                 if (_ground isNotEqualTo []) then {
                     server setVariable [format ["NATOpatrolsent%1", _town], true];
-                    (_ground select 0) params ["_obpos", "_obname"];
+                   (_ground select 0) params ["_obpos", "_obname"];
                     private _dir = _pos getDir _obpos;
                     private _ao = [_pos, _dir] call OT_fnc_getAO;
                     _resources = _resources - 75;
@@ -78,7 +79,7 @@ private _popControl = call OT_fnc_getControlledPopulation;
                 } else {
                     if (_air isNotEqualTo [] && _population > 500) then {
                         server setVariable [format ["NATOpatrolsent%1", _town], true];
-                        (_air select 0) params ["_obpos", "_obname"];
+                       (_air select 0) params ["_obpos", "_obname"];
 
                         if ((random 100) < (_diff * 2)) then {
                             //small chance of CAS

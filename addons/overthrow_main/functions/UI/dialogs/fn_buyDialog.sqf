@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["_town", "_standing", "_s", ["_multiplier", 1]];
 
 private _sorted = [_s, [], { _x select 0 }, "ASCEND"] call BIS_fnc_sortBy;
@@ -9,11 +10,11 @@ lbClear 1500;
     private _price = [_town, _cls, _standing] call OT_fnc_getPrice;
     _price = _price * _multiplier;
 
-    (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+   (_cls call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
     private _text = format ["%1 x %2", _num, _name];
     if (_num isEqualTo -1) then { _text = _name };
-    private _idx = lbAdd [1500, _text];
+    private _idx = lbAdd [1500, (_text call OT_fnc_localizeText)];
     lbSetPicture [1500, _idx, _pic];
     if !(_enabled) then {
         lbSetColor [1500, _idx, [0.3, 0.3, 0.3, 1]];

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _target = vehicle player;
 private _notvehicle = false;
 if (_target isEqualTo player) then {
@@ -27,7 +28,7 @@ if (count _objects isEqualTo 1) then {
         _options pushBack [
             format [
                 "%1 (%2m)",
-                (typeOf _x) call OT_fnc_vehicleGetName,
+               (typeOf _x) call OT_fnc_vehicleGetName,
                 round (_x distance player)
             ],
             OT_fnc_transferHelper,

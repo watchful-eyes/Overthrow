@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if !(visibleMap || visibleGPS) exitWith {};
 
 disableSerialization;
@@ -16,9 +17,7 @@ if (OT_showPlayerMarkers) then {
                 getPosASL _x,
                 24,
                 24,
-                getDir _x,
-                name _x
-            ];
+                getDir _x, (name _x call OT_fnc_localizeText)];
         } else {
             _vehs pushBackUnique _veh;
         };
@@ -112,9 +111,7 @@ if (visibleMap) then {
                 _pos,
                 24,
                 24,
-                getDir _x,
-                _passengers
-            ];
+                getDir _x, (_passengers call OT_fnc_localizeText)];
         };
     } forEach (_vehs);
 };
@@ -238,8 +235,8 @@ if (_scale < 0.1) then {
                 _x select 0,
                 _x select 1,
                 _x select 2,
-                (_x select 3) / _scale,
-                (_x select 4) / _scale,
+               (_x select 3) / _scale,
+               (_x select 4) / _scale,
                 _x select 5
             ];
         };
@@ -252,8 +249,8 @@ if (_scale < 0.1) then {
                 _x select 0,
                 _x select 1,
                 _x select 2,
-                (_x select 3) / _scale,
-                (_x select 4) / _scale,
+               (_x select 3) / _scale,
+               (_x select 4) / _scale,
                 _x select 5
             ];
         };
@@ -267,8 +264,8 @@ if (_scale < 0.1) then {
                     _x select 0,
                     _x select 1,
                     _x select 2,
-                    (_x select 3) / _scale,
-                    (_x select 4) / _scale,
+                   (_x select 3) / _scale,
+                   (_x select 4) / _scale,
                     _x select 5
                 ];
             };
@@ -282,8 +279,8 @@ if (_scale < 0.1) then {
                         _x select 0,
                         _x select 1,
                         _x select 2,
-                        (_x select 3) / _scale,
-                        (_x select 4) / _scale,
+                       (_x select 3) / _scale,
+                       (_x select 4) / _scale,
                         _x select 5
                     ];
                 } else {

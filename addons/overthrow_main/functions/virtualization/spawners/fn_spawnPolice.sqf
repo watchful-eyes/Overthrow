@@ -1,47 +1,53 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 if (!isServer) exitWith {};
 sleep random 0.2;
-
 params ["_town", "_spawnid"];
-private _abandoned = server getVariable ["NATOabandoned", []];
-if !(_town in _abandoned) exitWith {};
-
+if !(_town in (server getVariable ["NATOabandoned", []])) exitWith {};
+spawner setVariable [format ["garrisonSpawning%1", _town], true];
+spawner setVariable [format ["townspawnid%1", _town], _spawnid];
 private _posTown = server getVariable [format ["policepos%1", _town], server getVariable _town];
-
+private _plan = server getVariable [format ["garrisonplan%1", _town], []];
+private _personnel = [];
+{ for "_i" from 1 to (_x # 1) do { _personnel pushBack (_x # 0) } } forEach ([_town] call OT_fnc_townGarrisonRoster);
+private _layout = [_plan, count _personnel] call OT_fnc_townGarrisonLayout;
 private _groups = [];
-
-private _soldier = "Police" call OT_fnc_getSoldier;
-
-private _numNATO = server getVariable [format ["police%1", _town], 0];
-private _count = 0;
-private _range = 15;
-private _pergroup = 4;
-
-while { _count < _numNATO } do {
-    private _groupcount = 0;
-    private _group = createGroup independent;
+private _personIndex = 0;
+private _soldiers = createHashMap;
+{
+    _x params ["_entry", "_amount"];
+    private _group = createGroup [independent, true];
     _group setVariable ["VCM_TOUGHSQUAD", true, true];
     _group setVariable ["VCM_NORESCUE", true, true];
+    _group setVariable ["OT_townGarrison", _town, true];
+    _group setVariable ["OT_garrisonCompany", _entry # 0, true];
+    _group setGroupIdGlobal [format ["%1 / %2", _town, _entry # 1]];
     _groups pushBack _group;
-
-    private _start = [[[_posTown, _range]]] call BIS_fnc_randomPos;
-
-    while { (_groupcount < _pergroup) && (_count < _numNATO) } do {
-        private _pos = [[[_start, 20]]] call BIS_fnc_randomPos;
-
-        private _civ = [_soldier, _pos, _group, false] call OT_fnc_createSoldier;
+    private _start = [[[_posTown, 15 + 25 * _forEachIndex]]] call BIS_fnc_randomPos;
+    for "_i" from 1 to _amount do {
+        private _preset = _personnel # _personIndex;
+        _personIndex = _personIndex + 1;
+        private _soldier = _soldiers getOrDefault [_preset, []];
+        if (_soldier isEqualTo []) then {
+            _soldier = _preset call OT_fnc_getSoldier;
+            if (_soldier isEqualTo [] || { _preset isNotEqualTo "Police" && { !isClass (configFile >> "CfgVehicles" >> _preset) } }) then { _soldier = "Police" call OT_fnc_getSoldier };
+            _soldiers set [_preset, _soldier];
+        };
+        private _civ = [_soldier, _start, _group, false] call OT_fnc_createSoldier;
+        if (!isNull _civ) then {
+            _civ setVariable ["OT_garrisonPreset", _preset, true];
+            _civ setRank "SERGEANT";
+            [_civ, _town] call OT_fnc_initPolice;
+            _civ setBehaviour "SAFE";
+        };
         sleep 0.3;
-
-        [_civ] joinSilent _group;
-        _civ setRank "SERGEANT";
-        [_civ, _town] spawn OT_fnc_initPolice;
-        _civ setBehaviour "SAFE";
-
-        _groupcount = _groupcount + 1;
-        _count = _count + 1;
-        sleep 0.5;
     };
-    [_group, _posTown, 100, 6] call CBA_fnc_taskPatrol;
-    _range = _range + 50;
+    [_group, _entry, _posTown] call OT_fnc_applyTownGarrisonRoute;
+} forEach _layout;
+spawner setVariable [_spawnid, (spawner getVariable [_spawnid, []]) + _groups];
+spawner setVariable [format ["garrisongroups%1", _town], _groups, true];
+spawner setVariable [format ["garrisonSpawning%1", _town], false];
+if (spawner getVariable [format ["garrisonRebuildPending%1", _town], false]) then {
+    spawner setVariable [format ["garrisonRebuildPending%1", _town], false];
+    [_town] call OT_fnc_assignTownGarrison;
 };
-
-spawner setVariable [_spawnid, (spawner getVariable [_spawnid, []]) + _groups, false];

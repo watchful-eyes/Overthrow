@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _leader = _this;
 
 private _group = group _leader;
@@ -19,7 +20,7 @@ if (_gotexp) then {
     _expert commandMove _p;
     waitUntil {
         sleep 1;
-        (!alive _expert) || (_expert distance _targetPos) < 10;
+       (!alive _expert) || (_expert distance _targetPos) < 10;
     };
     if (alive _expert) then {
         _expert removeMagazineGlobal "DemoCharge_Remote_Mag";

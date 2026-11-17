@@ -1,3 +1,6 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+if !([false] call OT_fnc_isServerController) exitWith {};
 switch (OT_autoSave_time) do {
     case 0: { OT_autoSave_time = 5 };
     case 5: { OT_autoSave_time = 10 };
@@ -8,4 +11,4 @@ switch (OT_autoSave_time) do {
     case 60: { OT_autoSave_time = 0 };
 };
 
-[parseText format ["<t font='PuristaBold' size='1.15'>AUTOSAVE TIME:<br/>%1 Minutes</t>", OT_autoSave_time]] remoteExec ["hint", [0, -2] select isDedicated];
+[format ["<t font='PuristaBold' size='1.15'>AUTOSAVE TIME:<br/>%1 Minutes</t>", OT_autoSave_time]] remoteExec ["OT_fnc_localizedHint", [0, -2] select isDedicated];

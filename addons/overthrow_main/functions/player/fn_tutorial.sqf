@@ -1,6 +1,7 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 player setVariable ["OT_tute_inProgress", true];
 
-hint "Get familiar with the basic controls, then press Y (or Z for QWERTZ-Layouts) to continue";
+hint ("Get familiar with the basic controls, then press Y (or Z for QWERTZ-Layouts) to continue" call OT_fnc_localizeText);
 sleep 0.3;
 
 private _acekey = "Left Windows (default)";

@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 //cache loadouts
 {
     private _gangs = OT_civilians getVariable [format ["gangs%1", _x], []];
@@ -22,7 +24,7 @@
                 private _vest = _gang select 3;
                 private _weapon = selectRandom (OT_CRIM_Weapons + OT_allCheapRifles);
                 _loadout = [(format ["gang%1", _gangid]), OT_CRIMBaseLoadout, [[_weapon]]] call OT_fnc_getRandomLoadout;
-                (_loadout select 4) set [0, _vest];
+               (_loadout select 4) set [0, _vest];
 
                 _gang pushBack _loadout;
                 _gang pushBack 0; //resources
@@ -42,3 +44,7 @@
 
 crim_counter = 12;
 ["faction_crim_loop", "_counter % 10 isEqualTo 0", "call OT_fnc_CRIMLoop"] call OT_fnc_addActionLoop;
+// Recruitment cadence and caps above remain unchanged. Raids reuse members.
+if (isNil "OT_gangRaidPFH") then {
+    OT_gangRaidPFH = [{ [] call OT_fnc_gangRaidLoop }, 30, []] call CBA_fnc_addPerFrameHandler;
+};

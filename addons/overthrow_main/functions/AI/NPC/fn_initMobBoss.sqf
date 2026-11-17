@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _unit = _this;
 
 _unit setVariable ["mobboss", true, false];
@@ -51,7 +53,7 @@ _unit linkItem "ACE_Cellphone";
 
 private _weapon = selectRandom (OT_CRIM_Weapons + OT_allCheapRifles);
 private _base = [_weapon] call BIS_fnc_baseWeapon;
-private _magazine = (getArray (configFile >> "CfgWeapons" >> _base >> "magazines")) select 0;
+private _magazine = (([_base] call OT_fnc_weaponMagazines)) select 0;
 _unit addMagazine _magazine;
 _unit addMagazine _magazine;
 _unit addMagazine _magazine;
@@ -85,7 +87,7 @@ for "_i" from 0 to (_numslots - 1) do {
 _weapon = selectRandom OT_allHandguns;
 _unit addWeaponGlobal _weapon;
 _base = [_weapon] call BIS_fnc_baseWeapon;
-_magazine = (getArray (configFile >> "CfgWeapons" >> _base >> "magazines")) select 0;
+_magazine = (([_base] call OT_fnc_weaponMagazines)) select 0;
 if !(isNil "_magazine") then {
     _unit addItem _magazine;
 };

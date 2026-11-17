@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params [
     "_loadout",
     ["_rifles", OT_allBLURifles],
@@ -16,12 +18,7 @@ private _removeMagazines = {
     params ["_newloadout", "_forcls"];
     private _hasVest = (_newloadout select 4) isNotEqualTo [];
     private _hasBackpack = (_newloadout select 5) isNotEqualTo [];
-    private _magazines = getArray (_cfgWeapons >> _forcls >> "magazines");
-    {
-        if (_x isNotEqualTo "this") then {
-            _magazines = _magazines + getArray (_cfgWeapons >> _forcls >> _x >> "magazines");
-        };
-    } forEach (getArray (_cfgWeapons >> _forcls >> "muzzles"));
+    private _magazines = [_forcls, ""] call OT_fnc_weaponMagazines;
     //from uniform
     private _items = (_newloadout select 3) select 1;
     {
@@ -80,9 +77,9 @@ if (_hasPrimary) then {
     } forEach [((_newloadout # 0) # 1), ((_newloadout # 0) # 2), ((_newloadout # 0) # 3)];
     if !(((_newloadout # 0) # 7) in _compatItems) then { (_newloadout # 0) set [7, ""] };
 
-    (_newloadout select 0) set [0, _wpn];
+   (_newloadout select 0) set [0, _wpn];
 
-    private _magazines = getArray (_cfgWeapons >> _wpn >> "magazines");
+    private _magazines = ([_wpn] call OT_fnc_weaponMagazines);
 
     private _mag = "";
     {
@@ -91,11 +88,11 @@ if (_hasPrimary) then {
     } forEach (_magazines call BIS_fnc_arrayShuffle);
 
     private _count = getNumber (_cfgMagazines >> _mag >> "count");
-    (_newloadout select 0) set [4, [_mag, _count]];
+   (_newloadout select 0) set [4, [_mag, _count]];
 
     //add mags to vest
     if (_hasVest) then {
-        ((_newloadout select 4) select 1) pushBack [_mag, 6, _count];
+       ((_newloadout select 4) select 1) pushBack [_mag, 6, _count];
     };
 
     //get secondary mags (grenade rounds etc)
@@ -103,7 +100,7 @@ if (_hasPrimary) then {
     private _secondmags = [];
     {
         if (_x isNotEqualTo "this") then {
-            _secondmags = _secondmags + getArray (_cfgWeapons >> _wpn >> _x >> "magazines");
+            _secondmags = _secondmags + ([_wpn, _x] call OT_fnc_weaponMagazines);
         };
     } forEach (getArray (_cfgWeapons >> _wpn >> "muzzles"));
     if (_secondmags isNotEqualTo []) then {
@@ -111,14 +108,14 @@ if (_hasPrimary) then {
             //add all of them to backpack
             {
                 private _count = getNumber (_cfgMagazines >> _x >> "count");
-                ((_newloadout select 5) select 1) pushBack [_x, 4, _count];
+               ((_newloadout select 5) select 1) pushBack [_x, 4, _count];
             } forEach (_secondmags);
         } else {
             //add the first one to vest
             if (_hasVest) then {
                 _mag = _secondmags select 0;
                 private _count = getNumber (_cfgMagazines >> _mag >> "count");
-                ((_newloadout select 4) select 1) pushBack [_mag, 6, _count];
+               ((_newloadout select 4) select 1) pushBack [_mag, 6, _count];
             };
         };
     };
@@ -129,28 +126,28 @@ if (_hasLauncher) then {
     [_newloadout, (_newloadout select 1) select 0] call _removeMagazines;
     private _wpn = selectRandom _launchers;
     //we always want the primary mag
-    (_newloadout select 1) set [0, _wpn];
-    private _magazines = getArray (_cfgWeapons >> _wpn >> "magazines");
+   (_newloadout select 1) set [0, _wpn];
+    private _magazines = ([_wpn] call OT_fnc_weaponMagazines);
     private _mag = _magazines select 0;
     private _count = getNumber (_cfgMagazines >> _mag >> "count");
     private _scope = getNumber (_cfgMagazines >> _mag >> "scope");
-    (_newloadout select 1) set [4, [_mag, _count]];
+   (_newloadout select 1) set [4, [_mag, _count]];
 
     if (_hasBackpack) then {
         if (_scope < 2) then {
             //single-use launcher, remove backpack
             _newloadout set [5, []];
         } else {
-            (_newloadout select 5) set [1, []]; //Clear backpack
+           (_newloadout select 5) set [1, []]; //Clear backpack
             //add more primary mags
-            ((_newloadout select 5) select 1) pushBack [_mag, 2, _count];
+           ((_newloadout select 5) select 1) pushBack [_mag, 2, _count];
 
             //add 2 other random ones
             private _c = 0;
             {
                 if (_forEachIndex > 0) then {
                     private _count = getNumber (_cfgMagazines >> _x >> "count");
-                    ((_newloadout select 5) select 1) pushBack [_x, 1, _count];
+                   ((_newloadout select 5) select 1) pushBack [_x, 1, _count];
                     _c = _c + 1;
                 };
                 if (_c isEqualTo 2) exitWith {};
@@ -163,15 +160,15 @@ if (_hasLauncher) then {
 if (_hasHandgun) then {
     [_newloadout, ((_newloadout select 2) select 0)] call _removeMagazines;
     private _wpn = selectRandom _handguns;
-    (_newloadout select 2) set [0, _wpn];
+   (_newloadout select 2) set [0, _wpn];
     //we always want the primary mag
-    private _magazines = getArray (_cfgWeapons >> _wpn >> "magazines");
+    private _magazines = ([_wpn] call OT_fnc_weaponMagazines);
     private _mag = _magazines select 0;
     private _count = getNumber (_cfgMagazines >> _mag >> "count");
-    (_newloadout select 2) set [4, [_mag, _count]];
+   (_newloadout select 2) set [4, [_mag, _count]];
     //add 2 mags to vest
     if (_hasVest) then {
-        ((_newloadout select 4) select 1) pushBack [_mag, 2, _count];
+       ((_newloadout select 4) select 1) pushBack [_mag, 2, _count];
     };
 };
 

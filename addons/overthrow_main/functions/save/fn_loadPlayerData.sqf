@@ -1,4 +1,8 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _player = _this;
+if (!isServer || { isNull _player } || { !isPlayer _player }) exitWith {};
+if (isRemoteExecuted && { remoteExecutedOwner != 2 } && { remoteExecutedOwner != owner _player }) exitWith {};
 private _data = players_NS getVariable (getPlayerUID _player);
 private _newplayer = isNil "_data";
 if !(_newplayer) then {

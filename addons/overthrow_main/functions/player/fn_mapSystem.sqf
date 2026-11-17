@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 addMissionEventHandler [
     "Draw3D",
     {
@@ -13,7 +14,7 @@ addMissionEventHandler [
                     //};
                     private _pos = _x modelToWorldVisual [0, 0, 0];
                     if ((worldToScreen _pos) isEqualTo []) exitWith {};
-                    drawIcon3D ["a3\ui_f\data\map\groupicons\selector_selectable_ca.paa", [1, 1, 1, 0.3], _pos, 1, 1, 0, format ["%1 (%2%3)", name _x, _dis, _t], 0, 0.02, "TahomaB", "center", true];
+                    drawIcon3D ["a3\ui_f\data\map\groupicons\selector_selectable_ca.paa", [1, 1, 1, 0.3], _pos, 1, 1, 0, (format ["%1 (%2%3)", name _x, _dis, _t] call OT_fnc_localizeText), 0, 0.02, "TahomaB", "center", true];
                 };
             };
         } forEach (allPlayers - (entities "HeadlessClient_F"));
@@ -30,13 +31,13 @@ addMissionEventHandler [
                 _dis = round (_dis / 1000);
                 _t = "km";
             };
-            drawIcon3D ["a3\ui_f\data\map\markers\military\dot_ca.paa", [1, 1, 1, 1], OT_missionMarker, 1, 1, 0, format ["%1 (%2%3)", OT_missionMarkerText, _dis, _t], 0, 0.02, "TahomaB", "center", true];
+            drawIcon3D ["a3\ui_f\data\map\markers\military\dot_ca.paa", [1, 1, 1, 1], OT_missionMarker, 1, 1, 0, (format ["%1 (%2%3)", OT_missionMarkerText, _dis, _t] call OT_fnc_localizeText), 0, 0.02, "TahomaB", "center", true];
         };
     }
 ];
 
 if (!isNil "OT_OnDraw") then {
-    ((findDisplay 12) displayCtrl 51) ctrlRemoveEventHandler ["Draw", OT_OnDraw];
+   ((findDisplay 12) displayCtrl 51) ctrlRemoveEventHandler ["Draw", OT_OnDraw];
 };
 
 // Set-up shop markers

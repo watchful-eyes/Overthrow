@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 //Scramble a jet to take out a target
 params ["", "_targetpos", ["_delay", 0]];
 
@@ -19,7 +21,7 @@ if !(OT_NATO_HQ in _abandoned) then {
     _veh setDir OT_NATO_JetDir;
 
     {
-        _x addCuratorEditableObjects [[_veh]];
+        _x addCuratorEditableObjects [[_veh], true];
     } forEach (allCurators);
 
     clearWeaponCargoGlobal _veh;
@@ -65,7 +67,7 @@ if !(OT_NATO_HQ in _abandoned) then {
 
     waitUntil {
         sleep 10;
-        (alive _veh && (_veh distance OT_NATO_JetLandPos) < 150) || !alive _veh;
+       (alive _veh && (_veh distance OT_NATO_JetLandPos) < 150) || !alive _veh;
     };
 
     if (alive _veh) then {
@@ -75,7 +77,7 @@ if !(OT_NATO_HQ in _abandoned) then {
         _veh action ["LAND", _veh];
         waitUntil {
             sleep 10;
-            (speed _veh) isEqualTo 0;
+           (speed _veh) isEqualTo 0;
         };
     };
     _veh call OT_fnc_cleanup;

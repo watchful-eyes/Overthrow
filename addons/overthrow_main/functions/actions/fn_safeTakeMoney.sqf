@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 OT_context = _this select 0;
 
 private _password = OT_context getVariable ["password", ""];
@@ -7,7 +8,7 @@ if (_password isEqualTo "") exitWith {
 
     OT_inputHandler = {
         private _input = ctrlText 1400;
-        if (_input isEqualType "" && count _input > 64) exitWith { hint "You can't withdraw that much!" };
+        if (_input isEqualType "" && count _input > 64) exitWith { hint ("You can't withdraw that much!" call OT_fnc_localizeText) };
         private _val = parseNumber _input;
         private _in = OT_context getVariable ["money", 0];
         if (_val > _in) then { _val = _in };
@@ -23,14 +24,14 @@ if (_password isEqualTo "") exitWith {
 OT_inputHandler = {
     private _password = OT_context getVariable ["password", ""];
     private _pw = ctrlText 1400;
-    if (_pw isEqualType "" && count _pw > 64) exitWith { hint "Password is too long!" };
+    if (_pw isEqualType "" && count _pw > 64) exitWith { hint ("Password is too long!" call OT_fnc_localizeText) };
     private _pwHash = hashValue _pw;
     if (_pwHash != _password) exitWith { "Wrong password" call OT_fnc_notifyMinor };
     private _in = OT_context getVariable ["money", 0];
 
     OT_inputHandler = {
         private _input = ctrlText 1400;
-        if (_input isEqualType "" && count _input > 64) exitWith { hint "You can't withdraw that much!" };
+        if (_input isEqualType "" && count _input > 64) exitWith { hint ("You can't withdraw that much!" call OT_fnc_localizeText) };
         private _val = parseNumber _input;
         private _in = OT_context getVariable ["money", 0];
         if (_val > _in) then { _val = _in };

@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 //Setup our spawners
 diag_log "Overthrow: Virtualization start";
 {
@@ -8,6 +10,10 @@ diag_log "Overthrow: Virtualization start";
 diag_log format ["Overthrow: %1 businesses virtualized", count OT_economicData];
 
 waitUntil { !isNil "OT_economyLoadDone" };
+if (isNil "OT_commanderPFH") then {
+    OT_commanderPFH = [{ [] call OT_fnc_syncCommanders }, 15, []] call CBA_fnc_addPerFrameHandler;
+};
+[] call OT_fnc_syncCommanders;
 
 private _count = 0;
 {

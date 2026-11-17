@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_posTown", "_name", "_spawnid"];
 
 private _numNATO = server getVariable format ["garrison%1", _name];
@@ -27,7 +29,7 @@ if (_supplypos isEqualType []) then {
     _box setVariable ["NATOsupply", _name, true];
     _groups pushBack _box;
     //put stuff in it
-    (spawner getVariable [format ["NATOsupplyitems%1", _name], [[], [], []]]) params ["_items", "_wpns", "_mags"];
+   (spawner getVariable [format ["NATOsupplyitems%1", _name], [[], [], []]]) params ["_items", "_wpns", "_mags"];
     {
         [_box, _x # 0, _x # 1] call CBA_fnc_addItemCargo;
     } forEach (_items);
@@ -48,7 +50,7 @@ if (_name in OT_allComms) then {
     _group setVariable ["VCM_NORESCUE", true, true];
 
     private _start = _posTown findEmptyPosition [2, 50];
-    private _civ = _group createUnit [OT_NATO_Unit_Sniper, _start, [], 0, "NONE"];
+    private _civ = _group createUnit [[OT_NATO_Unit_Sniper] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
     _civ setVariable ["garrison", _name, false];
     _civ setRank "CAPTAIN";
     [_civ, _name] call OT_fnc_initMilitary;
@@ -58,7 +60,7 @@ if (_name in OT_allComms) then {
 
     if (_count < _numNATO) then {
         _start = _posTown findEmptyPosition [2, 50];
-        _civ = _group createUnit [OT_NATO_Unit_Spotter, _start, [], 0, "NONE"];
+        _civ = _group createUnit [[OT_NATO_Unit_Spotter] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
         _civ setVariable ["garrison", _name, false];
         _civ setRank "CAPTAIN";
         _civ setVariable ["VCOM_NOPATHING_Unit", true, false];
@@ -72,7 +74,7 @@ if (_name in OT_allComms) then {
 
     if (_count < _numNATO) then {
         _start = _posTown findEmptyPosition [2, 50];
-        _civ = _group createUnit [OT_NATO_Unit_AA_spec, _start, [], 0, "NONE"];
+        _civ = _group createUnit [[OT_NATO_Unit_AA_spec] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
         _civ setVariable ["garrison", _name, false];
         _civ setRank "CAPTAIN";
         _civ setVariable ["VCOM_NOPATHING_Unit", true, false];
@@ -87,7 +89,7 @@ if (_name in OT_allComms) then {
         if (_start isEqualTo []) then {
             _start = _posTown findEmptyPosition [2, 150];
         };
-        _civ = _group createUnit [OT_NATO_Unit_AA_ass, _start, [], 0, "NONE"];
+        _civ = _group createUnit [[OT_NATO_Unit_AA_ass] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
         _civ setVariable ["garrison", _name, false];
         _civ setRank "CAPTAIN";
         _civ setVariable ["VCOM_NOPATHING_Unit", true, false];
@@ -101,7 +103,7 @@ if (_name in OT_allComms) then {
     //put up a flag
     private _flag = OT_flag_NATO createVehicle _posTown;
     _groups pushBack _flag;
-    [_flag, [format ["Capture %1", _name], { call OT_fnc_triggerBattle }, nil, 0, false, true, "", "true", 5]] remoteExec ["addAction", 0, _flag];
+    [_flag, _name] remoteExec ["OT_fnc_addCaptureAction", 0, _flag];
 };
 
 //Garrison any buildings
@@ -124,7 +126,7 @@ if (_numNATO > 0) then {
                 _veh setPosATL [(getPos _building select 0), (getPos _building select 1), (getPosATL _veh select 2)];
                 _veh setDir (getDir _building);
 
-                createVehicleCrew _veh;
+                [_veh] call OT_fnc_createNATOGarrisonCrew;
                 _numNATO = _numNATO - 1;
 
                 [_veh];
@@ -142,21 +144,21 @@ if (_numNATO > 0) then {
                 _veh setPosATL _p;
                 _veh setDir (getDir _building) - 180;
 
-                createVehicleCrew _veh;
+                [_veh] call OT_fnc_createNATOGarrisonCrew;
                 _numNATO = _numNATO - 1;
                 [_veh];
             };
 
             private _vehs = [];
             private _veh = createVehicle [OT_NATO_HMG, (_building buildingPos 11), [], 0, "CAN_COLLIDE"];
-            createVehicleCrew _veh;
+            [_veh] call OT_fnc_createNATOGarrisonCrew;
             _numNATO = _numNATO - 1;
             _vehs pushBack _veh;
 
             sleep 0.5;
 
             _veh = createVehicle [OT_NATO_HMG, (_building buildingPos 13), [], 0, "CAN_COLLIDE"];
-            createVehicleCrew _veh;
+            [_veh] call OT_fnc_createNATOGarrisonCrew;
             _numNATO = _numNATO - 1;
             _vehs pushBack _veh;
 
@@ -188,7 +190,7 @@ while { _count < _numNATO } do {
     _groups pushBack _group;
     _groupcount = 1;
 
-    private _civ = _group createUnit [OT_NATO_Unit_TeamLeader, _start, [], 0, "NONE"];
+    private _civ = _group createUnit [[OT_NATO_Unit_TeamLeader] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
     _civ setVariable ["garrison", _name, false];
     _civ setRank "CAPTAIN";
     [_civ] joinSilent _group;
@@ -200,7 +202,7 @@ while { _count < _numNATO } do {
     while { (_count < _numNATO) && (_groupcount < 8) } do {
         _start = _start findEmptyPosition [2, 50];
 
-        _civ = _group createUnit [selectRandom (OT_NATO_Units_LevelOne + OT_NATO_Units_LevelOne + OT_NATO_Units_LevelOne + OT_NATO_Units_LevelTwo), _start, [], 0, "NONE"];
+        _civ = _group createUnit [[selectRandom (OT_NATO_Units_LevelOne + OT_NATO_Units_LevelOne + OT_NATO_Units_LevelOne + OT_NATO_Units_LevelTwo)] call OT_fnc_selectNATOGarrisonUnit, _start, [], 0, "NONE"];
         _civ setVariable ["garrison", _name, false];
         _civ setRank "LIEUTENANT";
         [_civ] joinSilent _group;
@@ -296,17 +298,17 @@ private _vehgarrison = server getVariable [format ["vehgarrison%1", _name], []];
         _veh setDir _dir;
         if (random 100 < 99) then {
             //small chance its not crewed
-            createVehicleCrew _veh;
+            [_veh] call OT_fnc_createNATOGarrisonCrew;
         };
         sleep 0.5;
         _groups pushBack _veh;
         {
             [_x] joinSilent _vgroup;
-            _x setVariable ["garrison", "HQ", false];
+            _x setVariable ["garrison", _name, false];
         } forEach (crew _veh);
         _vgroup setVariable ["Vcm_Disable", true, false];
         {
-            _x addCuratorEditableObjects [[_veh]];
+            _x addCuratorEditableObjects [[_veh], true];
         } forEach (allCurators);
     };
 } forEach (_vehgarrison);
@@ -328,7 +330,7 @@ private _vehgarrison = server getVariable [format ["vehgarrison%1", _name], []];
         sleep 0.5;
 
         private _pos = _vpos findEmptyPosition [2, 50, OT_NATO_Unit_HVT];
-        private _civ = _group createUnit [OT_NATO_Unit_HVT, _pos, [], 0, "NONE"];
+        private _civ = _group createUnit [[OT_NATO_Unit_HVT] call OT_fnc_selectNATOGarrisonUnit, _pos, [], 0, "NONE"];
         _civ setVariable ["garrison", "HQ", false];
         _civ setVariable ["hvt", true, true];
         _civ setVariable ["hvt_id", _id, true];

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _idx = lbCurSel 1500;
 private _uid = lbData [1500, _idx];
 
@@ -39,5 +40,5 @@ if (_amgen) then {
 };
 
 private _textctrl = (findDisplay 8000) displayCtrl 1102;
-_textctrl ctrlSetStructuredText parseText _text;
+_textctrl ctrlSetStructuredText parseText (_text call OT_fnc_localizeText);
 ctrlEnable [1600, false];

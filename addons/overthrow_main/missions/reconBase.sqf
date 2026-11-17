@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 params ["", "_jobparams"];
 _jobparams params ["_base", "_markerPos"];
 
@@ -55,7 +56,7 @@ private _title = format ["Recon of %1", _base];
         } forEach (_groups);
 
         if (_oldcount < _count) then {
-            format ["%2 units spotted at %1", _base, _count] remoteExec ["systemChat", _players select 0, false];
+            format ["%2 units spotted at %1", _base, _count] remoteExec ["OT_fnc_localizedSystemChat", _players select 0, false];
         };
 
         _this set [1, _count];

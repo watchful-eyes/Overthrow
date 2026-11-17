@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 {
     private _squad = _x;
     private _leader = leader _x;
@@ -49,12 +50,12 @@
             };
         } forEach _paras;
     } else {
-        if (_pos # 2 > 2) exitWith { hint "Must be at least 150m high to parachute safely" };
+        if (_pos # 2 > 2) exitWith { hint ("Must be at least 150m high to parachute safely" call OT_fnc_localizeText) };
         //get out
         _squad leaveVehicle (vehicle player);
         { unassignVehicle _x } forEach (units _squad);
-        (units _x) orderGetIn false;
-        (units _squad) allowGetIn false;
+       (units _x) orderGetIn false;
+       (units _squad) allowGetIn false;
     };
     player hcSelectGroup [_squad, false];
 } forEach (hcSelected player);

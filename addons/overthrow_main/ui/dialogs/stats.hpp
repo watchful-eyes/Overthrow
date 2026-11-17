@@ -1,4 +1,14 @@
+// Notification overlay added 16 November 2026. Original notices apply (GNU GPL v2).
 class RscTitles {
+    class OT_notificationHUD {
+        idd = -1;
+        duration = 1e10;
+        fadein = 0;
+        fadeout = 0;
+        onLoad = "uiNamespace setVariable ['OT_notificationDisplay', _this # 0]";
+        onUnload = "if ((uiNamespace getVariable ['OT_notificationDisplay', displayNull]) isEqualTo (_this # 0)) then { uiNamespace setVariable ['OT_notificationDisplay', displayNull] }";
+        class controls {};
+    };
 
     class Default {
         idd = -1;

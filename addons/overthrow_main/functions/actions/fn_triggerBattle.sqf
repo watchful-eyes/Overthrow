@@ -1,13 +1,14 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _ob = player call OT_fnc_nearestObjective;
 _ob params ["_obpos", "_obname"];
 
 if (_obname in (server getVariable ["NATOabandoned", []])) exitWith {};
-if !(captive player) exitWith { hint "Cannot capture while wanted" };
+if !(captive player) exitWith { hint ("Cannot capture while wanted" call OT_fnc_localizeText) };
 
 private _resources = server getVariable ["NATOresources", 2000];
 private _countered = (server getVariable ["NATOattacking", ""]) != "";
 
-if (_countered) exitWith { hint "There is already a battle in progress or scheduled" };
+if (_countered) exitWith { hint ("There is already a battle in progress or scheduled" call OT_fnc_localizeText) };
 private _popControl = call OT_fnc_getControlledPopulation;
 
 private _cost = 350;

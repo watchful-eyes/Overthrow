@@ -1,0 +1,45 @@
+[h1]Overthrow CE - Updated Version 2026[/h1]
+[b]Unofficial community fork | Release 2.8.0[/b]
+
+An updated Overthrow: Community Edition fork focused on garrison management, customization, and campaign fixes. Developed with extensive OpenAI Codex assistance.
+
+[h2]What's new[/h2]
+[list]
+[*]Friendly town companies with custom patrol routes and AUTO/PATROL/HOLD orders.
+[*]Separate town commanders and regional generals with population-based ranks.
+[*]Mixed NATO/RHS BLUFOR forces and recruitable RHS presets editable through ACE Arsenal.
+[*]Gang raids, new-campaign starting-town selection, and refreshed English menus.
+[*]Save, economy, counterattack, and mod compatibility fixes, plus targeted script optimizations.
+[/list]
+
+[h2]Requirements[/h2]
+[b]Required:[/b] Arma 3 2.22+, CBA_A3, and ACE3 including Medical content.
+[b]Optional:[/b] RHSUSAF, RHSAFRF, RHSGREF, RHSSAF, and LAMBS Danger.
+
+Load one Overthrow version. Match client/server releases and mods. For solo play, host a multiplayer/LAN session. Dedicated servers are also supported. Terrain and DLC access requirements apply.
+
+[h2]Questions and answers[/h2]
+[table]
+[tr][th]Question[/th][th]Answer[/th][/tr]
+[tr][td]Is this official?[/td][td]This is an independent community fork with extensive AI-assisted development. Original project credits are below.[/td][/tr]
+[tr][td]Will old saves work?[/td][td]Historical save compatibility is unverified. Back up and test a copy with the same mods. A fresh campaign is recommended.[/td][/tr]
+[tr][td]Do I need a new campaign?[/td][td]No reset is forced. Starting-town selection applies only to new campaigns. Saves from other Overthrow versions are not guaranteed compatible.[/td][/tr]
+[tr][td]How does RHS work?[/td][td]RHS is optional. NATO mixing uses BLUFOR/USAF. Friendly recruits can also use installed AFRF/GREF/SAF templates and join the resistance side.[/td][/tr]
+[tr][td]Where do I manage garrisons?[/td][td]Friendly police stations provide company routes and commanders. Soldier / RHS presets are available there and at friendly base garrisons. Generals edit presets through ACE Arsenal for future recruits/town respawns.[/td][/tr]
+[tr][td]Which groups get custom routes?[/td][td]Friendly town garrisons only. Plans assign existing soldiers. Commander NPCs do not grant player permissions.[/td][/tr]
+[tr][td]How do gangs and NATO attack?[/td][td]Gang raids use existing members with unchanged recruitment rates. NATO counterattacks depend on resources and eligible targets, with a 20-minute minimum cooldown.[/td][/tr]
+[tr][td]Which maps are included?[/td][td]Altis, Tanoa, Malden, and Livonia.[/td][/tr]
+[tr][td]Is multiplayer fully tested?[/td][td]Dedicated checks passed. Two-client JIP/locality, UI-scale, and prolonged-battle acceptance remain pending.[/td][/tr]
+[tr][td]Can I remove content mods?[/td][td]Saved units, vehicles, and inventories may require them. Back up before changing the mod set.[/td][/tr]
+[/table]
+
+[h2]Credits[/h2]
+[list]
+[*][b]ARMAzac[/b] - Original Overthrow.
+[*][b]Nifnat[/b] - Overthrow Plus.
+[*][b]ThomasAngel / rekterakathom and CE contributors[/b] - Community Edition.
+[*][b]Original file authors[/b] - Inherited code and retained copyright notices.
+[*][b]OpenAI Codex[/b] - Extensive assistance with analysis, implementation, translation, builds, and test preparation for this fork.
+[/list]
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2824471652]Original CE Workshop page[/url] | [url=https://github.com/rekterakathom/Overthrow]Upstream source[/url]

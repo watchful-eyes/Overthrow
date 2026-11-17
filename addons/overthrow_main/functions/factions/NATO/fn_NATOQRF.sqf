@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_pos", "_strength", "_success", "_fail", "_params", "_garrison"];
 private _numPlayers = count (allPlayers - (entities "HeadlessClient_F"));
 private _popControl = call OT_fnc_getControlledPopulation;
@@ -83,7 +85,7 @@ sleep 2;
 
 if (_strength > 500 && _air isNotEqualTo []) then {
     //Send CAS
-    (_air select 0) params ["_obpos", "_name"];
+   (_air select 0) params ["_obpos", "_name"];
     [_obpos, _pos, 10] spawn OT_fnc_NATOAirSupport;
     _strength = _strength - 300;
     diag_log format ["Overthrow: NATO Sent CAS from %1 %2", _name, str _obpos];
@@ -107,7 +109,7 @@ if (_popControl > 2000 && _strength > 1500) then {
 
 //Send ground support
 if ((_ground isNotEqualTo []) && (_strength > 250)) then {
-    (_ground select 0) params ["_obpos", "_name"];
+   (_ground select 0) params ["_obpos", "_name"];
     private _send = 100;
     if (_strength > 1000) then {
         _send = 300;
@@ -123,7 +125,7 @@ sleep 2;
 
 //Send tanks
 if ((_ground isNotEqualTo []) && (_strength > 1500) && (_popControl > 500)) then {
-    (_ground select 0) params ["_obpos", "_name"];
+   (_ground select 0) params ["_obpos", "_name"];
     [_obpos, _pos, 100, 0] spawn OT_fnc_NATOTankSupport;
     _strength = _strength - 500;
     diag_log format ["Overthrow: NATO Sent tank from %1 %2", _name, str _obpos];
@@ -237,10 +239,6 @@ while {
 
 if (_progress > 0) then {
     //Nato has won
-    _params call _success;
-
-    //Recover resources
-    server setVariable ["NATOresources", round (_strength * 0.5), true];
     {
         if (side _x isEqualTo blufor) then {
             if ((units _x) isNotEqualTo []) then {
@@ -272,14 +270,6 @@ if (_progress > 0) then {
             };
         };
     } forEach (vehicles);
-    //Nato gets pushed back
-    server setVariable ["NATOresourceGain", 0, true];
-    server setVariable ["NATOresources", -_strength, true];
-} else {
-    _params call _fail;
 };
-server setVariable ["NATOlastattack", time, true]; //Ensures NATO takes some time after a QRF to recover (even if they win)
-server setVariable ["QRFpos", nil, true];
-["OT_QRFend", []] call CBA_fnc_globalEvent;
-server setVariable ["QRFprogress", nil, true];
-server setVariable ["NATOattacking", "", true];
+// Count/transfer control after surviving NATO soldiers have been retagged.
+[_progress > 0, _strength, _success, _fail, _params] call OT_fnc_NATOfinishQRF;

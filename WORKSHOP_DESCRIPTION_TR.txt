@@ -1,0 +1,43 @@
+[h1]Direnişini örgütle, garnizonlarını yönet[/h1]
+Overthrow: Community Edition temelinde geliştirilen bu bağımsız topluluk sürümü; şehir savunmasını, komuta yönetimini ve asker özelleştirmesini genişletir. Kayıt, ekonomi, NATO karşı saldırıları ve mod entegrasyonlarında düzeltmeler içerir.
+
+[h2]Yeni özellikler[/h2]
+[list]
+[*][b]Bölükler ve özel devriye rotaları:[/b] Dost şehir garnizonunu bölüklere ayırın. Her bölüğe ayrı rota, mevcut, hız ve otomatik devriye/özel rota/mevzide bekle görevi verin.
+[*][b]Şehir komutanları ve bölge generalleri:[/b] Ayrı komutan NPC'leri alın. Komuta unvanları yerleşim ve bölge nüfusuna göre değişir; kimlik, teçhizat ve atamalar kaydedilir.
+[*][b]Karışık NATO garnizonları:[/b] Şehir devriyeleri, üsler, kontrol noktaları ve mürettebat; mevcut NATO ordusu ile kurulu RHS BLUFOR birliklerinden, görev rollerine uygun şekilde seçilir.
+[*][b]Düzenlenebilir RHS asker presetleri:[/b] Dost şehir ve üs garnizonlarında preset arayın, seçin ve toplu asker alın. Tam RHS test setinde 114 ek preset bulunur. General yetkisiyle teçhizatı ACE Arsenal üzerinden düzenleyin.
+[*][b]Yerel çete baskınları:[/b] Çeteler yakın şehirlere ve NATO üs/havaalanı/iletişim noktalarına saldırabilir. Baskınlar mevcut üyeleri kullanır; üye toplama hızı ve sınırları korunur.
+[*][b]Başlangıç yerleşimi seçimi:[/b] Yeni kampanyanın ortak başlangıç kasabasını haritanın izin verdiği yerleşimler arasından seçin.
+[*][b]Yenilenen menüler:[/b] Koyu tema, taktik harita önizlemeleri ve yeniden düzenlenen başlangıç, ana menü, ayarlar ve komuta ekranları.
+[/list]
+
+[h2]Düzeltmeler[/h2]
+[list]
+[*]Çevrimdışı askerlerin, deneyimlerin, birlik adlarının ve özel teçhizatların kayıtta korunması.
+[*]Satış, ortak kasa, yakıt ücretlendirmesi ve depo işlemlerinde sunucu doğrulamaları.
+[*]NATO karşı saldırılarında hedef, bekleme süresi, eşzamanlılık, kaynak ve kontrol devri düzeltmeleri.
+[*]Modern mühimmat uyumluluğu, boş NATO silah/şarjör havuzları ve modlara ait uzak çağrı izinlerinin düzeltilmesi.
+[*]Komutan sanallaştırması ve çete hedef taramasında daha düşük betik maliyeti; asker/preset havuzlarının önbelleğe alınması.
+[/list]
+
+[h2]Gereksinimler[/h2]
+[b]Gerekli:[/b] CBA_A3 ve ACE3; ACE Medical içeriği mevcut olmalıdır.
+[b]İsteğe bağlı:[/b] RHSUSAF, RHSAFRF, RHSGREF, RHSSAF ve LAMBS. Görünen presetler kurulu RHS paketlerine göre değişir. RHS olmadan mevcut asker şablonları kullanılabilir.
+
+Aynı anda yalnızca bir Overthrow sürümü yükleyin. Sunucu ve bütün istemciler aynı derlemeyi ve uyumlu mod setini kullanmalıdır. Mevcut kayıtlarınızı güncellemeden önce yedekleyin.
+
+[h2]Beta durumu[/h2]
+Yerel dedicated sunucuda otomatik motor testleri tamamlandı. Menülerin farklı arayüz ölçeklerindeki görsel kabulü, iki gerçek istemciyle JIP ve uzun kampanya/çatışma testleri henüz tamamlanmadı. Genel FPS artışı ölçülmedi.
+
+[h2]Emeği geçenler ve kaynak[/h2]
+ARMAzac — Orijinal Overthrow
+Nifnat — Overthrow Plus
+ThomasAngel / rekterakathom ve Overthrow CE katkıcıları — Community Edition
+ACE, CBA, RHS ve LAMBS geliştiricileri — Kullanılan bağımsız modlar
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2824471652]Orijinal Overthrow Community Edition[/url]
+[url=https://github.com/rekterakathom/Overthrow]Temel alınan kaynak projesi[/url]
+[url=KAYNAK_KODU_URL]Bu derlemeye karşılık gelen tam kaynak kodu[/url]
+
+Lisans: GPLv2. Mevcut lisans ve telif bildirimleri korunur. Harici modların PBO'ları bu pakete dahil değildir.

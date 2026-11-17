@@ -1,35 +1,30 @@
-params ["_sink"];
-
-private _nozzle = _sink getVariable "ace_refuel_nozzle";
-private _source = _nozzle getVariable "ace_refuel_source";
-
-if ((typeOf _source) in OT_fuelPumps) then {
-    private _last = _sink getVariable ["ot_lastFuel", fuel _sink];
-    private _fueled = (fuel _sink) - _last;
-    private _litresFueled = _fueled * getNumber (configOf _sink >> "fuelCapacity");
-
-    private _pricePer = [OT_nation, "FUEL", 100] call OT_fnc_getPrice;
-    private _total = round (_pricePer * _litresFueled);
-
-    //take money from nearest player
-    private _player = objNull;
-    private _close = -1;
-    {
-        private _dis = (_x distance _sink);
-        if (_close isEqualTo -1 || _dis < _close) then {
-            _player = _x;
-            _close = _dis;
-        };
-    } forEach (allPlayers);
-    private _money = _player getVariable ["money", 0];
-    if (_money < _total) then {
-        _nozzle setVariable ["ace_refuel_lastTickMissionTime", nil];
-        _nozzle setVariable ["ace_refuel_isRefueling", false, true];
-        "You cannot afford fuel" remoteExec ["OT_fnc_notifyMinor", _player];
-        _sink setFuel _last;
-    } else {
-        [-_total] remoteExec ["OT_fnc_money", _player];
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+// ACE refuel events run on the nozzle operator's machine, not the vehicle owner.
+// Keep the customer supplied by ace_refuel_started; never guess from proximity.
+params ["_event", "_args"];
+if (isNil "OT_fuelPumps") exitWith {};
+switch (_event) do {
+    case "started": {
+        _args params ["_source", "_sink", "_nozzle", "_unit"];
+        if (isNull _unit || { !local _unit } || { !isPlayer _unit } || { !((typeOf _source) in OT_fuelPumps) }) exitWith {};
+        private _cargo = _nozzle getVariable ["ace_refuel_refuelContainer", false];
+        private _level = if (_cargo) then { [_sink] call ace_refuel_fnc_getFuel } else { fuel _sink };
+        private _token = format ["%1:%2:%3", clientOwner, diag_frameNo, diag_tickTime];
+        // Another player may turn on a connected nozzle whose PFH still runs
+        // on its original owner. Share the customer and session with that owner.
+        _nozzle setVariable ["OT_refuelContext", [_unit, _source, _sink, _cargo, _token], true];
+        ["start", _unit, _source, _sink, _nozzle, _level, _cargo, _token] remoteExecCall ["OT_fnc_processRefuel", 2];
     };
-
-    _sink setVariable ["ot_lastFuel", fuel _sink, false];
+    case "tick": {
+        _args params ["_source", "_sink", "", "_cargo", "_nozzle"];
+        private _context = _nozzle getVariable ["OT_refuelContext", []];
+        if (count _context != 5 || { !((typeOf _source) in OT_fuelPumps) }) exitWith {};
+        _context params ["_unit", "_expectedSource", "_expectedSink", "_expectedCargo", "_token"];
+        if (_source != _expectedSource || { _sink != _expectedSink } || { _cargo != _expectedCargo }) exitWith {};
+        // Remote fuel readings lag behind. ACE's temporary level also avoids
+        // charging for overflow in the last tick of a nearly full tank.
+        private _level = if (_cargo) then { [_sink] call ace_refuel_fnc_getFuel } else { _nozzle getVariable ["ace_refuel_tempFuel", fuel _sink] };
+        ["tick", _unit, _source, _sink, _nozzle, _level, _cargo, _token] remoteExecCall ["OT_fnc_processRefuel", 2];
+    };
 };

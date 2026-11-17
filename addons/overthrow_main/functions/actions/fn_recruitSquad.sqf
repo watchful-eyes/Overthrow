@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 if !(captive player) exitWith { "You cannot recruit while wanted" call OT_fnc_notifyMinor };
 
 params ["_cls", "_pos"];
@@ -37,8 +39,7 @@ player hcSetGroup [_group, groupId _group, "teamgreen"];
 
 player setVariable ["OT_squadcount", _cc, true];
 
-private _recruits = server getVariable ["squads", []];
-_recruits pushBack [getPlayerUID player, _cls, _group, []];
-server setVariable ["squads", _recruits, true];
+private _squadData = [getPlayerUID player, _cls, _group, [], groupId _group];
+[player, [], [_squadData], false] remoteExecCall ["OT_fnc_updatePlayerArmy", 2];
 
 "Squad recruited, use ctrl + space to command" call OT_fnc_notifyMinor;

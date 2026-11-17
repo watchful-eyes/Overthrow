@@ -1,10 +1,15 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_me", ["_killer", objNull]];
+if ((_me getVariable ["OT_commanderKey", ""]) isNotEqualTo "") exitWith {
+    if (isServer) then { [_me] call OT_fnc_commanderKilled };
+};
 
 if !(local _me) exitWith {}; //Only run this on the machine where unit is local
 
 if ((isNull _killer) || { _killer == _me }) then {
     private _aceSource = _me getVariable ["ace_medical_lastDamageSource", objNull];
-    if ((!isNull _aceSource) && { _aceSource != _unit }) then {
+    if ((!isNull _aceSource) && { _aceSource != _me }) then {
         _killer = _aceSource;
     };
 };
@@ -76,7 +81,7 @@ call {
         _killer setVariable ["CIVkills", (_killer getVariable ["CIVkills", 0]) + 1, true];
         private _pop = server getVariable format ["employ%1", _employee];
         if (_pop > 0) then {
-            server setVariable [format ["employ%1", _mobsterid], _pop - 1, true];
+            server setVariable [format ["employ%1", _employee], _pop - 1, true];
         };
         format ["An employee of %1 has died", _employee] remoteExec ["OT_fnc_notifyMinor", 0, false];
     };
@@ -136,13 +141,14 @@ call {
         [_killer, _gangid, -25] call OT_fnc_gangRep;
     };
     if (!isNil "_polgarrison") exitWith {
-        private _pop = server getVariable format ["police%1", _polgarrison];
-        if (_pop > 0) then {
-            _pop = _pop - 1;
-            server setVariable [format ["police%1", _polgarrison], _pop, true];
+        if (_me getVariable ["OT_garrisonDeathCounted", false]) exitWith {};
+        _me setVariable ["OT_garrisonDeathCounted", true];
+        private _before = server getVariable ["police" + _polgarrison, 0];
+        private _pop = [_polgarrison, _me getVariable ["OT_garrisonPreset", "Police"], -1] call OT_fnc_changeGarrisonRoster;
+        if (_pop < _before) then {
             format ["A police officer has been killed in %1", _polgarrison] remoteExec ["OT_fnc_notifyMinor", 0, false];
         };
-        [_town, -2] call OT_fnc_stability;
+        [_polgarrison, -2] call OT_fnc_stability;
         private _mrkid = format ["%1-police", _polgarrison];
         _mrkid setMarkerText format ["%1", _pop];
     };

@@ -1,7 +1,8 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if (visibleMap) exitWith {};
 if (!isNil "OT_MapSingleClickEHId" || !isNil "OT_MapEHId") exitWith {};
 
-hint "Click on a location";
+hint ("Click on a location" call OT_fnc_localizeText);
 
 OT_MapSingleClickEHId = addMissionEventHandler [
     "MapSingleClick",

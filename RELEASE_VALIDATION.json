@@ -1,0 +1,99 @@
+{
+  "release": "2.10.0-test.1",
+  "engine_addon_version": "2.10.0.1",
+  "date": "2026-11-16",
+  "validated_at_utc": "2026-11-16T16:58:31.542884+00:00",
+  "status": "test_release_automated_checks_passed_manual_acceptance_outstanding",
+  "mod_folder": "@OverthrowCE_GarrisonCommand_Test",
+  "engine": "Arma 3 2.22.154089 x64",
+  "dependencies": {
+    "CBA_A3": "3.19.0.260808",
+    "ACE3": "3.21.2.113 including Medical",
+    "optional_current_run": "RHS AFRF/USAF/GREF/SAF and 3CB Factions installed on the dedicated fixture; optional addons are not bundled"
+  },
+  "languages": [
+    "en",
+    "tr"
+  ],
+  "default_language": "en",
+  "features_in_this_package": [
+    "Animated notification cards and repeat/queue handling",
+    "Host/full-admin money, influence and shared-fund tools",
+    "Campaign occupation-force selection, installed-mod filtering and persistence",
+    "English/Turkish presentation plus the earlier garrison, commander, gang and RHS features"
+  ],
+  "native_runs": {
+    "signed_solo_host": {
+      "rpt_file": "arma3_x64_2026-11-16_19-54-39.rpt",
+      "rpt_sha256": "82cce09fd3545c6c11a10175250007eb996adfbed7a4db4f34d35048f2f19e7d",
+      "tested_pbo_sha256": "76fd93060b3752143d96c46e240115d75e731546d972835040499992b48888c6",
+      "addon_version_assertion": "2.10.0.1",
+      "counts": {
+        "LOCALIZATION": 3121,
+        "NOTIFICATIONS": 16,
+        "ADMIN_CHEATS": 34,
+        "ADMIN_CHEATS_UI": 28,
+        "START": 12,
+        "ENGINE": 13,
+        "CAMPAIGN_FORCES": 28,
+        "CAMPAIGN_FORCES_UI": 14
+      },
+      "script_errors": 0
+    },
+    "signed_rhs3cb_dedicated": {
+      "rpt_file": "arma3server_x64_2026-11-16_19-54-40.rpt",
+      "rpt_sha256": "648f6c3d894c3a6199adc4ce69517a16115150a36ad906c62c8ce0c41af8ac06",
+      "tested_pbo_sha256": "76fd93060b3752143d96c46e240115d75e731546d972835040499992b48888c6",
+      "addon_version_assertion": "2.10.0.1",
+      "counts": {
+        "START": 12,
+        "ENGINE": 13,
+        "CAMPAIGN_FORCES": 34
+      },
+      "script_errors": 0
+    }
+  },
+  "total_native_assertion_executions": 3325,
+  "count_note": "Assertion executions include repeated scenarios across different mod configurations, not unique tests.",
+  "python_tests_passed": 3,
+  "build": {
+    "hemtt": "1.23.1",
+    "command": "hemtt release --no-bin --no-archive",
+    "sqf_files": 586,
+    "rapified_configs": 9,
+    "raw_multiplayer_descriptions": 4,
+    "pbo_sha256": "76fd93060b3752143d96c46e240115d75e731546d972835040499992b48888c6",
+    "signature": "BI V3",
+    "signature_verified": true,
+    "signing_authority": "otce-garrison-command-test",
+    "public_key_file": "otce-garrison-command-test_2.10.0.1-34dd59bd.bikey",
+    "public_key_sha256": "b4fbc8a07bde9b1a302816a6cd9f26050f87dbab5abf7cf217ddee0090dc0ef7",
+    "signature_file": "OT_overthrow_main.pbo.otce-garrison-command-test_2.10.0.1-34dd59bd.bisign",
+    "signature_sha256": "909489eccd999122e748d67a8dc96db0fd536ce1941c55f8bf526ed2b9b99821",
+    "private_key_distributed": false,
+    "git_base": "34dd59bdf2be18426f52f06b84a9a91cb8d621c1",
+    "source_changes_uncommitted": true,
+    "lint_warnings": 31,
+    "errors": 0
+  },
+  "prior_evidence": {
+    "note": "Earlier feature/integration runs are historical evidence, not additional checks against this signed PBO.",
+    "previous_release": "2.9.0",
+    "previous_validation_status": "automated_checks_passed_manual_acceptance_outstanding",
+    "previous_tested_dependencies": {
+      "CBA_A3": "3.19.0.260808",
+      "ACE3": "3.21.2.113",
+      "RHS": "AFRF/USAF/GREF/SAF 0.5.6 (optional full set)",
+      "LAMBS_Danger": "2.6.2.1 (optional full set)"
+    }
+  },
+  "limitations": [
+    "This is a test release; stable gameplay acceptance is incomplete.",
+    "Two real clients, different language preferences, JIP, reconnects and locality transfers remain outstanding.",
+    "Dedicated admin login/logout and negative privilege tests with real connected players remain outstanding.",
+    "Full RHS/3CB GUI client startup did not complete in the earlier automation; the current full-mod checks ran on a dedicated server.",
+    "Native control-state checks do not replace screenshots or visual review at different resolutions/UI scales.",
+    "Prolonged battles and gameplay acceptance on every included terrain remain outstanding.",
+    "--no-bin preserves unchanged model assets without rerunning the Arma Tools model binarizer."
+  ]
+}

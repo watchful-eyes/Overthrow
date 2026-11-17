@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 //Scramble a helicopter to take out a target
 params ["_target", "_targetpos", ["_delay", 0]];
 
@@ -27,7 +29,7 @@ if !(isNil "_from") then {
     _veh setVariable ["garrison", "HQ", false];
 
     {
-        _x addCuratorEditableObjects [[_veh]];
+        _x addCuratorEditableObjects [[_veh], true];
     } forEach (allCurators);
 
     clearWeaponCargoGlobal _veh;
@@ -73,7 +75,7 @@ if !(isNil "_from") then {
 
     waitUntil {
         sleep 10;
-        (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
+       (alive _veh && (_veh distance _frompos) < 150) || !alive _veh;
     };
 
     if (alive _veh) then {
@@ -84,7 +86,7 @@ if !(isNil "_from") then {
         // Sometimes helicopters land just briefly and take off again, so checking this every second
         waitUntil {
             sleep 1;
-            (getPos _veh) # 2 < 2;
+           (getPos _veh) # 2 < 2;
         };
     };
     _veh call OT_fnc_cleanup;

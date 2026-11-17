@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 disableSerialization;
 OT_context = _this select 0;
 createDialog "OT_dialog_loadout";
@@ -6,7 +7,7 @@ lbClear 1500;
 {
     private _cls = _x;
 
-    private _idx = lbAdd [1500, _cls];
+    private _idx = lbAdd [1500, (_cls call OT_fnc_localizeText)];
     lbSetValue [1500, _idx, 0];
     lbSetData [1500, _idx, _cls];
 } forEach (profileNamespace getVariable ["OT_loadouts", []]);

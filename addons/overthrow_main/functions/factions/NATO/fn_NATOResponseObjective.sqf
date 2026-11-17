@@ -1,7 +1,9 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_objective", "_strength"];
 private _posTown = getMarkerPos _objective;
 
-private _tskid = [independent, [format ["counter%1", _objective]], [format ["NATO is sending forces to %1. This is our chance to capture it if we can hold the field.", _objective], format ["Capture %1", _objective], format ["counter%1", _objective]], _posTown, 1, 2, true, "Target", true] call BIS_fnc_taskCreate;
+private _tskid = [independent, [format ["counter%1", _objective]], [format ["NATO is sending forces to %1. This is our chance to capture it if we can hold the field.", _objective], format ["Capture %1", _objective], format ["counter%1", _objective]], _posTown, 1, 2, true, "Target", true] call OT_fnc_createLocalizedTask;
 
 format ["NATO is attacking %1", _objective] remoteExec ["OT_fnc_notifyMinor", 0, false];
 
@@ -31,9 +33,7 @@ private _success = {
     params ["_tskid", "_objective"];
     //NATO has won
     [_tskid, "FAILED", true] spawn BIS_fnc_taskSetState;
-    private _abandoned = server getVariable "NATOabandoned";
-    _abandoned deleteAt (_abandoned find _objective);
-    server setVariable ["NATOabandoned", _abandoned, true];
+    [_objective] call OT_fnc_NATOrestoreControl;
     server setVariable [format ["garrison%1", _objective], round (8 + random 12), true];
 };
 

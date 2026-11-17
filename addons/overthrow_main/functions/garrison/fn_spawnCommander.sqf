@@ -1,0 +1,33 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
+if (!isServer) exitWith { objNull };
+params ["_record"];
+_record params ["_kind", "_target", "_home", "_identity", "_loadout", "_class", "_token"];
+if !(_home in (server getVariable ["NATOabandoned", []])) exitWith { objNull };
+private _center = server getVariable ["policepos" + _home, []];
+private _details = [_kind, _target] call OT_fnc_commanderDetails;
+if (count _center != 3 || { _details isEqualTo [] } || { !isClass (configFile >> "CfgVehicles" >> _class) }) exitWith { objNull };
+private _start = _center findEmptyPosition [3, 25, _class];
+if (_start isEqualTo []) then { _start = _center getPos [8, 45] };
+private _group = createGroup [independent, true];
+private _unit = _group createUnit [_class, _start, [], 0, "NONE"];
+if (isNull _unit) exitWith { deleteGroup _group; objNull };
+_group setGroupIdGlobal [format ["%1 / %2", _details # 0, _details # 2]];
+_group setVariable ["lambs_danger_disableGroupAI", true];
+_group setVariable ["VCM_NORESCUE", true];
+_unit setVariable ["NOAI", true];
+_unit setVariable ["OT_commanderKey", _details # 7, true];
+_unit setVariable ["OT_commanderToken", _token, true];
+_unit setVariable ["OT_commanderRank", _details # 2, true];
+_unit setUnitLoadout [_loadout, false];
+_unit setRank (_details # 3);
+private _name = format ["%1 %2", _details # 2, _identity # 0];
+_unit setName _name;
+[_unit, _name] remoteExecCall ["setName", 0, _unit];
+[_unit, _identity # 1] remoteExecCall ["setFace", 0, _unit];
+[_unit, _identity # 2] remoteExecCall ["setSpeaker", 0, _unit];
+_unit addEventHandler ["Killed", { _this call OT_fnc_commanderKilled }];
+_group setBehaviour "AWARE";
+private _wp = _group addWaypoint [_start, 0];
+_wp setWaypointType "HOLD";
+_unit;

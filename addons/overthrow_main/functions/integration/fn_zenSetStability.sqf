@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 /*
     Description:
     Creates the dialog to change the stability of the nearest town.
@@ -23,7 +24,7 @@ private _stability = server getVariable [format ["stability%1", _nearestTown], 1
             "Set this towns stability to:",
             0,
             1,
-            (_stability / 100)
+           (_stability / 100)
         ]
     ],
     {

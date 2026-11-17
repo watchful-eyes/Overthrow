@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _veh = vehicle player;
 
 if (_veh isEqualTo player) exitWith {};
@@ -19,7 +20,7 @@ if (_veh call OT_fnc_unitSeen) then {
             _x setCaptive false;
         } forEach (crew _veh);
         [_veh] call OT_fnc_revealToNATO;
-        hint "You were caught stealing!";
+        hint ("You were caught stealing!" call OT_fnc_localizeText);
     };
 };
 
@@ -31,7 +32,7 @@ if (count _objects isEqualTo 1) then {
         _options pushBack [
             format [
                 "%1 (%2m)",
-                (typeOf _x) call OT_fnc_vehicleGetName,
+               (typeOf _x) call OT_fnc_vehicleGetName,
                 round (_x distance player)
             ],
             OT_fnc_transferHelper,

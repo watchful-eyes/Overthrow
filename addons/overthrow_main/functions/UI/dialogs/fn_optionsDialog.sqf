@@ -7,6 +7,8 @@ if (!server_dedi) then {
 if !(isServer || (call BIS_fnc_admin isEqualTo 2)) then {
     ctrlEnable [1609, false];
     ctrlShow [1609, false];
+    ctrlEnable [1610, false];
+    ctrlShow [1610, false];
 };
 
 if (!_amgen) then {

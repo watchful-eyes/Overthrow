@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 closeDialog 0;
 openMap false;
 createDialog "OT_dialog_choose";
@@ -5,7 +6,7 @@ createDialog "OT_dialog_choose";
 if ((_this select 0) isEqualType "") then {
     disableSerialization;
     private _ctrl = (findDisplay 8002) displayCtrl 1100;
-    _ctrl ctrlSetStructuredText parseText (_this select 0);
+    _ctrl ctrlSetStructuredText parseText ((_this select 0) call OT_fnc_localizeText);
     _this deleteAt 0;
 } else {
     ctrlShow [1100, false];
@@ -16,7 +17,7 @@ OT_choices = _this;
 private _idc = 1600;
 {
     private _text = _x select 0;
-    ctrlSetText [_idc, _text];
+    ctrlSetText [_idc, (_text call OT_fnc_localizeText)];
 
     _idc = _idc + 1;
     if (_idc > 1605) exitWith {};

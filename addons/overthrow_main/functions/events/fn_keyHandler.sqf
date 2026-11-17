@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _handled = false;
 
 if (!dialog) then {
@@ -14,7 +15,7 @@ if (!dialog) then {
             if (player getVariable ["OT_tute_trigger", false]) then {
                 player setVariable ["OT_tute_trigger", false, true];
                 [] spawn {
-                    hint format ["Take some time to explore the main menu, when you're finished open the map (%1 key)", "ShowMap" call OT_fnc_getAssignedKey];
+                    hint (format ["Take some time to explore the main menu, when you're finished open the map (%1 key)", "ShowMap" call OT_fnc_getAssignedKey] call OT_fnc_localizeText);
 
                     private _acekey = "Left Windows (default)";
                     private _acebind = ["ACE3 Common", "ace_interact_menu_InteractKey"] call CBA_fnc_getKeybind;
@@ -43,9 +44,9 @@ if (!dialog) then {
                         visibleMap;
                     };
 
-                    hint format [
+                    hint (format [
                         "Holding RMB will pan the map, zoom with the scrollwheel. When you are finished exploring the map, close it with the Esc key."
-                    ];
+                    ] call OT_fnc_localizeText);
                     sleep 3;
                     [
                         format [
@@ -85,11 +86,11 @@ if (!dialog) then {
                     private _gundealer = spawner getVariable format ["gundealer%1", player call OT_fnc_nearestTown];
                     [player, getPos _gundealer, "Gun Dealer"] call OT_fnc_givePlayerWaypoint;
                     sleep 3;
-                    hint "Go and speak to the local gun dealer. Head towards the marked location, you have nothing to worry about as long as you are not carrying/wearing any illegal items.";
+                    hint ("Go and speak to the local gun dealer. Head towards the marked location, you have nothing to worry about as long as you are not carrying/wearing any illegal items." call OT_fnc_localizeText);
 
                     waitUntil {
                         uiSleep 1;
-                        (player distance2D getPosASL _gundealer) < 5;
+                       (player distance2D getPosASL _gundealer) < 5;
                     };
 
                     private _lines = [
@@ -109,7 +110,7 @@ if (!dialog) then {
                                         player,
                                         _gundealer,
                                         [
-                                            (_this select 0),
+                                           (_this select 0),
                                             "I hear you. I bet it was even them who shot the protester... I tell you what, take this spare pistol I have laying around.",
                                             "What am I supposed to do with this?",
                                             "I don't know. But every other guy that's come in here recently that was angry with NATO wanted a gun, and I won't ask questions.",
@@ -117,15 +118,15 @@ if (!dialog) then {
                                             "No problem, anything you can do to help me stay under their radar is great, I'll pay you $250 if you can take care of them."
                                         ],
                                         {
-                                            hint format [
+                                            hint (format [
                                                 "The gun is in your pocket, you can equip it in your inventory (%1 key) by dragging it to your hands. But be careful, if NATO sees any weapons they will open fire on you, so best to keep it where it is until you uh... 'need' it",
                                                 "Gear" call OT_fnc_getAssignedKey
-                                            ];
+                                            ] call OT_fnc_localizeText);
                                             [
                                                 {
                                                     playSound "3DEN_notificationDefault";
                                                     [] call (OT_tutorialMissions select 0);
-                                                    hint "You have completed the tutorial. Good luck on your future journey!";
+                                                    hint ("You have completed the tutorial. Good luck on your future journey!" call OT_fnc_localizeText);
                                                     player setVariable ["OT_tute_inProgress", false];
                                                 },
                                                 0,
@@ -147,7 +148,7 @@ if (!dialog) then {
                                         player,
                                         _gundealer,
                                         [
-                                            (_this select 0),
+                                           (_this select 0),
                                             "I agree. I bet it was even them who shot the protester, they would much rather keep this nation in turmoil...",
                                             "I know, right",
                                             "I tell you what, take this spare pistol I have laying around.",
@@ -160,16 +161,16 @@ if (!dialog) then {
                                             "No problem, just come back if you need more ammunition or anything else the stores won't sell you."
                                         ],
                                         {
-                                            hint format [
+                                            hint (format [
                                                 "The gun is in your pocket, you can equip it in your inventory (%1 key) by dragging it to your hands. But be careful, if NATO sees any weapons they will open fire on you.",
                                                 "Gear" call OT_fnc_getAssignedKey
-                                            ];
+                                            ] call OT_fnc_localizeText);
                                             [
                                                 {
                                                     playSound "3DEN_notificationDefault";
                                                     // No mission here, so just clear the gun dealer waypoint.
                                                     call OT_fnc_clearPlayerWaypoint;
-                                                    hint "You have completed the tutorial. Good luck on your future journey!";
+                                                    hint ("You have completed the tutorial. Good luck on your future journey!" call OT_fnc_localizeText);
                                                     player setVariable ["OT_tute_inProgress", false];
                                                 },
                                                 1,
@@ -191,7 +192,7 @@ if (!dialog) then {
                                         player,
                                         _gundealer,
                                         [
-                                            (_this select 0),
+                                           (_this select 0),
                                             "Probably a good idea with everything that's happening. I tell you what, take this spare bud I have laying around.",
                                             "What am I supposed to do with this?",
                                             "Sell it to some of the civilians round here, maybe it will calm them down",
@@ -199,15 +200,15 @@ if (!dialog) then {
                                             "No problem, just come back if you need more, or anything else the stores won't sell you."
                                         ],
                                         {
-                                            hint format [
+                                            hint (format [
                                                 "The drugs are in your pocket, you can see it in your inventory (%1 key).",
                                                 "Gear" call OT_fnc_getAssignedKey
-                                            ];
+                                            ] call OT_fnc_localizeText);
                                             [
                                                 {
                                                     playSound "3DEN_notificationDefault";
                                                     [] call (OT_tutorialMissions select 1);
-                                                    hint "You have completed the tutorial. Good luck on your future journey!";
+                                                    hint ("You have completed the tutorial. Good luck on your future journey!" call OT_fnc_localizeText);
                                                     player setVariable ["OT_tute_inProgress", false];
                                                 },
                                                 2,
@@ -226,20 +227,20 @@ if (!dialog) then {
                                         player,
                                         _gundealer,
                                         [
-                                            (_this select 0),
+                                           (_this select 0),
                                             "Well I'm not really the guy to help you there, but there are usually some wrecked vehicles around town, maybe you can salvage some useful resources from them?",
                                             "OK, thanks.",
                                             "No problem! See you around."
                                         ],
                                         {
-                                            hint format [
+                                            hint (format [
                                                 "Wrecked vehicles can be salvaged with a toolkit, there should be one in your ammo crate at home. Shops on your map are marked with a circle and icon representing what they buy/sell. Towns with lower stability and population will pay higher prices for all items."
-                                            ];
+                                            ] call OT_fnc_localizeText);
                                             [
                                                 {
                                                     playSound "3DEN_notificationDefault";
                                                     [] call (OT_tutorialMissions select 2);
-                                                    hint "You have completed the tutorial. Good luck on your future journey!";
+                                                    hint ("You have completed the tutorial. Good luck on your future journey!" call OT_fnc_localizeText);
                                                     player setVariable ["OT_tute_inProgress", false];
                                                 },
                                                 3,
@@ -281,7 +282,7 @@ if (!dialog) then {
                         disableUserInput false;
                     };
                     [-_cost] call OT_fnc_money;
-                    cutText [format ["Skipping ferry to %1", _town], "BLACK", 2];
+                    cutText [(format ["Skipping ferry to %1", _town] call OT_fnc_localizeText), "BLACK", 2];
                     player setVariable ["OT_ferryDestination", [], false];
                     [_ferry, _veh] spawn {
                         params ["_pos", "_veh"];

@@ -1,9 +1,12 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 /* Included at top of mission's description.ext for default Overthrow settings
  * #include "\overthrow_main\mission_component.hpp"
  *
  * Override values after if required
  */
 #include "\overthrow_main\script_component.hpp"
+#include "\overthrow_main\CfgRemoteExec.hpp"
 
 author = QUOTE(MOD_AUTHOR);
 OnLoadMission = QUOTE(VERSION_STR - Read the wiki at overthrow.fandom.com for more information);
@@ -138,13 +141,8 @@ class Params {
         values[] = {100, 150, 200, 250, 300, 350, 400, 450, 500, 1000};
         default = 100;
     };
-    class ace_medical_level {
-        title = "ACE Medical Level";
-        ACE_setting = 1;
-        values[] = {1, 2};
-        texts[] = {"Basic", "Advanced"};
-        default = 1;
-    };
+    // Medical difficulty is configured in ACE's CBA Addon Options.
+    // ace_medical_level was removed by the ACE 3.13 medical rewrite.
     class ace_medical_blood_enabledFor {
         title = "ACE Blood";
         ACE_setting = 1;

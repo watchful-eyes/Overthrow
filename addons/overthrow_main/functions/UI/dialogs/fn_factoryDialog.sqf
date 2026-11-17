@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 createDialog 'OT_dialog_factory';
 
 private _cursel = lbCurSel 1500;
@@ -12,9 +13,9 @@ private _done = [];
 
     _done pushBack _x;
 
-    (_x call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
+   (_x call OT_fnc_getClassDisplayInfo) params ["_pic", "_name"];
 
-    private _idx = lbAdd [1500, format ["%1", _name]];
+    private _idx = lbAdd [1500, (format ["%1", _name] call OT_fnc_localizeText)];
     lbSetPicture [1500, _idx, _pic];
     lbSetData [1500, _idx, _x];
 } forEach (server getVariable ["GEURblueprints", []]);

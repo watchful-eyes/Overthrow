@@ -1,4 +1,4 @@
-disableSerialization;
+// Updated 16 November 2026 for notification cards. GNU GPL v2.
 /*
 =============================================================================================================================
   FILE: fn_topMessage.sqf
@@ -14,33 +14,4 @@ params [
     ["_playSound", false],
     ["_sound", "click"]
 ];
-
-if !(hasInterface) exitWith {
-    diag_log format ["'%1' was canceled from running on a client that has no interface", __FILE__];
-};
-
-private _display = findDisplay 46;
-private _ctrl = _display ctrlCreate ["RscStructuredText", -1];
-_ctrl ctrlSetPosition [0 * safeZoneW + safeZoneX, -1 * safeZoneH + safeZoneY, 1 * safeZoneW, 0.066 * safeZoneH];
-_ctrl ctrlSetStructuredText parseText _text2show;
-_ctrl ctrlCommit 0;
-[_ctrl] call BIS_fnc_CtrlFitToTextHeight;
-
-_ctrl ctrlSetPosition [(ctrlPosition _ctrl) # 0, (-0.05 - (ctrlPosition _ctrl) # 3) * safeZoneH + safeZoneY, (ctrlPosition _ctrl) # 2, (ctrlPosition _ctrl) # 3];
-_ctrl ctrlCommit 0;
-
-_ctrl ctrlSetPosition [0 * safeZoneW + safeZoneX, 0 * safeZoneH + safeZoneY];
-_ctrl ctrlCommit 0.25;
-
-if (_playSound) then {
-    playSound [_sound, false];
-};
-
-uiSleep (_time);
-
-_ctrl ctrlSetPosition [(ctrlPosition _ctrl) # 0, (((ctrlPosition _ctrl) # 3) * -1) * safeZoneH + safeZoneY, (ctrlPosition _ctrl) # 2, (ctrlPosition _ctrl) # 3];
-_ctrl ctrlCommit 0.25;
-
-uiSleep 0.35;
-
-ctrlDelete _ctrl;
+[_text2show, "big", _time, ["", _sound] select _playSound] call OT_fnc_notify;

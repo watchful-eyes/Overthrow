@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 private _cfgVehicles = configFile >> "CfgVehicles";
 private _cfgWeapons = configFile >> "CfgWeapons";
 private _cfgMagazines = configFile >> "CfgMagazines";
@@ -9,13 +11,14 @@ OT_ACEremoveAction = [
     {},
     {
         params ["_target"];
-        (call OT_fnc_playerIsGeneral) || (_target call OT_fnc_playerIsOwner);
+       (call OT_fnc_playerIsGeneral) || (_target call OT_fnc_playerIsOwner);
     },
     {},
     [],
     [0, 0, 0],
     10
 ] call ace_interact_menu_fnc_createAction;
+OT_ACEremoveAction set [10, { (_this # 3) set [1, "Remove" call OT_fnc_localizeText] }];
 OT_ACEremoveActionConfirm = [
     "OT_Remove_Confirm",
     "Confirm",
@@ -30,6 +33,7 @@ OT_ACEremoveActionConfirm = [
     [0, 0, 0],
     10
 ] call ace_interact_menu_fnc_createAction;
+OT_ACEremoveActionConfirm set [10, { (_this # 3) set [1, "Confirm" call OT_fnc_localizeText] }];
 
 //Find markers
 OT_ferryDestinations = [];
@@ -143,7 +147,7 @@ OT_rankXP = [100, 250, 500, 1000, 4000, 10000, 100000];
 OT_adminMode = false;
 OT_deepDebug = false;
 OT_allIntel = [];
-OT_notifies = [];
+if (hasInterface) then { [true] call OT_fnc_initNotifications };
 
 OT_NATO_HQPos = [0, 0, 0];
 
@@ -330,7 +334,7 @@ if (isServer) then {
 };
 
 private _allVehs = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') # 0) < 0.5 }
         && { toLowerANSI getText (_x >> 'vehicleClass') in ['car', 'support'] }
         && { toLowerANSI getText (_x >> 'faction') in ['civ_f', 'ind_f'] }
@@ -363,7 +367,7 @@ private _mostExpensive = 0;
 
 //Determine vehicle threats
 _allVehs = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') # 0) > 0 }
         && { toLowerANSI getText (_x >> 'vehicleClass') in ['car', 'armored'] }
     );
@@ -374,7 +378,7 @@ _allVehs = "
 } forEach (_allVehs);
 
 private _allHelis = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') select 0) < 0.5 }
         && { toLowerANSI getText (_x >> 'vehicleClass') isEqualTo 'air' }
         && { toLowerANSI getText (_x >> 'faction') in ['civ_f', 'ind_f'] }
@@ -407,7 +411,7 @@ private _allHelis = "
 
 //Determine aircraft threats
 _allHelis = "
-    (getNumber (_x >> 'scope') isEqualTo 2
+   (getNumber (_x >> 'scope') isEqualTo 2
         && { (getArray (_x >> 'threat') select 0) >= 0.5 }
         && { toLowerANSI getText (_x >> 'vehicleClass') isEqualTo 'air' }
     );
@@ -445,7 +449,7 @@ if (isServer) then {
 
 // Filter the scope only once
 private _filteredWeaponConfigs = "
-    (getNumber (_x >> 'scope') == 2);
+   (getNumber (_x >> 'scope') == 2);
 " configClasses (_cfgWeapons);
 
 private _allWeapons = [];
@@ -488,19 +492,19 @@ private _allHelmets = [];
 _filteredWeaponConfigs = nil;
 
 private _allAmmo = "
-    (getNumber (_x >> 'scope') isEqualTo 2);
+   (getNumber (_x >> 'scope') isEqualTo 2);
 " configClasses (_cfgMagazines);
 
 private _allVehicles = "
-    (getNumber (_x >> 'scope') > 0);
+   (getNumber (_x >> 'scope') > 0);
 " configClasses (_cfgVehicles);
 
 private _allFactions = "
-    (getNumber (_x >> 'side') < 3);
+   (getNumber (_x >> 'side') < 3);
 " configClasses (configFile >> "CfgFactionClasses");
 
 private _allGlasses = "
-    (getNumber (_x >> 'scope') isEqualTo 2);
+   (getNumber (_x >> 'scope') isEqualTo 2);
 " configClasses (configFile >> "CfgGlasses");
 
 OT_allFactions = [];
@@ -610,10 +614,11 @@ OT_allBLURifleMagazines = [];
                         if (_base isKindOf ["Rifle", _cfgWeapons]) then {
                             private _mass = getNumber (_cfgWeapons >> _base >> "WeaponSlotsInfo" >> "mass");
                             _base call {
-                                private _itemType = ([_cls] call BIS_fnc_itemType) select 1;
+                                private _itemType = ([_base] call BIS_fnc_itemType) select 1;
                                 if (_itemType isEqualTo "MachineGun") exitWith { OT_allBLUMachineGuns pushBackUnique _base };
-                                if ((_this select [0, 7]) == "srifle_" || (_this isKindOf ["Rifle_Long_Base_F", _cfgWeapons])) exitWith { OT_allBLUSniperRifles pushBackUnique _base };
-                                if ("_GL_" in _this) exitWith { OT_allBLUGLRifles pushBackUnique _base };
+                                if (_itemType isEqualTo "SniperRifle" || { (_this select [0, 7]) == "srifle_" } || { _this isKindOf ["Rifle_Long_Base_F", _cfgWeapons] }) exitWith { OT_allBLUSniperRifles pushBackUnique _base };
+                                private _hasGrenadeMuzzle = (getArray (_cfgWeapons >> _base >> "muzzles")) findIf { _x isNotEqualTo "this" && { ([_base, _x] call OT_fnc_weaponMagazines) isNotEqualTo [] } } != -1;
+                                if ("_GL_" in _this || { _hasGrenadeMuzzle }) exitWith { OT_allBLUGLRifles pushBackUnique _base };
                                 private _events = "" configClasses (_cfgWeapons >> _base >> "Eventhandlers");
                                 private _add = true;
                                 {
@@ -623,7 +628,7 @@ OT_allBLURifleMagazines = [];
                                 if (_add && _mass < 61) exitWith { OT_allBLUSMG pushBackUnique _base };
                                 if (_add) then {
                                     OT_allBLURifles pushBackUnique _base;
-                                    OT_allBLURifleMagazines = OT_allBLURifleMagazines + getArray (_cfgWeapons >> _base >> "WeaponSlotsInfo" >> "magazines");
+                                    { if (getNumber (_cfgMagazines >> _x >> "scope") isEqualTo 2 && { !(_x in _blacklist) }) then { OT_allBLURifleMagazines pushBackUnique _x } } forEach ([_base] call OT_fnc_weaponMagazines);
                                 };
                             };
                         };
@@ -635,7 +640,7 @@ OT_allBLURifleMagazines = [];
                         if ((getNumber (configFile >> "CfgMagazines" >> _x >> "scope") isEqualTo 2) && { !(_x in _blacklist) || _x in OT_allExplosives }) then {
                             _weapons pushBackUnique _x;
                         };
-                    } forEach (getArray (_cfgWeapons >> _base >> "magazines"));
+                    } forEach ([_base, ""] call OT_fnc_weaponMagazines);
                 };
             } forEach (getArray (_cfgVehicles >> _cls >> "weapons"));
         } else {
@@ -679,7 +684,7 @@ private _caliberRegex = "(\d*\.\d+)\s*x\s*(\d+)|(\d+)\.(\d+)|\.(\d+)|(\d+)x(\d+)
         _caliber = _caliber # 0 # 0 # 0;
     } else {
         // We didn't find a caliber. Start looping through mags until we find a caliber.
-        private _magazines = getArray (_cfgWeapons >> _name >> "magazines");
+        private _magazines = [_name] call OT_fnc_weaponMagazines;
         {
             private _magName = getText (_cfgMagazines >> _x >> "displayName");
             private _magCaliber = _magName regexFind [_caliberRegex];
@@ -706,7 +711,7 @@ private _caliberRegex = "(\d*\.\d+)\s*x\s*(\d+)|(\d+)\.(\d+)|\.(\d+)|(\d+)x(\d+)
         };
     } forEach (_muzzles);
 
-    ([_weaponType, _name, _caliber, _haslauncher, _short] call {
+   ([_weaponType, _name, _caliber, _haslauncher, _short] call {
         params ["_weaponType", "_name", "_caliber", "_haslauncher", "_short"];
 
         if (_weaponType == "SubmachineGun") exitWith {
@@ -1141,5 +1146,7 @@ OT_warehouseLocationCache = createHashMap;
 zeusToggle = true;
 
 if (isServer) then {
+    [] call OT_fnc_initRHSPresets;
+    [] call OT_fnc_initNATOGarrisonPool;
     missionNamespace setVariable ["OT_varInitDone", true, true];
 };

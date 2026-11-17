@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_vehtypes", "_hvts", "_from", "_to", ["_missionid", "CONVOY"]];
 
 private _abandoned = server getVariable ["NATOabandoned", []];
@@ -43,7 +45,7 @@ if ([_topos, _fromregion] call OT_fnc_regionIsConnected) then {
         _driver assignAsCommander _veh;
         _convoypos = _convoypos getPos [20, _dir + 180];
         {
-            _x addCuratorEditableObjects [[_veh]];
+            _x addCuratorEditableObjects [[_veh], true];
         } forEach (allCurators);
         sleep 0.3;
     } forEach (_vehtypes);

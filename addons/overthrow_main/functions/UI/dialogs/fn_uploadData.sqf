@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 if (dialog) then {
     closeDialog 0;
 };
@@ -19,8 +20,9 @@ private _editData = str _data;
 _editData = [_editData, "<NULL-object>", "objNull"] call OT_fnc_findReplace;
 _editData = [_editData, ",any]", ",nil]"] call OT_fnc_findReplace;
 
+// Save data is never presentation text. Translating it can alter saved values.
 _editBox ctrlSetText _editData;
-_editBox ctrlSetTooltip "Copy & Paste this data to load from a string.";
+_editBox ctrlSetTooltip ("Copy & Paste this data to load from a string." call OT_fnc_localizeText);
 
-_legalText ctrlSetStructuredText parseText format ["<t font='PuristaMedium'>Use the data above to share your save or externally backup your mission.<br/>To load a mission from this data copy and paste it into the text box provided when selecting 'Load Game' in the mission menu. This data does contain your Steam ID and can be used to identify you.</t>"];
+_legalText ctrlSetStructuredText parseText (format ["<t font='PuristaMedium'>Use the data above to share your save or externally backup your mission.<br/>To load a mission from this data copy and paste it into the text box provided when selecting 'Load Game' in the mission menu. This data does contain your Steam ID and can be used to identify you.</t>"] call OT_fnc_localizeText);
 [_legalText] call BIS_fnc_ctrlFitToTextHeight;

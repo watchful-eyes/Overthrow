@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_frompos", "_attackpos", "_strength", ["_delay", 0]];
 if (_delay > 0) then { sleep _delay };
 
@@ -35,7 +37,7 @@ while { _count < _num } do {
     _group deleteGroupWhenEmpty true;
 
     {
-        _x addCuratorEditableObjects [[_veh]];
+        _x addCuratorEditableObjects [[_veh], true];
     } forEach (allCurators);
 
     _attackpos = _attackpos findEmptyPosition [50, 200, _vehtype];

@@ -1,5 +1,6 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _warehouse = [player] call OT_fnc_nearestWarehouse;
-if (_warehouse == objNull) exitWith { hint "No warehouse near by!" };
+if (_warehouse == objNull) exitWith { hint ("No warehouse near by!" call OT_fnc_localizeText) };
 
 params ["_range"];
 private _found = "";

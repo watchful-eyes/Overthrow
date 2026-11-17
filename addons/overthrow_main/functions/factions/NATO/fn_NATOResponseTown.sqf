@@ -1,18 +1,18 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_town", "_strength"];
 private _posTown = server getVariable _town;
 _town setMarkerAlpha 0;
 
-private _tskid = [independent, [format ["assault%1", _town]], [format ["NATO is assaulting %1.", _town], format ["Battle for %1", _town], format ["assault%1", _town]], _posTown, 1, 2, true, "Defend", true] call BIS_fnc_taskCreate;
+private _tskid = [independent, [format ["assault%1", _town]], [format ["NATO is assaulting %1.", _town], format ["Battle for %1", _town], format ["assault%1", _town]], _posTown, 1, 2, true, "Defend", true] call OT_fnc_createLocalizedTask;
 
 format ["NATO is attacking %1", _town] remoteExec ["OT_fnc_notifyMinor", 0, false];
 
 private _success = {
     params ["_tskid", "_town"];
     [_tskid, "FAILED", true] spawn BIS_fnc_taskSetState;
+    [_town] call OT_fnc_NATOrestoreControl;
     [_town, 50] call OT_fnc_stability;
-    private _abandoned = server getVariable "NATOabandoned";
-    _abandoned deleteAt (_abandoned find _town);
-    server setVariable ["NATOabandoned", _abandoned, true];
 };
 
 private _fail = {

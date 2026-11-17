@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_frompos", "_attackpos", ["_delay", 0]];
 if (_delay > 0) then { sleep _delay };
 private _vehtype = selectRandom OT_NATO_Vehicles_AirSupport;
@@ -40,7 +42,7 @@ createVehicleCrew _veh;
 sleep 1;
 
 {
-    _x addCuratorEditableObjects [[_veh]];
+    _x addCuratorEditableObjects [[_veh], true];
 } forEach (allCurators);
 
 private _topos = _attackpos getPos [random 200, random 360];

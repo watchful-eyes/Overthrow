@@ -1,3 +1,5 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params ["_veh", ["_am", []]];
 private _cls = _veh getVariable ["OT_attachedClass", ""];
 
@@ -30,20 +32,13 @@ _veh setVariable ["OT_Local", false, true];
 _veh animate ["hideRearDoor", 1];
 _veh animate ["hideSeatsRear", 1];
 
-[
-    _wpn,
-    "GetOut",
-    {
-        (_this select 2) moveInAny (attachedTo (_this select 0));
-        doGetOut (_this select 2);
-    }
-] remoteExec ["addEventHandler", 0, true];
+[_wpn] remoteExec ["OT_fnc_initAttachedWeaponLocal", 0, _wpn];
 
 private _Dname = getText (configOf _wpn >> "displayName");
-[_veh, format ["Get in %1 as Gunner", _Dname], "<img size='2' image='\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa'/>"] remoteExec ["OT_UpdateGetInState", 0, true];
 private _ls = [_veh, "", "", "", "speed _target <= 1 && speed _target >= -1 && _target distance _this < 5 && isNull objectParent _this && (!((_target getVariable 'OT_Attached') isEqualType false) || !((_target getVariable 'OT_Local') isEqualType false))", "true", {}, {}, {}, {}, [], 13, nil, false, false] call BIS_fnc_holdActionAdd;
 private _vls = _veh addAction ["", { [(_this select 0), (_this select 1)] spawn OT_fnc_mountAttached }, [], 5.5, true, true, "", "typeName (_target getVariable 'OT_Attached') != 'BOOL' && _target distance _this < 5"];
 _veh setVariable ["OT_Act", _ls, false];
 _veh setVariable ["OT_Act_GetIn", _vls, false];
+[_veh, format ["Get in %1 as Gunner", _Dname], "<img size='2' image='\a3\ui_f\data\IGUI\Cfg\Actions\getingunner_ca.paa'/>"] remoteExec ["OT_fnc_updateAttached", 0, _veh];
 _veh setVariable ["OT_Attached", false, true];
 _veh setVariable ["OT_Local", false, true];

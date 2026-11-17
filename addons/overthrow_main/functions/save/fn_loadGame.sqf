@@ -1,14 +1,16 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 params [
     ["_data", ""]
 ];
+if !([true] call OT_fnc_isServerController) exitWith {};
+if ((server getVariable ["StartupType", ""]) isNotEqualTo "" || { server getVariable ["OT_startupInProgress", false] }) exitWith {};
 
 // If string save is used then don't load from missionProfileNamespace
 if (_data isEqualTo "") then {
-    // Backwards compatibility
-    if (isMissionProfileNamespaceLoaded) then {
-        _data = missionProfileNamespace getVariable [OT_saveName, ""];
-        profileNamespace setVariable [OT_saveName, nil]; // Clean-up the old save from user profile
-    } else {
+    _data = missionProfileNamespace getVariable [OT_saveName, ""];
+    // The namespace can exist without this world's save. Keep the legacy copy as a backup.
+    if (_data isEqualTo "") then {
         _data = profileNamespace getVariable [OT_saveName, ""];
     };
 };
@@ -17,11 +19,22 @@ if (_data isEqualTo "") then {
 "Loading persistent save" remoteExec ['OT_fnc_notifyStart', 0, false];
 
 if (_data isEqualType "" && { _data isEqualTo "" }) exitWith {
-    [] remoteExec ['OT_fnc_newGame', 2];
-    "No save found, starting new game" remoteExec ["hint", 0, false];
+    [] spawn OT_fnc_newGame;
+    "No save found, starting new game" remoteExec ["OT_fnc_localizedHint", 0, false];
 };
 
+if !(_data isEqualType [] && { _data isNotEqualTo [] } && {
+    _data findIf { !(_x isEqualType []) || { count _x != 2 } || { !((_x # 0) isEqualType "") } } isEqualTo -1
+} && { _data findIf { (_x # 0) isEqualTo "server" && { (_x # 1) isEqualType [] } } != -1 }) exitWith {
+    server setVariable ["OT_startupAutoLoad", false, true];
+    "Invalid save data; no game state was changed" remoteExec ["OT_fnc_notifyStart", 0];
+    [] remoteExec ["OT_fnc_showStartDialog", server getVariable ["OT_startupOwner", objNull]];
+};
+server setVariable ["OT_startupInProgress", true, true];
+
 private _cc = 0;
+
+[[], true] call OT_fnc_commanderRecords;
 
 //make sure server vars are done first
 {
@@ -31,13 +44,23 @@ private _cc = 0;
         {
             if (isNil "_x") then { continue };
             _x params ["_subkey", "_subval"];
+            // Startup ownership/locks belong to the current session. Older
+            // saves could contain a live editor-named player object here.
+            if (toLower _subkey in ["startuptype", "ot_startupowner", "ot_startupinprogress", "ot_startupautoload"]) then { continue };
             if (!(toLower (_subkey select [0, 4]) in ["cba_", "bis_"])) then {
-                server setVariable [_subkey, _subval, true];
+                if (toLower _subkey isEqualTo "ot_commanders") then {
+                    [_subval, true] call OT_fnc_commanderRecords;
+                } else {
+                    if (toLower _subkey isNotEqualTo "ot_commanderrecords") then { server setVariable [_subkey, _subval, true] };
+                };
             };
         } forEach (_val);
     };
 } forEach (_data);
 
+// New saves carry the army in the persistent server namespace. Legacy saves
+// keep the lobby choice; removed optional mods fall back to the map's army.
+[] call OT_fnc_applyCampaignForce;
 sleep 0.3;
 
 //now do everything else
@@ -136,7 +159,7 @@ private _hasList_buildableHouses = false;
                     private _warehouse = objNull;
                     if (_currentVal isEqualType []) then {
                         diag_log _currentVal;
-                        _warehouse = [(_currentVal # 0)] call OT_fnc_nearestWarehouse;
+                        _warehouse = [(_currentVal # 0), false] call OT_fnc_nearestWarehouse;
                         {
                             if (isNil "_x") then { continue };
                             _x params [
@@ -175,7 +198,7 @@ private _hasList_buildableHouses = false;
     };
     if (_key == "warehouselist") then {
         if (isNil "_x") then { continue };
-        private _warehouses = _val apply { [_x] call OT_fnc_nearestWarehouse };
+        private _warehouses = _val apply { [_x, false] call OT_fnc_nearestWarehouse };
         warehouse setVariable ["owned", _warehouses, true];
         _set = false;
         continue;
@@ -233,7 +256,7 @@ private _hasList_buildableHouses = false;
 
                 if (count _x > 7) then {
                     // index range 0..6
-                    (_x select 7) params ["_fuel", "_dmg"];
+                   (_x select 7) params ["_fuel", "_dmg"];
                     //Fuel in tank
                     if !(_veh isKindOf "Building") then {
                         _veh setFuel _fuel;
@@ -422,25 +445,15 @@ private _hasList_buildableHouses = false;
         continue;
     };
     if (_key == "recruitables") then {
-        private _done = false;
-        {
-            if (isNil "_x") then { continue };
-            _x params ["_cls", "_loadout"];
-            {
-                _x params ["_c", "_l"];
-                if (_c == _cls) exitWith {
-                    _done = true;
-                    _x set [1, _loadout];
-                };
-            } forEach (OT_Recruitables);
-        } forEach (_val);
-        if !(_done) then { OT_Recruitables pushBack [_cls, _loadout] };
-        publicVariable "OT_Recruitables";
+        private _merged = [[] call OT_fnc_recruitPresets, _val] call OT_fnc_mergeRecruitables;
+        [_merged, true] call OT_fnc_recruitPresets;
         _set = false;
         continue;
     };
     if (_key == "policeLoadout") then {
         OT_Loadout_Police = _val;
+        server setVariable ["OT_policePreset", +_val];
+        server setVariable ["OT_policePresetView", +_val, true];
         publicVariable "OT_Loadout_Police";
         _set = false;
         continue;
@@ -594,4 +607,5 @@ OT_autoSave_last_time = (time + (OT_autoSave_time * 60)) + 60;
 
 sleep 2; //let the variables propagate
 server setVariable ["StartupType", "LOAD", true];
-hint "Persistent Save Loaded";
+server setVariable ["OT_startupInProgress", false, true];
+hint ("Persistent Save Loaded" call OT_fnc_localizeText);

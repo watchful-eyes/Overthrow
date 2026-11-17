@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 disableSerialization;
 
 private _currentCls = server getVariable ["GEURproducing", ""];
@@ -61,11 +62,11 @@ if (_currentCls != "") then {
 };
 
 private _textctrl = (findDisplay 8000) displayCtrl 1103;
-_textctrl ctrlSetStructuredText parseText _text;
+_textctrl ctrlSetStructuredText parseText (_text call OT_fnc_localizeText);
 lbClear 1501;
 {
     _x params ["_cls", "_qty"];
-    private _idx = lbAdd [1501, format ["%1 x %2", _qty, _cls call OT_fnc_getClassDisplayName]];
+    private _idx = lbAdd [1501, (format ["%1 x %2", _qty, _cls call OT_fnc_getClassDisplayName] call OT_fnc_localizeText)];
     lbSetData [1501, _idx, _cls];
 } forEach (server getVariable ["factoryQueue", []]);
 
@@ -74,7 +75,7 @@ private _cls = lbData [1500, _index];
 
 ([_cls, true] call OT_fnc_getClassDisplayInfo) params ["_pic", "_txt", "_desc"];
 
-ctrlSetText [1200, _pic];
+ctrlSetText [1200, (_pic call OT_fnc_localizeText)];
 
 private _cost = cost getVariable [_cls, []];
 private _recipe = "";
@@ -125,11 +126,11 @@ if (_cost isNotEqualTo []) then {
     _recipe = _recipe + format ["Output: %1 x %2<br/></t>", _numtoproduce, _txt];
 };
 
-((findDisplay 8000) displayCtrl 1100) ctrlSetStructuredText parseText format [
+((findDisplay 8000) displayCtrl 1100) ctrlSetStructuredText parseText (format [
     "
 	<t align='center' size='0.9'>%1</t><br/>
 	%2
 ",
     _txt,
     _recipe
-];
+] call OT_fnc_localizeText);

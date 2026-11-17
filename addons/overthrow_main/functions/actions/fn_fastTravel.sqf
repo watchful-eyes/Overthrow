@@ -1,12 +1,13 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _ft = server getVariable ["OT_fastTravelType", 1];
 private _diff = server getVariable ["OT_difficulty", 1];
 private _ftrules = server getVariable ["OT_fastTravelRules", _diff];
-if (!OT_adminMode && _ft > 1) exitWith { hint "Fast Travel is disabled" };
+if (!OT_adminMode && _ft > 1) exitWith { hint ("Fast Travel is disabled" call OT_fnc_localizeText) };
 
-if !(captive player) exitWith { hint "You cannot fast travel while wanted" };
-if !("ItemMap" in assignedItems player) exitWith { hint "You need a map to fast travel" };
+if !(captive player) exitWith { hint ("You cannot fast travel while wanted" call OT_fnc_localizeText) };
+if !("ItemMap" in assignedItems player) exitWith { hint ("You need a map to fast travel" call OT_fnc_localizeText) };
 
-if (_ftrules > 0 && !((primaryWeapon player) isEqualTo "" && (secondaryWeapon player) isEqualTo "" && (handgunWeapon player) isEqualTo "")) exitWith { hint "You cannot fast travel holding a weapon" };
+if (_ftrules > 0 && !((primaryWeapon player) isEqualTo "" && (secondaryWeapon player) isEqualTo "" && (handgunWeapon player) isEqualTo "")) exitWith { hint ("You cannot fast travel holding a weapon" call OT_fnc_localizeText) };
 
 private _foundweapon = false;
 if (!isNull objectParent player && _ftrules > 0) then {
@@ -14,7 +15,7 @@ if (!isNull objectParent player && _ftrules > 0) then {
         if (!((primaryWeapon _x) isEqualTo "" && (secondaryWeapon _x) isEqualTo "" && (handgunWeapon _x) isEqualTo "")) exitWith { _foundweapon = true };
     } forEach (crew vehicle player);
 };
-if (_foundweapon) exitWith { hint "A passenger is holding a weapon" };
+if (_foundweapon) exitWith { hint ("A passenger is holding a weapon" call OT_fnc_localizeText) };
 
 private _hasdrugs = false;
 {
@@ -30,27 +31,27 @@ if (!isNull objectParent player) then {
     } forEach (itemCargo vehicle player);
 
     if (_hasdrugs && _ftrules > 0) exitWith {
-        hint "You cannot fast travel while carrying drugs";
+        hint ("You cannot fast travel while carrying drugs" call OT_fnc_localizeText);
         _exit = true;
     };
     if (driver (vehicle player) != player) exitWith {
-        hint "You are not the driver of this vehicle";
+        hint ("You are not the driver of this vehicle" call OT_fnc_localizeText);
         _exit = true;
     };
     if ((crew vehicle player) findIf { !captive _x && alive _x } != -1) exitWith {
-        hint "There are wanted people in this vehicle";
+        hint ("There are wanted people in this vehicle" call OT_fnc_localizeText);
         _exit = true;
     };
     if (_ftrules > 1 && ((typeOf (vehicle player)) in (OT_allVehicleThreats + OT_allHeliThreats + OT_allPlaneThreats))) exitWith {
-        hint "You cannot fast travel in an offensive vehicle";
+        hint ("You cannot fast travel in an offensive vehicle" call OT_fnc_localizeText);
         _exit = true;
     };
 };
 if (_exit) exitWith {};
 
-if (!isNull objectParent player && (vehicle player) isKindOf "Ship") exitWith { hint "You cannot fast travel in a boat" };
+if (!isNull objectParent player && (vehicle player) isKindOf "Ship") exitWith { hint ("You cannot fast travel in a boat" call OT_fnc_localizeText) };
 
-if !((vehicle player) call OT_fnc_vehicleCanMove) exitWith { hint "This vehicle is unable to move" };
+if !((vehicle player) call OT_fnc_vehicleCanMove) exitWith { hint ("This vehicle is unable to move" call OT_fnc_localizeText) };
 
 OT_FastTravel_MapSingleClickEHId = addMissionEventHandler [
     "MapSingleClick",
@@ -85,21 +86,21 @@ OT_FastTravel_MapSingleClickEHId = addMissionEventHandler [
             if (!OT_adminMode && !(_pos inArea _region)) then {
                 if !([_region, _pos] call OT_fnc_regionIsConnected) then {
                     _valid = false;
-                    hint "You cannot fast travel between islands unless there is a bridge or your destination is a controlled airfield";
+                    hint ("You cannot fast travel between islands unless there is a bridge or your destination is a controlled airfield" call OT_fnc_localizeText);
                     openMap false;
                 };
             };
         };
         if (!_valid) exitWith {};
         if (_pos distance player < 150) exitWith {
-            hint "You cannot fast travel less than 150m. Just walk!";
+            hint ("You cannot fast travel less than 150m. Just walk!" call OT_fnc_localizeText);
             openMap false;
         };
 
         if (OT_adminMode) then { _handled = true };
 
         if !(_handled) then {
-            hint "You must click near a friendly base/camp or a building you own";
+            hint ("You must click near a friendly base/camp or a building you own" call OT_fnc_localizeText);
             openMap false;
         } else {
             private _cost = 0;
@@ -112,7 +113,7 @@ OT_FastTravel_MapSingleClickEHId = addMissionEventHandler [
                 };
                 if ((player getVariable ["money", 0]) < _cost) exitWith {
                     _exit = true;
-                    hint format ["You need $%1 to fast travel that distance", _cost];
+                    hint (format ["You need $%1 to fast travel that distance", _cost] call OT_fnc_localizeText);
                 };
             };
 
@@ -121,7 +122,7 @@ OT_FastTravel_MapSingleClickEHId = addMissionEventHandler [
             player allowDamage false;
             disableUserInput true;
 
-            cutText ["Fast travelling", "BLACK", 2];
+            cutText [("Fast travelling" call OT_fnc_localizeText), "BLACK", 2];
             [
                 {
                     params ["_pos", "_cost"];
@@ -145,7 +146,7 @@ OT_FastTravel_MapSingleClickEHId = addMissionEventHandler [
                                 _vehicle setPos _pos;
                                 if (_cost > 0) then { [-_cost] call OT_fnc_money };
                             } else {
-                                hint "Not enough space for this vehicle in the destination";
+                                hint ("Not enough space for this vehicle in the destination" call OT_fnc_localizeText);
                             };
                         };
                     } else {
@@ -155,7 +156,7 @@ OT_FastTravel_MapSingleClickEHId = addMissionEventHandler [
                             player setPos _pos;
                             if (_cost > 0) then { [-_cost] call OT_fnc_money };
                         } else {
-                            hint "Not enough space for a human in the destination";
+                            hint ("Not enough space for a human in the destination" call OT_fnc_localizeText);
                         };
                     };
 

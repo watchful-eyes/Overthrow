@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _name = ctrlText 1400;
 if (_name != "") then {
     closeDialog 0;
@@ -29,6 +30,6 @@ if (_name != "") then {
     closeDialog 0;
     private _base = (player nearObjects [OT_flag_IND, 50]) select 0;
     deleteVehicle _base;
-    hint "You must give a name for the base!\nYour money has been refunded.";
+    hint ("You must give a name for the base!\nYour money has been refunded." call OT_fnc_localizeText);
     [250] call OT_fnc_money;
 };

@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _target = vehicle player;
 if (_target isEqualTo player) exitWith {};
 
@@ -8,7 +9,7 @@ private _doillegal = false;
 if (_town in (server getVariable ["NATOabandoned", []])) then {
     _doillegal = true;
 } else {
-    hint format ["Only legal items may be exported while NATO controls %1", _town];
+    hint (format ["Only legal items may be exported while NATO controls %1", _town] call OT_fnc_localizeText);
 };
 
 "Exporting inventory" call OT_fnc_notifyMinor;

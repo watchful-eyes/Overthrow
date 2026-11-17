@@ -1,4 +1,7 @@
+// Modified/added for the unofficial Garrison and Command Expansion, 14-16 November 2026.
+// Original author/copyright notices are retained; see LICENSE.md (GNU GPL v2).
 class OT_dialog_factoryold {
+    onLoad = "[_this # 0, 'OT_dialog_factoryold'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -9,7 +12,7 @@ class OT_dialog_factoryold {
             y = "0.214 * safeZoneH + safeZoneY";
             w = "0.4125 * safeZoneW";
             h = "0.566 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -121,6 +124,7 @@ class OT_dialog_factoryold {
 
 
 class OT_dialog_factory {
+    onLoad = "[_this # 0, 'OT_dialog_factory'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -131,7 +135,7 @@ class OT_dialog_factory {
             y = "0.093 * safeZoneH + safeZoneY";
             w = "0.562031 * safeZoneW";
             h = "0.803 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };
@@ -268,6 +272,7 @@ class OT_dialog_factory {
 
 
 class OT_dialog_reverse {
+    onLoad = "[_this # 0, 'OT_dialog_reverse'] call OT_fnc_localizeDisplay";
     idd = -1;
     movingenable = 0;
 
@@ -312,6 +317,7 @@ class OT_dialog_reverse {
 };
 
 class OT_dialog_craft {
+    onLoad = "[_this # 0, 'OT_dialog_craft'] call OT_fnc_localizeDisplay";
     idd = 8000;
     movingenable = 0;
 
@@ -322,7 +328,7 @@ class OT_dialog_craft {
             y = "0.214 * safeZoneH + safeZoneY";
             w = "0.654844 * safeZoneW";
             h = "0.572 * safeZoneH";
-            colorBackground[] = {0.1, 0.1, 0.1, 1};
+            colorBackground[] = {0.025, 0.04, 0.055, 0.97};
             colorActive[] = {0.1, 0.1, 0.1, 1};
         };
     };

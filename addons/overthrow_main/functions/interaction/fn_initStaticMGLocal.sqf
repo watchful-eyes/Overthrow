@@ -1,7 +1,7 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 private _wpn = _this;
 if !(_wpn getVariable ["actioned", false]) then {
-    _wpn addAction [
-        "Rearm",
+    _wpn addAction [ ("Rearm" call OT_fnc_localizeText),
         {
             params ["_w", "_p"];
             if (_p call OT_fnc_unitSeen) then {

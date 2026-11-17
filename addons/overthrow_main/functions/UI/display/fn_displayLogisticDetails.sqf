@@ -1,3 +1,4 @@
+// Localized 16 November 2026. Original author notices apply (GNU GPL v2).
 disableSerialization;
 params ["_ctrl", "_index"];
 
@@ -10,7 +11,7 @@ private _cls = typeOf _veh;
 private _owner = players_NS getVariable ("name" + (_veh call OT_fnc_getOwner));
 if (isNil "_owner") then { _owner = "Someone" };
 
-ctrlSetText [1200, _pic];
+ctrlSetText [1200, (_pic call OT_fnc_localizeText)];
 
 private _txt = "<br/>";
 
@@ -132,7 +133,7 @@ if (_totalAmmo > 0) then {
 
 private _textctrl = (findDisplay 8000) displayCtrl 1100;
 
-_textctrl ctrlSetStructuredText parseText format [
+_textctrl ctrlSetStructuredText parseText (format [
     "
 	<t align='center' size='1.2'>%1</t><br/>
 	<t align='center' size='1'>Owner: %2</t><br/>
@@ -141,4 +142,4 @@ _textctrl ctrlSetStructuredText parseText format [
     _name,
     _owner,
     _txt
-];
+] call OT_fnc_localizeText);
